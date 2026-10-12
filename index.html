@@ -531,6 +531,14 @@ td.ss-top { vertical-align: top; }
 .gh-steps a { color:#6ab0d0; }
 #gh-modal details { margin-bottom:10px; font-size:.78rem; color:#888; }
 #gh-modal summary { cursor:pointer; margin-bottom:8px; }
+
+#toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:8px 14px; padding:6px 18px; background:#0f0f0f; border-bottom:1px solid #2a2a2a; flex-shrink:0; z-index:19; }
+#toolbar .tool-group { display:flex; align-items:center; gap:8px; }
+#toolbar .tool-label { font-size:.62rem; color:#555; text-transform:uppercase; letter-spacing:.1em; white-space:nowrap; }
+#toolbar .io-btn { width:auto; margin:0; padding:5px 12px; font-size:.8rem; background:#241f10; border:1px solid #5a4a1a; color:#d0b060; border-radius:3px; white-space:nowrap; }
+#toolbar .io-btn:hover { background:#342c16; border-color:#8a7020; color:#e8cc80; }
+#toolbar #begin-btn, #toolbar #restart-btn, #toolbar #editor-toggle-btn { margin:0; }
+#topbar { overflow:hidden; }
 </style>
 </head>
 <body>
@@ -554,13 +562,35 @@ td.ss-top { vertical-align: top; }
   <span id="points-display">40</span>
   <div id="topbar-right">
     <button id="mode-toggle-btn">⚖ Mode: Multiclass</button>
-    <button id="file-btn">📁 <span id="file-btn-label">GitHub Version</span></button>
-    <button id="gh-save-btn">💾 Save to GitHub</button>
+  </div>
+</div>
+
+<!-- TOOLBAR (second row) -->
+<div id="toolbar">
+  <div class="tool-group">
+    <span class="tool-label">Skill Data</span>
     <button id="gh-btn">☁ GitHub</button>
+    <button id="gh-save-btn">💾 Save to GitHub</button>
+    <button id="file-btn">📁 <span id="file-btn-label">GitHub Version</span></button>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tool-group">
+    <span class="tool-label">Edit</span>
     <button id="editor-toggle-btn">🛠 Editor: off</button>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tool-group">
+    <span class="tool-label">Build</span>
     <button id="begin-btn">Begin Build with <span id="begin-cls"></span></button>
     <span id="locked-tag">Class locked</span>
     <button id="restart-btn">↺ Restart</button>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tool-group">
+    <span class="tool-label">Character</span>
+    <button class="io-btn" id="export-btn">👤 Export Character</button>
+    <button class="io-btn" id="import-btn">👤 Import Character</button>
+    <input type="file" id="import-file" accept=".json" style="display:none">
   </div>
 </div>
 
@@ -626,9 +656,6 @@ td.ss-top { vertical-align: top; }
       <div class="pts-row"><span class="lbl">Available</span><span class="val g" id="pts-avail">40pt</span></div>
       <div class="pts-row"><span class="lbl">Spent</span><span class="val" id="pts-spent">0pt</span></div>
       <div class="pts-bar"><div class="pts-bar-fill" id="pts-bar" style="width:0%"></div></div>
-      <button class="io-btn" id="export-btn">💾 Export (.json)</button>
-      <button class="io-btn" id="import-btn">📂 Import</button>
-      <input type="file" id="import-file" accept=".json" style="display:none">
     </div>
   </div>
 </div>
