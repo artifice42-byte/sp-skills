@@ -390,10 +390,10 @@
           "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Way of the Open Hand — Buy-In", "notes": "Wing prerequisite.", "tier": "B", "wingBuyIn": true},
           "key": "Way of the Open Hand",
           "skills": [
-            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Open Hand Technique", "notes": "Flurry of Blows hits impose Addle/Push/Topple. Free with Open Hand Buy-In.", "prereq": "Way of the Open Hand Buy-In", "tier": "B"},
-            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Wholeness of Body (Open Hand)", "notes": "Bonus-action self-heal, WIS-modifier uses per long rest.", "prereq": "Way of the Open Hand Buy-In", "tier": "B"},
-            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Tranquility", "notes": "Surround self with an aura of peace, effectively a Sanctuary spell on self.", "prereq": "Way of the Open Hand Buy-In", "tier": "C"},
-            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Quivering Palm (Open Hand)", "notes": "Set lethal vibrations, detonate later for massive Force damage.", "prereq": "Way of the Open Hand Buy-In", "tier": "C"}
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Open Hand Technique", "notes": "Flurry of Blows hits impose Addle/Push/Topple. Free with Open Hand Buy-In.", "prereq": "Way of the Open Hand — Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Wholeness of Body (Open Hand)", "notes": "Bonus-action self-heal, WIS-modifier uses per long rest.", "prereq": "Way of the Open Hand — Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Tranquility", "notes": "Surround self with an aura of peace, effectively a Sanctuary spell on self.", "prereq": "Way of the Open Hand — Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Quivering Palm (Open Hand)", "notes": "Set lethal vibrations, detonate later for massive Force damage.", "prereq": "Way of the Open Hand — Buy-In", "tier": "C"}
           ]
         },
         {
