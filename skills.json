@@ -1,0 +1,939 @@
+{
+  "classes": {
+    "Barbarian": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 16, "level": 1, "name": "Rage", "notes": "Anchor 1. Core identity — resistance, damage bonus, and savage endurance.", "tier": "A"},
+      "anchor2": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Subclass Buy-In (Path of the Berserker or Path of the Totem Warrior)", "notes": "Anchor 2. (Specialization Gate pattern). Pick one wing below; the Buy-In itself is Anchor 2 regardless of which wing is chosen.", "tier": "B", "wingBuyIn": true},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Feral dodge", "notes": "Add DEX to AC without armor.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Group Combat", "notes": "Pack tactics when fighting alongside nearby allies.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Archer Specialization", "notes": "Ranged barbarian playstyle enabler.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Single Weapon Style", "notes": "+1 AC when fighting with one weapon and empty off-hand. Unarmed hand may make an unarmed strike as a bonus action.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Two-Weapon Style", "notes": "Reduce off-hand attack penalty by 2. Playtesting required.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "incomplete": true, "level": 3, "name": "Missile Weapon Style", "notes": "Move half speed and make full ranged attacks same turn or [text truncated in source].", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 1, "name": "Alertness", "notes": "Feat — can’t be surprised; +5 to initiative.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 1, "name": "Tavern Brawler", "notes": "Feat — improvised weapon fighter; bonus grapple.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Woodsy Stealth", "notes": "Stealth and concealment in natural terrain.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Hated Enemy", "notes": "Favored enemy damage bonus and tracking. Choose one creature type.", "selector": {"label":"Choose creature type","type":"prompt"}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Commune With Nature", "notes": "Ritual environmental awareness. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Reckless Attack", "notes": "Attack with advantage; grant it back.", "prereq": "Rage", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Danger Sense", "notes": "Advantage on Dex saves against visible threats.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Escape the Horde", "notes": "Disengage as part of your move action.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 4, "name": "War Cry", "notes": "Frighten enemies on entering rage. 2e Berserker.", "prereq": "Rage", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Battle Flow", "notes": "Combat momentum; strong action economy when chaining kills.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Giant Slayer", "notes": "Bonus damage and effects versus Large and larger enemies.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Ancestor Spirits", "notes": "Protect allies by marking their attackers. Xanathar’s.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Fast Movement", "notes": "Speed boost without armor.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Feral Instinct", "notes": "Advantage on initiative; can act even when surprised.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Mosh Pit", "notes": "Area crowd control in melee; push and displace multiple foes.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Thick Hide", "notes": "Add CON bonus to defense without armor.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 4, "name": "Savage Attacker", "notes": "Feat — reroll weapon damage dice, take higher. Minimum level 4.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 9, "name": "Brutal Critical", "notes": "Extra damage dice on critical hits; offense capstone. Minimum level 9.", "tier": "C"}
+      ],
+      "name": "Barbarian",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Path of the Berserker — Buy-In", "notes": "Wing prerequisite, grants Frenzy. Requires: Rage.", "tier": "B", "wingBuyIn": true},
+          "key": "Path of the Berserker",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Frenzy (Berserker)", "notes": "Extra Strength-based attack while Reckless Attacking during Rage.", "prereq": "Berserker Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Mindless Rage (Berserker)", "notes": "Immune to Charmed/Frightened while raging.", "prereq": "Berserker Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Retaliation (Berserker)", "notes": "Reaction melee attack when damaged by an adjacent creature.", "prereq": "Berserker Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Intimidating Presence (Berserker)", "notes": "Bonus action fear pulse in a 30-ft emanation.", "prereq": "Berserker Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Path of the Totem Warrior — Buy-In", "notes": "Wing prerequisite. Grants Spirit Seeker.", "tier": "B", "wingBuyIn": true},
+          "key": "Path of the Totem Warrior",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Spirit Seeker", "notes": "Ritual Beast Sense and Speak with Animals.", "prereq": "Totem Warrior Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Totem Spirit", "notes": "Choose Bear/Eagle/Elk/Tiger/Wolf; gain totem feature while raging.", "prereq": "Totem Warrior Buy-In", "selector": {"options":["Bear","Eagle","Elk","Tiger","Wolf"],"type":"dropdown"}, "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Aspect of the Beast", "notes": "Passive magical benefit tied to a chosen totem animal.", "prereq": "Totem Warrior Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Spirit Walker", "notes": "Ritual Commune with Nature via a totem spirit vision.", "prereq": "Totem Warrior Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Totemic Attunement", "notes": "Second, more powerful totem-animal magical benefit.", "prereq": "Totem Spirit", "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Bard": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 14, "level": 1, "name": "Bardic Inspiration", "notes": "Anchor 1. d6 inspiration die to allies, scaling with level. Strong support anchor.", "tier": "B"},
+      "anchor2": {"anchor": 2, "array": "anchor", "cost": 14, "level": 1, "name": "Spellcasting", "notes": "Anchor 2 (Signature Power). Partial caster buy-in — Bard’s own magic engine. Promoted from chassis per Two-Anchor Rev. 3; gate level unchanged from v7 (Level 1).", "tier": "A"},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 1, "name": "Acting", "notes": "Feat — performance and impersonation. Cross-class feat candidate.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "feat": true, "level": 1, "name": "Lucky", "notes": "Feat — dice reroll; top-tier feat. Cross-class feat candidate.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Jack of All Trades", "notes": "Add half proficiency to all non-proficient skills.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Song of Rest", "notes": "Bonus healing on short rests for the whole party.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 6, "name": "Countersong", "notes": "Counter magical sonic and bardic effects. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Legend Lore", "notes": "Recall lore and history from memory on demand. 2e Bard.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Psychic Shield", "notes": "Mental defense against psychic damage and charm.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "History", "notes": "Local history knowledge; chance to identify magic items on sight.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Alter Moods", "notes": "Shift a non-hostile group’s attitude via performance.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Rally Friends", "notes": "Grant attack/save/morale bonus before battle.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Sound Resistance", "notes": "Bonus vs sound-based magical attacks.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 2, "name": "Crossbow Expert", "notes": "Feat — close-range crossbow and bonus attack.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 5, "name": "Font of Inspiration", "notes": "Regain Bardic Inspiration on short rest.", "prereq": "Bardic Inspiration", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Countercharm (Reroll)", "notes": "Reaction to force a reroll with advantage against Charmed/Frightened.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Skill Empowerment", "notes": "Expertise-adjacent skill boost.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 4, "name": "Inspire Defense", "notes": "Bardic Inspiration usable to boost AC/saves reactively.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Inspire Damage", "notes": "Bardic Inspiration usable to boost damage rolls.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 6, "name": "Inspire Save", "notes": "Bardic Inspiration usable to boost saving throws.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 7, "name": "Inspire Skill", "notes": "Bardic Inspiration usable on skill checks broadly.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Minor Conjuration", "notes": "Conjure small non-magical objects from nothing.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Skill Expertise", "notes": "Double proficiency bonus in two chosen skills.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Bonus Proficiencies", "notes": "Additional skills and instruments.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Learn More Spells", "notes": "Expand known spell list beyond normal limits.", "prereq": "Spellcasting", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Inspire Greatness", "notes": "Grant ally bonus HD and attack bonuses. 3.5e.", "prereq": "Bardic Inspiration", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Lore Mastery", "notes": "Add half bard level to all knowledge checks. 3.5e.", "prereq": "Legend Lore", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 12, "level": 10, "name": "Magical Secrets", "notes": "Steal spells from any class list.", "prereq": "Spellcasting", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 10, "name": "Superior Inspiration", "notes": "Regain Bardic Inspiration uses on rolling initiative.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 12, "level": 10, "name": "Words of Creation", "notes": "Always-prepared Power Word Heal and Power Word Kill.", "tier": "C"}
+      ],
+      "name": "Bard",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "College of Lore — Buy-In", "notes": "Wing prerequisite. Grants Proficiency with three skills of your choice.", "tier": "B", "wingBuyIn": true},
+          "key": "College of Lore",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Cutting Words (Lore)", "notes": "Expend Bardic Inspiration to subtract from an enemy roll.", "prereq": "College of Lore Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Magical Discoveries", "notes": "Learn two spells from Cleric/Druid/Wizard lists, always prepared.", "prereq": "College of Lore Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Peerless Skill", "notes": "Expend Bardic Inspiration to add to a failed check/attack roll.", "prereq": "College of Lore Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "College of Valor — Buy-In", "notes": "Wing prerequisite. Grants proficiency with medium armor, shields, and one single weapon proficiency.", "tier": "B", "wingBuyIn": true},
+          "key": "College of Valor",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Combat Inspiration (Valor)", "notes": "Bardic Inspiration die adds to weapon damage or reactive AC.", "prereq": "College of Valor Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Extra Attack (Valor)", "notes": "Two attacks per Attack action.", "prereq": "College of Valor Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Battle Magic", "notes": "Bonus-action weapon attack when casting a bard spell.", "prereq": "College of Valor Buy-In", "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Cleric": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 20, "level": 1, "name": "Spellcasting", "notes": "Anchor 1. Full prepared caster with domain spells — broad divine list.", "tier": "A"},
+      "anchor2": {"anchor": 2, "array": "anchor", "cost": 14, "level": 1, "name": "Divine Domain Selection", "notes": "Anchor 2 (Signature Power). Subclass with domain spells and general Channel Divinity access. Gate level unchanged from v7 (Level 1).", "tier": "B"},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Prayer", "notes": "Brief ritual granting minor bonus to nearby allies. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Divine Lore", "notes": "Knowledge of deities, sacred rites, and divine entities.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Spiritual Weapon Bond", "notes": "Summon a spectral weapon as a bonus action each turn.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Ceremony", "notes": "Perform sacred rites with game-mechanical benefits. Xanathar’s.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Bless Weapon", "notes": "Consecrate a weapon to deal radiant damage for a scene.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 1, "name": "Inspiring Leader", "notes": "Feat — grant temporary HP to allies before combat.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 1, "name": "Healer", "notes": "Feat — stabilize and grant bonus HP; powerful battlefield medic.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Domain Bonus", "notes": "Domain-specific passive ability.", "prereq": "Divine Domain Selection", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Cleric Casting 2", "notes": "More prepared spells.", "prereq": "Spellcasting", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Cleric Casting 3", "notes": "Tier 2 spells.", "prereq": "Cleric Casting 2", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 4, "name": "Cleric Casting 4", "notes": "Tier 3 spells.", "prereq": "Cleric Casting 3", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Cleric Casting 5", "notes": "5th-level spells.", "prereq": "Cleric Casting 4", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 6, "name": "Cleric Casting 6", "notes": "6th-level spells.", "prereq": "Cleric Casting 5", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 7, "name": "Cleric Casting 7", "notes": "7th-level spells.", "prereq": "Cleric Casting 6", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 8, "name": "Cleric Casting 8", "notes": "8th-level spells.", "prereq": "Cleric Casting 7", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Cleric Casting 9", "notes": "9th-level spells.", "prereq": "Cleric Casting 8", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 10, "name": "Cleric Casting 10", "notes": "Full cleric casting mastery.", "prereq": "Cleric Casting 9", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Turn Undead", "notes": "Repel undead as Channel Divinity.", "prereq": "Divine Domain Selection", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 4, "name": "Destroy Undead", "notes": "Instantly destroy undead below a CR threshold.", "prereq": "Turn Undead", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Divine Strike", "notes": "Add 1d8 damage of divine type to one weapon hit per turn.", "prereq": "Divine Domain Selection", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 5, "name": "Mass Healing Word", "notes": "Bonus-action heal for up to six creatures simultaneously.", "prereq": "Healer or Healing Domain", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Consecrate", "notes": "Sanctify an area; undead suffer penalties within it.", "prereq": "Divine Domain Selection", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Aura of Courage", "notes": "Nearby allies can’t be frightened while you are conscious.", "prereq": "Divine Domain Selection", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Natures Ward", "notes": "Immune to poison and disease.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 9, "name": "Divine Intervention", "notes": "Call on your deity for miraculous aid once per week.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "feat": true, "level": 4, "name": "Sentinel", "notes": "Feat — lock down melee zone; very powerful. Minimum level 4.", "tier": "C"}
+      ],
+      "crossClassNote": "All Buy-Ins gate at Level 3 minimum. If bought without Cleric Spellcasting, a character buys in as a Devotee of the Domain and has access only to the Domain spells granted — not the full Channel Divinity chain.",
+      "name": "Cleric",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Life Domain Buy-In", "notes": "Grants Domain spells and Heavy Armor proficiency.", "tier": "B", "wingBuyIn": true},
+          "key": "Life & Healing",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Disciple of Life", "notes": "Healing spells or actions grant a bonus HP of 2 plus your level. Free with Life Domain selection.", "prereq": "Life Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Preserve Life", "notes": "Channel Divinity burst heal, 5 x level split amongst chosen targets within 30 ft.", "prereq": "Life Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Blessed Healer", "notes": "Self-heal when you heal others. Gain HP equal to 2 plus your level or the level of the spell.", "prereq": "Life Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Supreme Healing", "notes": "Max-value healing dice instead of rolling.", "prereq": "Life Domain Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Light Domain Buy-In", "notes": "Grants Domain spells. Bonus cantrip — Light.", "tier": "B", "wingBuyIn": true},
+          "key": "Light & Sun",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Warding Flare", "notes": "Burst of light on an attack made at you within 30 ft, causing disadvantage on that attack. Free with Light Domain selection.", "prereq": "Light Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Radiance of the Dawn", "notes": "Dispel magical darkness; radiant damage burst.", "prereq": "Light Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Improved Flare", "notes": "Warding Flare usable to protect other creatures too.", "prereq": "Light Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 8, "name": "Potent Spellcasting (Light)", "notes": "Add your Wisdom modifier to the damage you deal with any cleric cantrip.", "prereq": "Light Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Corona of Light", "notes": "Aura of bright light; disadvantage on fire/radiant saves within it.", "prereq": "Light Domain Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Nature Domain Buy-In", "notes": "Grants Domain spells and 1 druid cantrip of your choice. Grants Heavy Armor proficiency.", "tier": "B", "wingBuyIn": true},
+          "key": "Nature",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Channel Divinity: Charm Plants and Animals", "notes": "Charms all within 30 ft. Free with the Nature domain selection.", "prereq": "Nature Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Dampen Elements (Nature)", "notes": "Grants resistance to a chosen damage type to all chosen creatures within 30 ft.", "prereq": "Nature Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Divine Strike (Nature)", "notes": "Infuse a weapon with Divine power; deal an extra 1d8 of cold/fire/lightning damage (your choice).", "prereq": "Nature Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Master of Nature", "notes": "Once you have charmed animals or plant creatures you can command them.", "prereq": "Channel Divinity: Charm Plants and Animals", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Knowledge Domain Buy-In", "notes": "Grants Domain spells.", "tier": "B", "wingBuyIn": true},
+          "key": "Knowledge & Divination",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Blessings of Knowledge", "notes": "Two extra languages. Gain two of: Arcana, History, Nature, or Religion, doubled proficiency. Free with Knowledge Domain selection.", "prereq": "Knowledge Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Channel Divinity: Knowledge of the Ages", "notes": "Temporary proficiency with a chosen skill or tool.", "prereq": "Knowledge Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Read Thoughts", "notes": "Read surface thoughts, optional free Suggestion.", "prereq": "Knowledge Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Potent Spellcasting (Knowledge)", "notes": "Add your Wisdom modifier to any damage dealt with a cleric cantrip.", "prereq": "Knowledge Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 9, "level": 3, "name": "Visions of the Past (Knowledge)", "notes": "Meditative visions of an object’s or an area’s recent history.", "prereq": "Knowledge Domain Buy-In", "tier": "B"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Tempest Domain Buy-In", "notes": "Domain spells, Martial weapon proficiency, Heavy Armor proficiency.", "tier": "B", "wingBuyIn": true},
+          "key": "Tempest & Elemental",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Wrath of the Storm", "notes": "Reaction to deal 2d8 lightning or thunder damage (dex save for half) back at an attacker within 5 ft. Free with Tempest Domain selection.", "prereq": "Tempest Domain Buy-In", "tier": "A"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Destructive Wrath", "notes": "Max lightning/thunder damage instead of rolling.", "prereq": "Tempest Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Thunderbolt Strike", "notes": "Push on lightning damage to a Large or smaller creature.", "prereq": "Tempest Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Divine Strike (Tempest)", "notes": "Infuse your weapons with divine strength; once per round, extra 1d8 thunder damage on a weapon hit.", "prereq": "Tempest Domain Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 17, "name": "Stormborn", "notes": "Flying speed equal to walking speed.", "prereq": "Tempest Domain Buy-In", "tier": "B"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Trickery Domain Buy-In", "notes": "Domain spells.", "tier": "B", "wingBuyIn": true},
+          "key": "Trickery & Charm",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 1, "name": "Blessing of the Trickster", "notes": "Once per turn grant a willing creature you touch advantage on Stealth checks for 1 hour or until used again. Free with Trickery Domain selection.", "prereq": "Trickery Domain Buy-In", "tier": "A"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Invoke Duplicity", "notes": "Illusory duplicate of yourself; cast from its space.", "prereq": "Trickery Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Cloak of Shadows", "notes": "Become invisible until your next attack or spell.", "prereq": "Trickery Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Divine Strike (Trickery)", "notes": "Add 1d8 poison damage to one weapon strike per turn.", "prereq": "Trickery Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Improved Duplicity", "notes": "Up to four duplicates instead of one.", "prereq": "Channel Divinity: Cloak of Shadows", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "War Domain Buy-In", "notes": "Domain spells, one group weapon proficiency, Heavy Armor proficiency.", "tier": "B", "wingBuyIn": true},
+          "key": "War",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 1, "name": "War Priest", "notes": "On an Attack action, once per round make another attack as a bonus action. Free with War Domain selection.", "prereq": "War Domain Buy-In", "tier": "A"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Guided Strike", "notes": "+10 to an attack roll after seeing it.", "prereq": "War Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: War God’s Blessing", "notes": "Reaction: +10 to an ally’s attack roll.", "prereq": "War Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Divine Strike (War)", "notes": "Deal an additional 1d8 damage once per round.", "prereq": "War Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Avatar of Battle (War)", "notes": "Resistance to nonmagical bludgeoning/piercing/slashing.", "prereq": "War Domain Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Necromantic Domain Buy-In", "notes": "Domain Spells.", "tier": "B", "wingBuyIn": true},
+          "key": "Necromantic",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 1, "name": "Death Priest", "notes": "Detect undead at will. Free with Necromantic Domain selection.", "prereq": "Necromantic Domain Buy-In", "tier": "A"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Command Dead", "notes": "Command undead up to your level in number.", "prereq": "Necromantic Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Voice of the Dead", "notes": "Speak with undead at will.", "prereq": "Necromantic Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "incomplete": true, "level": 3, "name": "Divine Strike (Necromantic)", "notes": "Additional necrotic damage once per turn (die size unclear in source — \"18d\" appears to be a typo).", "prereq": "Necromantic Domain Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Avatar of Death", "notes": "Raise Dead once per turn, a number of times up to your Wisdom proficiency bonus.", "prereq": "Necromantic Domain Buy-In", "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Druid": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 20, "level": 1, "name": "Spellcasting", "notes": "Anchor 1. Full prepared caster with nature spell list.", "tier": "A"},
+      "anchor2": {"anchor": 2, "array": "anchor", "cost": 12, "level": 2, "name": "Wild Shape", "notes": "Anchor 2 (Signature Power).", "tier": "B"},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Druidic Language", "notes": "Secret druid tongue; faction access and flavor.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Animal Friendship", "notes": "Befriend animals without expending a spell slot. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Speak with Plants", "notes": "Persistent meaningful plant communication. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Venom Immunity", "notes": "Immunity to natural non-magical poisons. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Timeless Body", "notes": "Age at one-tenth the normal rate.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Beast Spells", "notes": "Cast spells in beast form.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "chain": true, "cost": 2, "level": 4, "name": "Improved Wild Shape", "notes": "Every third level after purchase of Wild Shape or Improved Wild Shape, you may buy this to increase your number of transformations by 1.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Druid Casting 2", "notes": "More prepared spells.", "prereq": "Spellcasting", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Druid Casting 3", "notes": "Tier 2 spells.", "prereq": "Druid Casting 2", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 4, "name": "Druid Casting 4", "notes": "Tier 3 spells.", "prereq": "Druid Casting 3", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Druid Casting 5", "notes": "5th-level spells.", "prereq": "Druid Casting 4", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 6, "name": "Druid Casting 6", "notes": "6th-level spells.", "prereq": "Druid Casting 5", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 7, "name": "Druid Casting 7", "notes": "7th-level spells.", "prereq": "Druid Casting 6", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 8, "name": "Druid Casting 8", "notes": "8th-level spells.", "prereq": "Druid Casting 7", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Druid Casting 9", "notes": "9th-level spells.", "prereq": "Druid Casting 8", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 10, "name": "Druid Casting 10", "notes": "Full druid casting mastery.", "prereq": "Druid Casting 9", "tier": "B"}
+      ],
+      "name": "Druid",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Natural Recovery (Circle of the Land)", "notes": "Recover spell slots on a short rest. Land druid.", "tier": "B", "wingBuyIn": true},
+          "key": "Circle of the Land",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Circle of the Land Spells", "notes": "Choose a land type; gain its always-prepared spell list.", "prereq": "Circle of the Land Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 6, "name": "Land Stride (Circle)", "notes": "Ignore non-magical difficult terrain.", "prereq": "Circle of the Land Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 9, "name": "Natures Ward (Circle)", "notes": "Immune to charm and fear from fey and elementals.", "prereq": "Circle of the Land Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 9, "name": "Nature’s Sanctuary", "notes": "Natural creatures hesitant to attack you. Plants and creatures must succeed a Wisdom save against your druid spell DC to attack you.", "prereq": "Circle of the Land Buy-In", "tier": "B"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 4, "docNote": true, "level": 3, "name": "Combat Wild Shape (Circle of the Moon)", "notes": "Wing prerequisite (assumed — see meta.docNotes: the source table lost its ### heading and distinct Buy-In row for this wing; Combat Wild Shape is treated as the de facto gate). You can now transform as a bonus action rather than an action. In addition you may use a bonus action while transformed to recover 1d8 HP for each level of spell slot expended. Requires Wild Shape.", "tier": "B", "wingBuyIn": true},
+          "key": "Circle of the Moon",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Circle Forms", "notes": "Wild Shape into higher-CR beasts than the base track allows.", "prereq": "Wild Shape", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Primal Strike", "notes": "Beast-form attacks count as magical.", "prereq": "Wild Shape", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 7, "name": "Elemental Wild Shape", "notes": "Spend two Wild Shape uses to become an earth, air, fire, or water elemental.", "prereq": "Wild Shape", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 9, "name": "Thousand Forms", "notes": "Cast Alter Self at will.", "prereq": null, "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Fighter": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 12, "level": 1, "name": "Concentration", "notes": "Anchor 1. Chain skill succeeding v7’s Weapon Concentration — sustained weapon-focused combat expertise. Rank I is the 12-pt buy-in, grants +1 to hit and as a bonus action a number of times equal to one’s proficiency bonus enter a focused stance and gain an additional +1/+1 until end of turn. Choose an individual weapon proficiency on purchase, this chain is for that specific weapon. Subsequent weapon or group weapon proficiencies can also be progressed up the mastery chain.", "tier": "B"},
+      "anchor2": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Subclass Buy-In (Champion or Battle Master)", "notes": "Anchor 2. (Specialization Gate pattern). Pick one wing below; the Buy-In itself is Anchor 2 regardless of which wing is chosen.", "tier": "B", "wingBuyIn": true},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Armor Proficiency", "notes": "Proficiency with light, medium, or heavy armor.", "selector": {"options":["Light","Medium","Heavy"],"type":"dropdown"}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Shield Proficiency", "notes": "Proficiency with all shields.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Individual Weapon Proficiency", "notes": "Proficiency with one specific weapon. Prereq for Weapon Concentration-type bonuses. May be purchased multiple times.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Group Proficiency: Blades", "notes": "All swords, daggers, and knives.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Group Proficiency: Axes", "notes": "All axes including handaxe and greataxe.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Group Proficiency: Blunt", "notes": "Clubs, maces, flails, hammers, and mauls.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Group Proficiency: Polearms", "notes": "Spears, halberds, glaives, pikes, and lances.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Group Proficiency: Bows", "notes": "Shortbow, longbow, hand crossbow, crossbow, and heavy crossbow.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Group Proficiency: Thrown", "notes": "Javelins, darts, slings, throwing axes, and nets.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Group Proficiency: Unarmed", "notes": "Gauntlets, improvised unarmed strikes, and related techniques.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Group Proficiency: Simple", "notes": "All simple weapons as a group.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "2nd Wind", "notes": "Heal self as bonus action once per rest.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Single Weapon Style", "notes": "+1 AC when fighting with one weapon and empty off-hand. Unarmed hand may make an unarmed strike as a bonus action.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Weapon & Shield Style", "notes": "+1 AC beyond normal shield bonus. Shield bash as a bonus action; target must pass a str save or be shoved back 5’ or knocked prone.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Two-Handed Style", "notes": "+1 to damage rolls with two-handed weapons. On a crit with a two handed weapon roll one extra d8 damage.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Pugilism Style", "notes": "Unarmed strikes deal 1d6. Gain an additional free unarmed strike each turn.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Thrown Weapon Style", "notes": "Draw and throw as part of same attack. You may move ½ speed and make full number of attacks or move full speed and make 1/ number of attacks. Add 10’ to thrown weapon range.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Mounted Combat Style", "notes": "Advantage on melee attacks vs unmounted creatures smaller than your mount. As a bonus action you may direct your mount to attack in the same round you have.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 1, "name": "Grappler", "notes": "Feat — improved grapple; restrains and controls.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 1, "name": "Charger", "notes": "Feat — bonus on charge; situational.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 1, "name": "Mounted Warrior", "notes": "Feat — mounted combat specialist.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Tactical Strike", "notes": "Trade attack bonus for AC or impose condition. 3.5e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Leadership", "notes": "Morale bonus to nearby allies.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 2, "name": "Action Surge", "notes": "Extra full action once per rest.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "chain": true, "cost": 4, "level": 3, "name": "Weapon Specialization", "notes": "Additional +1/+2. Mastery chain.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "chain": true, "cost": 8, "level": 3, "name": "Weapon group specialization", "notes": "Additional +1/+2. Mastery Chain.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "chain": true, "cost": 4, "level": 5, "name": "Weapon Mastery", "notes": "Additional +1/+1, Crit expands to 19-20. Mastery Chain.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "chain": true, "cost": 8, "level": 5, "name": "Weapon Group Mastery", "notes": "Additional +1/+1, Crit expands to 19-20. Mastery Chain.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Blind Fighting", "notes": "Negate blindness and invisibility penalties in combat.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Tools of War", "notes": "Expanded equipment and siege weapon proficiency.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Extra Attack", "notes": "Two attacks per action.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Inspiring Commander", "notes": "Grant ally an immediate attack as a reaction. 2e/4e.", "prereq": "Leadership II", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "chain": true, "cost": 4, "level": 7, "name": "Weapon Grand Mastery", "notes": "Additional +1/+1. Mastery Chain.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "chain": true, "cost": 8, "level": 7, "name": "Weapon Group Grand Mastery", "notes": "Additional +1/+1. Mastery Chain.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 2, "name": "Mage Slayer", "notes": "Feat — punish spellcasters in melee.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Improved Critical", "notes": "Crit on 19–20. Minimum level 3.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "feat": true, "level": 4, "name": "Great Weapon Master", "notes": "Feat — power attack tradeoff; high ceiling. Minimum level 4.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "feat": true, "level": 4, "name": "Polearm Master", "notes": "Feat — reach control plus opportunity attack. Minimum level 4.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 4, "name": "Athlete", "notes": "Feat — improved climbing, jumping, standing. Minimum level 4.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 5, "name": "Dual Wielder", "notes": "Feat — improved two-weapon fighting. Minimum level 5.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 9, "name": "Whirlwind Attack", "notes": "Attack all adjacent enemies. 3.5e. Minimum level 9.", "prereq": "Extra Attack", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 9, "name": "Indomitable", "notes": "Reroll a failed saving throw. Minimum level 9.", "tier": "C"}
+      ],
+      "name": "Fighter",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Improved Critical (Champion — Buy-In)", "notes": "Wing prerequisite. Crit on 19–20.", "tier": "B", "wingBuyIn": true},
+          "key": "Champion",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Remarkable Athlete", "notes": "Advantage on Initiative and Strength (Athletics); move after crit.", "prereq": "Champion Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Additional Fighting Style", "notes": "Gain another Fighting Style.", "prereq": "Champion Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Heroic Warrior", "notes": "Self-grant Heroic Inspiration at start of turn.", "prereq": "Champion Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Superior Critical", "notes": "Crit on 18–20.", "prereq": "Champion Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Survivor", "notes": "Advantage on death saves; regain HP while bloodied.", "prereq": "Champion Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Battle Master — Buy-In (Combat Superiority)", "notes": "Wing prerequisite. Grants maneuvers and superiority dice.", "tier": "B", "wingBuyIn": true},
+          "key": "Battle Master",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Student of War", "notes": "Proficiency with one type of artisan’s tools.", "prereq": "Battle Master Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Know Your Enemy", "notes": "Learn comparative info about a creature after observation.", "prereq": "Battle Master Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Improved Combat Superiority", "notes": "Superiority dice upgrade to d10, later d12.", "prereq": "Battle Master Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Relentless", "notes": "Regain 1 superiority die on rolling initiative with none left.", "prereq": "Battle Master Buy-In", "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Monk": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 14, "level": 2, "name": "Ki (Monk’s Focus)", "notes": "Anchor 1. Ki system — Flurry of Blows, Patient Defense, Step of the Wind. Minimum level 2. Requires Martial Arts.", "prereq": "Martial Arts", "tier": "C"},
+      "anchor2": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Subclass Buy-In (Open Hand, Shadow, or Four Elements)", "notes": "Anchor 2. (Specialization Gate pattern). Pick one wing below; the Buy-In itself is Anchor 2 regardless of which wing is chosen.", "tier": "B", "wingBuyIn": true},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 1, "name": "Martial Arts", "notes": "Unarmed strike dice; DEX substitution; bonus unarmed attack.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Unarmored Defense", "notes": "Add WIS + DEX modifiers to AC without armor.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Meditation", "notes": "Ritual focus — advantages on mental fortitude checks.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Mental Fortress", "notes": "Advantage on saves against fear, charm, and psychic effects.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Breaking", "notes": "Shatter objects and bypass non-magical barriers with strikes. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Pain Tolerance", "notes": "Reduce effective damage from pain-based effects. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Unarmored Movement", "notes": "Speed bonus without armor or shield.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Body Equilibrium", "notes": "Move across water, ice, or unstable surfaces without falling. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Focused Strike", "notes": "Add a minor secondary effect to one unarmed hit per turn.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Feign Death", "notes": "Slow metabolism to appear dead; resist poison while feigning. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Tongue of the Sun and Moon", "notes": "Understand and be understood by any creature. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Slow Fall", "notes": "Reduce fall damage as a reaction.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Slow Resistance", "notes": "Reduced duration and effect from slow and paralysis. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Stillness of Mind", "notes": "End a charm or fear effect on yourself as an action.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Open Hand Attacks", "notes": "Push, knock prone, or prevent reactions on unarmed hits.", "prereq": "Ki (Monk’s Focus)", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Channel Turn", "notes": "Turn hostile creatures using Ki.", "prereq": "Ki (Monk’s Focus)", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Channel Nature", "notes": "Nature-aligned Channel option.", "prereq": "Ki (Monk’s Focus)", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Sun Soul Strike", "notes": "Fire radiant bolts of energy from unarmed strikes.", "prereq": "Ki (Monk’s Focus)", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Pressure Points", "notes": "Target specific weak points to impose conditions beyond stun.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Iron Fist", "notes": "Unarmed attacks ignore bludgeoning resistance; damage armor. 2e.", "prereq": "Breaking", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Deflect Missiles", "notes": "Reduce ranged damage, then catch and hurl it back.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 2, "name": "Extra Attack", "notes": "Two attacks per action.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Empowered Strikes", "notes": "Unarmed attacks count as magical.", "prereq": "Martial Arts", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Evasion", "notes": "Take no damage on a passed Dex save; half on a fail.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Evasion II", "notes": "Improved Evasion — extend to further damage types.", "prereq": "Evasion", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 5, "name": "Ki Stun Attack", "notes": "Stunning Strike — spend Ki to stun on a hit. Minimum level 5.", "prereq": "Ki (Monk’s Focus)", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "feat": true, "level": 4, "name": "Sentinel", "notes": "Feat — lock down melee zone; very powerful. Minimum level 4.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 8, "name": "Diamond Soul", "notes": "Proficiency in all saving throws. Iconic capstone. Minimum level 8.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 9, "name": "Quivering Palm", "notes": "Delayed death strike on command. 3.5e/5e. Minimum level 9.", "prereq": "Ki Stun Attack", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 9, "name": "Empty Body", "notes": "Become invisible and enter the Ethereal Plane. Minimum level 9.", "prereq": "Ki (Monk’s Focus)", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 10, "name": "Aura of Courage", "notes": "Nearby allies immune to frightened condition. Minimum level 10.", "tier": "C"}
+      ],
+      "name": "Monk",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Way of the Open Hand — Buy-In", "notes": "Wing prerequisite.", "tier": "B", "wingBuyIn": true},
+          "key": "Way of the Open Hand",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Open Hand Technique", "notes": "Flurry of Blows hits impose Addle/Push/Topple. Free with Open Hand Buy-In.", "prereq": "Way of the Open Hand Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Wholeness of Body (Open Hand)", "notes": "Bonus-action self-heal, WIS-modifier uses per long rest.", "prereq": "Way of the Open Hand Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Tranquility", "notes": "Surround self with an aura of peace, effectively a Sanctuary spell on self.", "prereq": "Way of the Open Hand Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Quivering Palm (Open Hand)", "notes": "Set lethal vibrations, detonate later for massive Force damage.", "prereq": "Way of the Open Hand Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Way of Shadow — Buy-In (Shadow Arts)", "notes": "Wing prerequisite.", "tier": "B", "wingBuyIn": true},
+          "key": "Way of Shadow",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Shadow Arts", "notes": "As an action, use 2 ki points to cast Darkness, Darkvision, Pass Without Trace, or Silence. Also gain Minor Illusion if you don’t already have it. Free with Way of Shadow Buy-In.", "prereq": "Way of Shadow Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Shadow Step (Wing)", "notes": "Bonus-action teleport between dim/dark areas with advantage on the next melee attack.", "prereq": "Way of Shadow Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Mask of the Face", "notes": "Alter your appearance at will. 2e Psionicist crossover.", "prereq": "Way of Shadow Buy-In", "tier": "A"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Cloak of Shadows", "notes": "Become invisible in dim light or darkness.", "prereq": "Way of Shadow Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Opportunist", "notes": "Reaction melee attack when an adjacent creature is hit by someone else.", "prereq": "Way of Shadow Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Way of the Four Elements — Buy-In (Disciple of the Elements)", "notes": "Wing prerequisite. Grants elemental attunement and one other elemental discipline of your choice.", "tier": "B", "wingBuyIn": true},
+          "key": "Way of the Four Elements",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Elemental Discipline (additional)", "notes": "Learn one additional elemental discipline. Ranked, repeatable, available two levels after your last acquisition.", "prereq": "Way of the Four Elements Buy-In", "ranked": {"costPerRank":4,"maxRanks":null,"note":"gated to every 2nd level after last purchase, not one-per-level","onePerLevel":false}, "tier": "B"}
+          ]
+        }
+      ]
+    },
+    "Paladin": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 14, "level": 2, "name": "Divine Warrior", "notes": "Grants Divine Sense, opens Divinity Path skills.", "tier": "C"},
+      "anchor2": {"anchor": 2, "array": "anchor", "cost": 8, "docNote": true, "level": 2, "name": "Paladin Casting", "notes": "Level one spells. Note: class pattern line says Anchor 2 is the subclass Buy-In, but the Anchors table lists Paladin Casting — see meta.docNotes; table treated as authoritative.", "tier": "B"},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Divine Sense", "notes": "Detect celestials, undead, and fiends within 60 feet. (Divinity Path)", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Lay on Hands", "notes": "Healing pool; flexible and reliable; neutralize poison.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Divine Grace", "notes": "Add CHA modifier to your personal saving throws. 3e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Divine Smite", "notes": "Spend a spell slot on melee hits to deal extra radiant damage (1 slot = 2d8, +1d8 for each subsequent slot). Undead and fiends take an additional 1d8. (Divinity Path)", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Warhorse Bond", "notes": "Bonded destrier with special loyalty and shared senses. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Divine Health", "notes": "Immunity to disease. (Divinity Path)", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Divine Lore", "notes": "Knowledge of deities, sacred rites, and divine entities.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 1, "name": "Inspiring Leader", "notes": "Feat — grant temporary HP to allies before combat.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Holy Warrior", "notes": "Bonus damage and effects versus undead and fiends. 2e. (Divinity Path)", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 2, "name": "Paladin Fighting Style", "notes": "Feat-tier combat style for paladins.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 2, "name": "Paladin Casting 2", "notes": "2nd-level spells.", "prereq": "Paladin Casting", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 3, "name": "Paladin Casting 3", "notes": "3rd-level spells.", "prereq": "Paladin Casting 2", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 4, "name": "Paladin Casting 4", "notes": "4th-level spells.", "prereq": "Paladin Casting 3", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 5, "name": "Paladin Casting 5", "notes": "5th-level spells.", "prereq": "Paladin Casting 4", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 6, "name": "Paladin Casting 6", "notes": "6th-level spells.", "prereq": "Paladin Casting 5", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 7, "name": "Paladin Casting 7", "notes": "7th-level spells.", "prereq": "Paladin Casting 6", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 8, "name": "Paladin Casting 8", "notes": "8th-level spells.", "prereq": "Paladin Casting 7", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 9, "name": "Paladin Casting 9", "notes": "9th-level spells.", "prereq": "Paladin Casting 8", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 10, "name": "Paladin Casting 10", "notes": "Full paladin casting mastery.", "prereq": "Paladin Casting 9", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 2, "name": "Aura of Protection", "notes": "Add CHA modifier to saving throws for nearby allies.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Aura of Courage", "notes": "Allies within 10 feet can’t be frightened.", "prereq": "Aura of Protection", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "feat": true, "level": 5, "name": "Extra Attack", "notes": "Second attack per action — treated as feat-tier for Paladin.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "incomplete": true, "level": 7, "name": "Improved Divine Smite", "notes": "All melee weapon strikes deal additional radiant damage (die size unclear in source — \"18d\" appears to be a typo). (Divinity Path)", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 9, "name": "Cleansing Touch", "notes": "Use an action to end one spell on a willing creature or yourself. (Divinity Path)", "tier": "C"}
+      ],
+      "name": "Paladin",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Oath of Devotion — Buy-In", "notes": "Grants Oath of Devotion Spells.", "tier": "B", "wingBuyIn": true},
+          "key": "Oath of Devotion",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Sacred Weapon", "notes": "Channel Divinity: CHA to attack rolls, weapon deals radiant, emits light.", "prereq": "Oath of Devotion Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Turn the Unholy", "notes": "As an action, present holy symbol; all fiends and undead within 30 ft must save vs Wis or be turned.", "prereq": "Oath of Devotion Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Aura of Devotion (Oath)", "notes": "Immunity to Charm within your 10 ft Aura.", "prereq": "Oath of Devotion Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Purity of Spirit", "notes": "Always under the effects of a Protection from Evil and Good spell.", "prereq": "Oath of Devotion Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Holy Nimbus", "notes": "Aura upgrade: advantage vs Fiend/Undead saves, radiant damage pulse, sunlight.", "prereq": "Oath of Devotion Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Oath of the Ancients — Buy-In", "notes": "Grants Oath of the Ancients spells.", "tier": "B", "wingBuyIn": true},
+          "key": "Oath of the Ancients",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Channel Divinity: Nature’s Wrath", "notes": "Spectral vines restrain a nearby creature.", "prereq": "Oath of the Ancients Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Channel Divinity: Turn the Faithless", "notes": "As an action, present holy symbol; all fey and fiends within 30 ft must save vs Wis or be turned.", "prereq": "Oath of the Ancients Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Aura of Warding", "notes": "Resistance to spell damage within your 10 ft Aura.", "prereq": "Oath of the Ancients Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Undying Sentinel", "notes": "Drop to 1 HP instead of zero, once per long rest. No aging effects; can’t be magically aged.", "prereq": "Oath of the Ancients Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Elder Champion", "notes": "Transform: regen each turn, bonus-action spellcasting, enemy save disadvantage.", "prereq": "Oath of the Ancients Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Oath of Vengeance — Buy-In", "notes": "Grants Oath of Vengeance spells.", "tier": "B", "wingBuyIn": true},
+          "key": "Oath of Vengeance",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Channel Divinity: Abjure Enemy", "notes": "Present holy symbol as an action; 1 target within 60 ft is frightened and frozen in place, or on a passed Wis save its speed is halved.", "prereq": "Oath of Vengeance Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Channel Divinity: Vow of Enmity", "notes": "Bonus-action advantage on attacks vs a chosen creature within 10 ft for one minute.", "prereq": "Oath of Vengeance Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Relentless Avenger", "notes": "Move after an opportunity-attack hit without provoking.", "prereq": "Oath of Vengeance Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 5, "name": "Soul of Vengeance", "notes": "Reaction attack when your Vow of Enmity target attacks.", "prereq": "Channel Divinity: Vow of Enmity", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 9, "name": "Avenging Angel", "notes": "Transform: flight, fear aura, advantage vs frightened creatures.", "prereq": "Oath of Vengeance Buy-In", "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Ranger": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 14, "level": 1, "name": "Beast Companion", "notes": "Anchor 1. Animal companion — second combatant that scales with you.", "tier": "B"},
+      "anchor2": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Subclass Buy-In (Hunter or Beast Master)", "notes": "Anchor 2. (Specialization Gate pattern). Pick one wing below; the Buy-In itself is Anchor 2 regardless of which wing is chosen.", "tier": "B", "wingBuyIn": true},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Tracking", "notes": "Follow trails and signs; core out-of-combat skill.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Camouflage", "notes": "Hide in natural environments without cover.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Natural Explorer", "notes": "Favored terrain bonus to navigation and awareness.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Animal Friendship", "notes": "Befriend animals without expending a spell slot. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Woodland Stride", "notes": "Move through undergrowth without penalty or trace. 2e/3e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Thrown Weapon Style", "notes": "Rank 1 of 3. Draw and throw as part of same attack. Playtesting required.", "style": true, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Traps and Snares", "notes": "Set, detect, and disarm field traps and hunting snares.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Animal Awareness", "notes": "Sense and broadly communicate intent with animals.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Chosen Enemy", "notes": "Favored enemy — tracking bonus and damage vs chosen type.", "selector": {"label":"Choose creature type","type":"prompt"}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Land Stride", "notes": "Ignore non-magical difficult terrain.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Commune With Nature", "notes": "Environmental ritual awareness of surrounding terrain. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Swift Tracker", "notes": "Track quarry at full movement speed without penalty. 3.5e.", "prereq": "Tracking", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Speak with Animals", "notes": "Persistent meaningful animal communication. 2e.", "prereq": "Animal Friendship", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 2, "name": "Ranger Casting 1", "notes": "Magic entry — limited caster buy-in. Minimum level 2; magic requires development.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 3, "name": "Ranger Casting 2", "notes": "Magic entry — limited caster buy-in. Minimum level 2; magic requires development.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 4, "name": "Ranger Casting 3", "notes": "Spells begin — Hunter’s Mark, Ensnaring Strike, etc.", "prereq": "Ranger Casting 2", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 5, "name": "Ranger Casting 4", "notes": "Expanded spell access.", "prereq": "Ranger Casting 3", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 6, "name": "Ranger Casting 5", "notes": "5th-level spells.", "prereq": "Ranger Casting 4", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 7, "name": "Ranger Casting 6", "notes": "Expanded spell selection.", "prereq": "Ranger Casting 5", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 8, "name": "Ranger Casting 7", "notes": "Tier 4 spells.", "prereq": "Ranger Casting 6", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 9, "name": "Ranger Casting 8", "notes": "Tier 5 spell access.", "prereq": "Ranger Casting 7", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 10, "name": "Ranger Casting 9", "notes": "Near-capstone casting.", "prereq": "Ranger Casting 8", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 11, "name": "Ranger Casting 10", "notes": "Full ranger casting mastery.", "prereq": "Ranger Casting 9", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Improved Favored Enemy", "notes": "Extended favored enemy bonuses. 3.5e.", "prereq": "Chosen Enemy", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Extra Ranged Attack", "notes": "Two ranged attacks per action.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Deadly Ambush", "notes": "First-round ambush damage spike when target is unaware.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Escape the Horde", "notes": "Disengage as part of your move action.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "feat": true, "level": 2, "name": "Sharpshooter", "notes": "Feat — power attack tradeoff plus ignore cover.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 2, "name": "Dual Wielder", "notes": "Feat — improved two-weapon fighting.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 5, "name": "Hide In Plain Sight", "notes": "Camouflage even when observed in combat.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 3, "name": "Mobile", "notes": "Feat — speed bonus, no opportunity attack after melee. Minimum level 3.", "tier": "C"}
+      ],
+      "name": "Ranger",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Hunter’s Lore (Hunter — Buy-In)", "notes": "Bonus damage vs a target missing HP, once per turn.", "tier": "B", "wingBuyIn": true},
+          "key": "Hunter",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Horde Breaker", "notes": "Second attack against a different adjacent creature.", "prereq": "Hunter Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Defensive Tactics", "notes": "Choose one of two defensive feature options, swappable on rest.", "prereq": "Hunter Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Superior Hunter’s Prey", "notes": "Splash Hunter’s Mark damage to a second nearby creature.", "prereq": "Hunter Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Superior Hunter’s Defense", "notes": "Reaction resistance to an incoming damage type.", "prereq": "Hunter Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 0, "level": 3, "name": "Beast Master — uses your Beast Companion anchor (no extra cost)", "notes": "Shares the Anchor 1 purchase; no separate Buy-In cost.", "tier": "B", "wingBuyIn": true},
+          "key": "Beast Master",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Exceptional Training (Beast Master)", "notes": "Command the beast to Dash/Disengage/Help; its attacks count as magical.", "prereq": "Beast Master Buy-in", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Bestial Fury", "notes": "Beast companion makes two attacks (or Multiattack) when commanded to Attack.", "prereq": "Beast Master Buy-in", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Share Spells", "notes": "Self-targeted spells can also affect the beast companion within 30 ft.", "prereq": "Beast Master Buy-in", "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Rogue": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 16, "level": 1, "name": "Sneak Attack", "notes": "Anchor 1. Backstab / Sneak Attack — core damage engine. Damage scales per level.", "tier": "B"},
+      "anchor2": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Subclass Buy-In (Thief or Assassin)", "notes": "Anchor 2. (Specialization Gate pattern). Pick one wing below; the Buy-In itself is Anchor 2 regardless of which wing is chosen.", "tier": "B", "wingBuyIn": true},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Pick Locks", "notes": "Rank 1–3. +1 per rank to Thieves’ Tools checks to open locks. Requires Lock Picking.", "ranked": {"costPerRank":2,"maxRanks":3,"onePerLevel":true}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Pick Pockets", "notes": "Rank 1–3. +1 per rank to Sleight of Hand checks for theft.", "ranked": {"costPerRank":2,"maxRanks":3,"onePerLevel":true}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Shadow Movement", "notes": "Rank 1–3. +1 per rank to Stealth checks while moving.", "ranked": {"costPerRank":2,"maxRanks":3,"onePerLevel":true}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Wall Scaling", "notes": "Rank 1–3. +1 per rank to Athletics checks to climb.", "ranked": {"costPerRank":2,"maxRanks":3,"onePerLevel":true}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Acute Hearing", "notes": "Rank 1–3. +1 per rank to Perception checks relying on sound.", "ranked": {"costPerRank":2,"maxRanks":3,"onePerLevel":true}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Disable Traps", "notes": "Ranks 1-3. +1 per rank to Perception/Investigation to find traps and Thieves Tools to disarm.", "ranked": {"costPerRank":2,"maxRanks":3,"onePerLevel":true}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Disguise Craft", "notes": "Rank 1–3. +1 per rank to Deception checks when using a physical disguise.", "ranked": {"costPerRank":2,"maxRanks":3,"onePerLevel":true}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Forgery", "notes": "Rank 1–3. +1 per rank to create or detect forged documents.", "ranked": {"costPerRank":2,"maxRanks":3,"onePerLevel":true}, "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 1, "name": "Thieves’ Cant", "notes": "Secret criminal language; flavor and faction access.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Read Languages", "notes": "Decipher codes, scripts, and ciphers. 2e Thief.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Urban Tracking", "notes": "Track quarry through cities and populated areas.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Environmental Awareness", "notes": "Read battlefield terrain and use it to advantage.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Feral Instinct", "notes": "Advantage on initiative rolls; hard to catch off guard.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Countercharm", "notes": "Resist charm and fear effects via performance or wit.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 1, "name": "Acting", "notes": "Feat — performance and impersonation. Cross-class feat candidate.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "feat": true, "level": 1, "name": "Lucky", "notes": "Feat — reroll dice; one of the strongest feats. Cross-class feat candidate.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Lip Reading", "notes": "Understand speech without hearing. 2e Thief.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Cunning Action", "notes": "Dash, Disengage, or Hide as a bonus action.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Parkour", "notes": "Enhanced urban movement; climb and vault fluidly.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Skill Expertise", "notes": "Double proficiency bonus in chosen skills.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Bonus Proficiencies", "notes": "Expanded skill and tool access.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Combat Inspiration", "notes": "Aid allies reactively in combat.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Cutting Words", "notes": "Penalize an enemy roll as a reaction.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 2, "name": "Assassination", "notes": "Auto-crit on surprised targets.", "prereq": "Sneak Attack", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Poison Traps", "notes": "Craft and deploy contact poison traps.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Uncanny Dodge", "notes": "Halve incoming damage from seen attacker as a reaction.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Fast Hands", "notes": "Use Object as a bonus action.", "prereq": "Cunning Action", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Evasion", "notes": "Take no damage on a successful Dex save.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Poison Mastery", "notes": "Craft, identify, and apply poisons. 3.5e Assassin.", "prereq": "Poison Traps", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Infiltration", "notes": "Master infiltrator feature package; forge identities.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Con Artist", "notes": "Long cons and social manipulation.", "prereq": "Read Languages and Forgery", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 2, "name": "Dungeon Delver", "notes": "Feat — trap sense and secret door detection.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 2, "name": "Cunning Linguist", "notes": "Feat — verbal codes and languages.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 10, "level": 8, "name": "Death Attack", "notes": "3-round observation then paralyze or kill. 3.5e. Minimum level 8.", "prereq": "Assassination", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 9, "name": "Supremely Sneaky", "notes": "Hide even when observed; near-invisible in the field. Minimum level 9.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 12, "level": 10, "name": "Magical Secrets", "notes": "Access spells from any class list. Minimum level 10.", "tier": "C"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 10, "name": "Vanish", "notes": "Hide as a bonus action; leave no trace. Minimum level 10.", "tier": "C"}
+      ],
+      "name": "Rogue",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Fast Hands (Thief) - Buy-In", "notes": "Bonus action Sleight of Hand / Use an Object.", "tier": "B", "wingBuyIn": true},
+          "key": "Thief",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Second-Story Work", "notes": "Climb Speed equal to Speed; jump distance uses Dexterity.", "prereq": "Thief Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Supreme Sneak", "notes": "Stealth Attack Cunning-Strike-style option preserving Hidden condition.", "prereq": "Thief Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Use Magic Device", "notes": "Attune to 4 items; bypass some charge costs; use any spell scroll.", "prereq": "Thief Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Thief’s Reflexes", "notes": "Two turns in the first round of combat.", "prereq": "Thief Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Bonus Proficiencies (Assassin) - Buy-In", "notes": "Disguise kit and poisoner’s kit proficiency.", "tier": "B", "wingBuyIn": true},
+          "key": "Assassin",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Assassinate", "notes": "Advantage vs targets who haven’t acted; auto-crit vs surprised targets.", "prereq": "Assassin Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Infiltration Expertise", "notes": "Build a false identity over 7 days.", "prereq": "Assassin Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Impostor", "notes": "Unerringly mimic another person’s speech, writing, and behavior.", "prereq": "Assassin Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Death Strike (Assassin)", "notes": "Double damage vs a surprised target on a failed Con save.", "prereq": "Assassin Buy-In", "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Sorcerer": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 20, "level": 1, "name": "Spellcasting", "notes": "Anchor 1. Full spontaneous caster buy-in; largest innate spell list.", "tier": "A"},
+      "anchor2": {"anchor": 2, "array": "anchor", "cost": 16, "level": 3, "name": "Metamagic", "notes": "Anchor 2 (Signature Power). Reshape spells at cast time — defining sorcerer power. Minimum level 3. Requires Font of Magic.", "prereq": "Font of Magic", "tier": "C"},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Telepathic Speech", "notes": "Communicate mentally at range with willing targets.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Psionic Spells", "notes": "Psi-flavored bonus spell access reflecting innate mental power.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Eyes of the Dark", "notes": "Darkvision plus Darkness without a slot.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Channel Knowledge", "notes": "Tap arcane knowledge instinctively; no preparation needed.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Psychic Defenses", "notes": "Resistance to psychic damage and mental intrusion.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Font of Magic", "notes": "Sorcery Points — the Metamagic engine; core flexible resource.", "prereq": "Spellcasting", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Strength of the Grave", "notes": "Drop to 1 HP instead of 0, once per rest.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 2, "name": "War Caster", "notes": "Feat — maintain concentration in melee; cast as opportunity attack.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 2, "name": "Spell Sniper", "notes": "Feat — extend range, ignore half and three-quarters cover.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Sorcerer Casting 2", "notes": "More spell slots and spells known.", "prereq": "Spellcasting", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 3, "name": "Sorcerer Casting 3", "notes": "Tier 2 spells.", "prereq": "Sorcerer Casting 2", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 4, "name": "Sorcerer Casting 4", "notes": "Tier 3 spells.", "prereq": "Sorcerer Casting 3", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 5, "name": "Sorcerer Casting 5", "notes": "5th-level spells.", "prereq": "Sorcerer Casting 4", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 6, "name": "Sorcerer Casting 6", "notes": "6th-level spells.", "prereq": "Sorcerer Casting 5", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 7, "name": "Sorcerer Casting 7", "notes": "7th-level spells.", "prereq": "Sorcerer Casting 6", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 8, "name": "Sorcerer Casting 8", "notes": "8th-level spells.", "prereq": "Sorcerer Casting 7", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 9, "name": "Sorcerer Casting 9", "notes": "9th-level spells.", "prereq": "Sorcerer Casting 8", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 10, "name": "Sorcerer Casting 10", "notes": "Full sorcerer mastery.", "prereq": "Sorcerer Casting 9", "tier": "B"}
+      ],
+      "name": "Sorcerer",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Tides of Chaos (Origin Buy-in)", "notes": "Advantage on one roll per long rest; may trigger a surge.", "tier": "B", "wingBuyIn": true},
+          "key": "Wild Magic",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Bend Luck (Origin)", "notes": "Reaction: +/- 1d4 to a creature’s roll for 2 sorcery points.", "prereq": "Wild Magic Origin Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Hound of Ill Omen (Origin)", "notes": "Summon a spectral hound to impose disadvantage on saves.", "prereq": "Wild Magic Origin Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Controlled Chaos", "notes": "Roll twice on the Wild Magic Surge table and choose.", "prereq": "Wild Magic Origin Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Spell Bombardment", "notes": "Reroll and add a max-value damage die once per turn.", "prereq": "Wild Magic Origin Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Innate Spells (Infused Bloodline Buy-in)", "notes": "Always-prepared spell list keyed to Sorcerer level.", "tier": "B", "wingBuyIn": true},
+          "key": "Infused Bloodline",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Elemental Affinity", "notes": "Resistance to a chosen element; CHA added to one damage roll of that type.", "prereq": "Infused Bloodline Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 9, "name": "Untethered Movement", "notes": "Bonus action Fly Speed 60 ft for 1 hour, 1/long rest (or 3 sorcery points).", "prereq": "Infused Bloodline Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Elemental Companion", "notes": "Cast Summon Elemental free once per long rest, without concentration for 1 minute.", "prereq": "Infused Bloodline Buy-In", "tier": "C"}
+          ]
+        }
+      ]
+    },
+    "Warlock": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 14, "level": 1, "name": "Patron’s Pact", "notes": "Anchor 1. Choose 1 of the 3 patron types from dropdown menu.", "selector": {"options":["Fiend","Archfey","Great Old One"],"type":"dropdown"}, "tier": "A"},
+      "anchor2": {"anchor": 2, "array": "anchor", "cost": 14, "level": 2, "name": "Eldritch Invocations", "notes": "Anchor 2. For Warlocks or those who also buy Patron’s Pact this grants full access to Eldritch Invocations and level based customization. Without Patron’s Pact, or bought individually, Invocations are accessed via objects or experiences tainted by a patron who has taken a personal (or impersonal) interest for unknown reasons.", "tier": "B"},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Magical Cunning", "notes": "1 minute rite regains expended pact magic spell slots up to ½ max rounded up. Long rest to recharge.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Contact Patron", "notes": "Always have Contact Other Plane spell prepared and automatically succeed on save. Long rest to recharge.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Mystic Arcanum", "notes": "Choose one 6th level Warlock spell. One free cast per long rest.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 0, "level": 1, "name": "Warlock Casting 1", "notes": "Granted with Patron’s Pact.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 2, "name": "Warlock Casting 2", "notes": "More invocations and expanded slots.", "prereq": "Pact Magic", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 3, "name": "Warlock Casting 3", "notes": "Tier 2 pact slots.", "prereq": "Warlock Casting 2", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 4, "name": "Warlock Casting 4", "notes": "More invocations; 4th-level spells.", "prereq": "Warlock Casting 3", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 5, "name": "Warlock Casting 5", "notes": "5th-level pact slots — maximum slot tier.", "prereq": "Warlock Casting 4", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 6, "name": "Warlock Casting 6", "notes": "Higher-tier invocations.", "prereq": "Warlock Casting 5", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 7, "name": "Warlock Casting 7", "notes": "More invocations.", "prereq": "Warlock Casting 6", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 8, "name": "Warlock Casting 8", "notes": "Near-peak invocations.", "prereq": "Warlock Casting 7", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 9, "name": "Warlock Casting 9", "notes": "Top invocations; Mystic Arcanum.", "prereq": "Warlock Casting 8", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 2, "level": 10, "name": "Warlock Casting 10", "notes": "Full warlock mastery.", "prereq": "Warlock Casting 9", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Agonizing Blast", "notes": "Add CHA modifier to a chosen damage cantrip’s damage rolls. Repeatable.", "prereq": "a Warlock cantrip that deals damage", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Armor of Shadows", "notes": "Cast Mage Armor on yourself at will, no slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Ascendent Presence", "notes": "(Pact of the Chain) Cast Hold Monster at will on celestials, fiends or elementals, no spell slot.", "prereq": "Pact of the Chain", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Ascendant Step", "notes": "Cast Levitate on yourself at will, no slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Aspect of the Moon", "notes": "Do not need sleep and can rest while taking watch.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Beast Speech", "notes": "Cast speak with animals at will.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Beguiling Influence", "notes": "Grants proficiency in both Deception and Persuasion skills.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "incomplete": true, "level": 5, "name": "Bewitching Whispers", "notes": "", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Book of Ancient Secrets", "notes": "(Pact of the Tome) Allows you to inscribe new magical rituals into your book and cast them as rituals. Choose spells tagged ritual from the spell list.", "prereq": "Pact of the Tome", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Chains of Carceri", "notes": "Requires Pact of the Chain. Cast Hold Monster at will once per long rest.", "prereq": "Pact of the Chain", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Cloak of Flies", "notes": "Surround yourself with a buzzing shroud of flies that deals poison damage.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Devil’s Sight", "notes": "See normally in dim light and darkness within 120 ft.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Dreadful Word", "notes": "Cast Confusion once per long rest using a spell slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "incomplete": true, "level": 7, "name": "Eldritch Armor", "notes": "Instantaneous armor bonding (unclear effect in source — marked with a \"?\").", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Eldritch Mind", "notes": "Gain advantage on CON saves to maintain concentration.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Eldritch Sight", "notes": "Cast Detect Magic at will.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Eldritch Smite", "notes": "(Pact of the Blade) Expend a spell slot to deal extra damage and knock a target prone.", "prereq": "Pact of the Blade", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Eldritch Spear", "notes": "Increase the range of Eldritch Blast to 300 ft.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "incomplete": true, "level": 7, "name": "Escape the Horde", "notes": "", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Eyes of the Rune-Keeper", "notes": "Read all forms of writing.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 7, "name": "Fiendish Vigor", "notes": "Cast False Life on yourself at will, max Temp HP.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Gaze of Two Minds", "notes": "Use your action to perceive through a willing creature’s senses.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Gift of the Ever-Living Ones", "notes": "(Pact of the Chain) Maximize healing when your familiar is near.", "prereq": "Pact of the Chain", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "incomplete": true, "level": 9, "name": "Gift of the Protectors", "notes": "(Pact of the Tome) Effect unclear in source — marked with a \"?\".", "prereq": "Pact of the Tome", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Improved Pact Weapon", "notes": "(Pact of the Blade) Make your pact weapon a +1 magical weapon/bow/crossbow.", "prereq": "Pact of the Blade", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Investment of the Chain Master", "notes": "(Pact of the Chain) Boost your familiar’s attacks, speed, and defenses.", "prereq": "Pact of the Chain", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "LifeDrinker", "notes": "(Pact of the Blade) Add necrotic damage equal to your CHA mod to your pact weapon strikes.", "prereq": "Pact of the Blade", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Maddening Hex", "notes": "Deal Psychic damage to a target cursed by your hex or warlock feature.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Mask of Many Faces", "notes": "Cast Disguise Self at will, no slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": null, "incomplete": true, "level": null, "name": "Mindscape", "notes": "", "tier": null},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Minions of Chaos", "notes": "Cast Conjure Elemental once per long rest.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Mire the Mind", "notes": "Cast Slow once per long rest using a spell slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Misty Visions", "notes": "Cast Silent Image at will, no slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Otherworldly Leap", "notes": "Cast Jump on yourself at will, no slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Repelling Blast", "notes": "Push a Large or smaller creature 10 ft on a cantrip hit. Repeatable.", "prereq": "a Warlock cantrip using an attack roll", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Shroud of Shadows", "notes": "Cast Invisibility at will, no spell slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Sign of Ill Omen", "notes": "Cast Bestow Curse once per long rest using a spell slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": null, "incomplete": true, "level": null, "name": "Silencing Strike", "notes": "", "tier": null},
+        {"anchor": null, "array": "ordinary", "cost": 4, "incomplete": true, "level": 2, "name": "Thief of Five Fates", "notes": "", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Thirsting Blade", "notes": "(Pact of the Blade) Extra Attack for your pact weapon.", "prereq": "Pact of the Blade", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Undying Servitude", "notes": "Cast Animate Dead once per long rest without a spell slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Visions of Distant Realms", "notes": "Cast Arcane Eye at will, no spell slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 7, "name": "Visions of the Past", "notes": "Cast Divination once per long rest, spell slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "incomplete": true, "level": 2, "name": "Voice of the Chain Master", "notes": "", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Whispers of the Grave", "notes": "Cast Speak with Dead at will, no spell slot.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 15, "name": "Witch Sight", "nativeFill": {"inherentAbility":true}, "notes": "Truesight out to 30 ft. Minimum level 15.", "tier": "B"}
+      ],
+      "crossClassNote": "A character who owns Patron’s Pact and buys Eldritch Invocations gets full, freely-reconfigurable access exactly like a native Warlock. A character who does not own Patron’s Pact can still buy individual invocations one at a time, but each is themed as a cursed object or tainted experience rather than a freely-swappable pact feature — see meta.orthogonalPicks.Warlock for the parallel treatment of Pact Boon.",
+      "name": "Warlock",
+      "orthogonal": [
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Pact Boon: Blade", "notes": "Summon a magical weapon; core ability. Acts as a cursed object for characters without Patron’s Pact.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Pact Boon: Chain", "notes": "Enhanced familiar for scouting, messaging, and action economy. Acts as a cursed object for characters without Patron’s Pact.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Pact Boon: Tome", "notes": "Expanded cantrip list with magical Tome. Acts as a cursed object for characters without Patron’s Pact.", "tier": "A"}
+      ],
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 14, "level": 3, "name": "Fiend Patron — Buy-In", "notes": "Granted one choice of Fiend Patron. Expanded spell list.", "tier": "B", "wingBuyIn": true},
+          "key": "Fiend Patron",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Dark One’s Blessing", "notes": "Temp HP equal to CHA + Warlock level on reducing an enemy to 0 HP.", "prereq": "Fiend Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Fiend Spells", "notes": "Always-prepared spell list keyed to Warlock level.", "prereq": "Fiend Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Dark One’s Own Luck", "notes": "Add 1d10 to an ability check or save, limited uses per long rest.", "prereq": "Fiend Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Fiendish Resilience", "notes": "Resistance to a chosen damage type, reassigned each rest.", "prereq": "Fiend Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 10, "name": "Hurl Through Hell", "notes": "On hit, banish target through the Lower Planes for psychic damage.", "prereq": "Fiend Patron Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 14, "level": 3, "name": "Archfey Patron — Buy-In", "notes": "Granted one choice of Fey Patron. Expanded spell list.", "tier": "B", "wingBuyIn": true},
+          "key": "Archfey Patron",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Fey Presence", "notes": "Charm a humanoid or beast with an action.", "prereq": "Archfey Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Misty Escape", "notes": "Teleport and turn invisible as a reaction when hit.", "prereq": "Archfey Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Beguiling Defenses", "notes": "Immunity to charm. Reaction to turn a charm spell back on its caster; target Wis save or charmed 1 minute or until it takes damage.", "prereq": "Archfey Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 10, "name": "Dark Delirium", "notes": "Short rest feature. Target Wis save vs your spell DC or be plunged into an illusory realm perceiving only you, itself, and the realm for 1 minute or until it takes damage or you lose concentration.", "prereq": "Archfey Patron Buy-In", "tier": "B"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 14, "level": 3, "name": "Great Old One Patron — Buy-In", "notes": "Granted one choice of Great Old One Patron. Expanded spell list.", "tier": "B", "wingBuyIn": true},
+          "key": "Great Old One Patron",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Awakened Mind", "notes": "Telepathy with creatures within 30 ft. No shared language needed, but the creature must speak at least one language.", "prereq": "Great Old One Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Entropic Ward", "notes": "Long rest feature. Reaction to impose disadvantage on an attack against you; if it misses, your next attack against that creature has advantage before end of your next turn.", "prereq": "Great Old One Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Thought Shield", "notes": "Immunity to charm. Reaction to turn a charm spell back on its caster; target Wis save or charmed 1 minute or until it takes damage.", "prereq": "Great Old One Patron Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 10, "name": "Dark Delirium (GOO)", "notes": "Short rest feature. Target Wis save vs your spell DC or be plunged into an illusory realm perceiving only you, itself, and the realm for 1 minute or until it takes damage or you lose concentration.", "prereq": "Great Old One Patron Buy-In", "tier": "B"}
+          ]
+        }
+      ]
+    },
+    "Wizard": {
+      "anchor1": {"anchor": 1, "array": "anchor", "cost": 20, "level": 1, "name": "Wizard Casting 1", "notes": "Anchor 1. Prepared caster — largest spell list in the game.", "tier": "A"},
+      "anchor2": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Subclass Buy-In (School Savant — pick one school)", "notes": "Anchor 2. (Specialization Gate pattern). Pick one wing below; the Buy-In itself is Anchor 2 regardless of which wing is chosen.", "tier": "B", "wingBuyIn": true},
+      "chassis": [
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Arcane Recovery", "notes": "Recover spell slots on a short rest.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Arcane Lore", "notes": "Broad arcane knowledge checks; identify magic items.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Familiar Bond", "notes": "Bonded familiar for scouting, messaging, and action economy.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 1, "name": "Arcane Ward", "notes": "Free HP buffer generated when casting Abjuration spells.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 1, "name": "Scribe Scroll", "notes": "Inscribe spells onto scrolls for later use. 2e/3e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "feat": true, "level": 1, "name": "Keen Mind", "notes": "Feat — perfect recall; always know direction and time.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 1, "name": "War Caster", "notes": "Feat — concentration in melee; cast as opportunity attack.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "DC Recover Spell", "notes": "Recover an expended spell slot mid-encounter.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Spell Research", "notes": "Develop spells outside your school. 2e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 1, "name": "Brew Potion", "notes": "Craft magical potions. 2e/3e.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "feat": true, "level": 1, "name": "Elemental Adept", "notes": "Feat — ignore resistance to chosen damage type.", "tier": "A"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 2, "name": "Wizard Casting 2", "notes": "More prepared spells.", "prereq": "Wizard Casting 1", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 3, "name": "Wizard Casting 3", "notes": "Tier 2 spells.", "prereq": "Wizard Casting 2", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 4, "name": "Wizard Casting 4", "notes": "Tier 3 spells.", "prereq": "Wizard Casting 3", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 5, "name": "Wizard Casting 5", "notes": "5th-level spells.", "prereq": "Wizard Casting 4", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 6, "name": "Wizard Casting 6", "notes": "6th-level spells.", "prereq": "Wizard Casting 5", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 7, "name": "Wizard Casting 7", "notes": "7th-level spells.", "prereq": "Wizard Casting 6", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 8, "name": "Wizard Casting 8", "notes": "8th-level spells.", "prereq": "Wizard Casting 7", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 9, "name": "Wizard Casting 9", "notes": "9th-level spells.", "prereq": "Wizard Casting 8", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 4, "level": 10, "name": "Wizard Casting 10", "notes": "Full wizard mastery.", "prereq": "Wizard Casting 9", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 6, "level": 2, "name": "Projected Ward", "notes": "Extend Arcane Ward to protect an adjacent ally.", "prereq": "Arcane Ward", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 2, "name": "Improved Abjuration", "notes": "Add proficiency bonus to Abjuration DCs.", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 9, "name": "Spell Mastery", "notes": "Cast chosen 1st- and 2nd-level spells without a slot.", "prereq": "Wizard Casting 9", "tier": "B"},
+        {"anchor": null, "array": "ordinary", "cost": 8, "level": 7, "name": "Arcane Sight", "notes": "Passive permanent Detect Magic — exceptional ability. Minimum level 7.", "tier": "C"}
+      ],
+      "name": "Wizard",
+      "wings": [
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Potent Cantrip (Evocation Savant buy-in)", "notes": "Missed/saved-against cantrips still deal half damage.", "tier": "B", "wingBuyIn": true},
+          "key": "Evocation",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Sculpt Spells", "notes": "Auto-succeed chosen allies on your Evocation spell saves.", "prereq": "Evocation Savant Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Empowered Evocation (Wing)", "notes": "Add INT modifier to one Evocation damage roll.", "prereq": "Evocation Savant Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Overchannel", "notes": "Deal max damage with a leveled spell; escalating self-damage on repeat use.", "prereq": "Evocation Savant Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Minor Conjuration (Conjuration Savant Buy-in)", "notes": "Conjure a small nonmagical object at will.", "tier": "B", "wingBuyIn": true},
+          "key": "Conjuration",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Benign Transportation", "notes": "Short teleport or swap with a willing Small/Medium creature.", "prereq": "Conjuration Savant Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Focused Conjuration (Wing)", "notes": "Damage can’t break concentration on a Conjuration spell.", "prereq": "Conjuration Savant Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Durable Summons", "notes": "Summoned/created creatures gain 30 temporary HP.", "prereq": "Conjuration Savant Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Portent (Divination Savant Buy-in)", "notes": "Two foretelling d20s per long rest to replace any roll.", "tier": "B", "wingBuyIn": true},
+          "key": "Divination",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Expert Divination (Wing)", "notes": "Regain a lower-level slot when casting a Divination spell.", "prereq": "Divination Savant Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "The Third Eye (Wing)", "notes": "Darkvision, Ethereal Sight, Read Any Language, or See Invisibility at will (1/rest).", "prereq": "Divination Savant Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Greater Portent", "notes": "Three foretelling d20s instead of two.", "prereq": "Divination Savant Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Hypnotic Gaze (Enchantment Savant buy-in)", "notes": "Charm and incapacitate an adjacent creature each turn.", "tier": "B", "wingBuyIn": true},
+          "key": "Enchantment",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Instinctive Charm (Wing)", "notes": "Redirect an attack against you to the nearest other creature.", "prereq": "Enchantment Savant Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Split Enchantment (Wing)", "notes": "Target a second creature with a single-target Enchantment spell.", "prereq": "Enchantment Savant Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Alter Memories", "notes": "Target unaware of being charmed; erase hours of memory on a failed save.", "prereq": "Enchantment Savant Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Improved Minor Illusion (Illusion Savant Buy-in)", "notes": "Minor Illusion combines sound and image.", "tier": "B", "wingBuyIn": true},
+          "key": "Illusion",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Malleable Illusions (Wing)", "notes": "Reshape an ongoing 1-minute-plus illusion spell.", "prereq": "Illusion Savant Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Illusory Self", "notes": "Reaction: an illusory duplicate causes an attack to miss.", "prereq": "Illusion Savant Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Illusory Reality", "notes": "Make one object within an illusion briefly real.", "prereq": "Illusion Savant Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Grim Harvest (Necromancy Savant Buy-in)", "notes": "Regain HP when a spell kills a creature.", "tier": "B", "wingBuyIn": true},
+          "key": "Necromancy",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Undead Thralls", "notes": "Animate Dead affects one additional corpse; undead gain HP and damage bonus.", "prereq": "Necromancy Savant Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Inured to Undeath", "notes": "Resistance to necrotic damage; max HP can’t be reduced.", "prereq": "Necromancy Savant Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Command Undead", "notes": "Seize control of an undead creature on a failed save.", "prereq": "Necromancy Savant Buy-In", "tier": "C"}
+          ]
+        },
+        {
+          "buyIn": {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Minor Alchemy (Transmutation Savant buy-in)", "notes": "Temporarily transmute one material into another.", "tier": "B", "wingBuyIn": true},
+          "key": "Transmutation",
+          "skills": [
+            {"anchor": null, "array": "ordinary", "cost": 6, "level": 3, "name": "Transmuter’s Stone", "notes": "Craft a stone granting a chosen ongoing benefit.", "prereq": "Transmutation Savant Buy-In", "tier": "B"},
+            {"anchor": null, "array": "ordinary", "cost": 8, "level": 3, "name": "Shapechanger", "notes": "Cast Polymorph on yourself at will (self-only, CR 1 or lower).", "prereq": "Transmutation Savant Buy-In", "tier": "C"},
+            {"anchor": null, "array": "ordinary", "cost": 10, "level": 3, "name": "Master Transmuter", "notes": "Consume your stone for Major Transformation, Panacea, Restore Life, or Restore Youth.", "prereq": "Transmutation Savant Buy-In", "tier": "C"}
+          ]
+        }
+      ]
+    }
+  },
+  "meta": {
+    "anchorPattern": {
+      "Barbarian": "specializationGate",
+      "Bard": "signaturePower",
+      "Cleric": "signaturePower",
+      "Druid": "signaturePower",
+      "Fighter": "specializationGate",
+      "Monk": "specializationGate",
+      "Paladin": "specializationGate",
+      "Ranger": "specializationGate",
+      "Rogue": "specializationGate",
+      "Sorcerer": "signaturePower",
+      "Warlock": "signaturePower",
+      "Wizard": "specializationGate"
+    },
+    "crossClassArrays": {
+      "anchor": {
+        "0": 1,
+        "1": 1.5,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 2,
+        "6": 2
+      },
+      "ordinary": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1.5,
+        "4": 1.5,
+        "5": 2,
+        "6": 2
+      }
+    },
+    "crossClassRing": {
+      "description": "Distance is measured around the 12-class ring in either direction, whichever is shorter.",
+      "example": "From Fighter: distance 0 = Fighter; 1 = Barbarian or Paladin; 2 = Ranger or Monk; 3 = Rogue or Druid; 4 = Bard or Cleric; 5-6 = Sorcerer, Warlock, or Wizard."
+    },
+    "docNotes": [
+      "Paladin: the class’s pattern description still reads \"Anchor 2 is the subclass Buy-In\" but the Anchors table lists Anchor 2 as Paladin Casting. The table was treated as authoritative.",
+      "Druid: Circle of the Moon lost its ### heading and its Buy-In row in the source; Combat Wild Shape is treated as the wing’s de facto Buy-In.",
+      "Cleric: the Summoning calling from earlier revisions is absent in v8; a new Nature calling was added. Treated as intentional.",
+      "Several Warlock invocations have blank cost/tier/notes cells in the source (Mindscape, Silencing Strike, Thief of Five Fates, Voice of the Chain Master; Bewitching Whispers has blank notes only). Carried through with incomplete:true rather than inventing values."
+    ],
+    "orthogonalPicks": {
+      "Sorcerer": {
+        "name": "Sorcerous Origin",
+        "notes": "Sorcerers carry a pick that sits outside the Anchor/Wing structure entirely — chosen independently of the subclass Buy-In, with no Buy-In of its own. (v8 front matter names this pick but does not re-list Wild Magic/Infused Bloodline costs here; see Sorcerer.wings for the actual Origin content, which v8 still structures as Wing Buy-Ins rather than a separate flat pick — flagged as a doc inconsistency.)"
+      },
+      "Warlock": {
+        "level": 3,
+        "name": "Pact Boon",
+        "notes": "Chosen independently of Patron. Flat Tier A pick, no Buy-In, no dependency on Anchor 2. Acts as a cursed object for characters without Patron’s Pact.",
+        "options": [
+          "Pact of the Blade (8 pts)",
+          "Pact of the Chain (6 pts)",
+          "Pact of the Tome (6 pts)"
+        ],
+        "tier": "A"
+      }
+    },
+    "pointsPerLevel": 10,
+    "purchaseLimit": "One skill purchase (or one rank of a ranked/chain skill) per character level.",
+    "ring": [
+      "Fighter",
+      "Barbarian",
+      "Ranger",
+      "Rogue",
+      "Bard",
+      "Sorcerer",
+      "Wizard",
+      "Warlock",
+      "Cleric",
+      "Druid",
+      "Monk",
+      "Paladin"
+    ],
+    "startingPoints": 40,
+    "version": "Class Skills v8 (Two-Anchor Edition, Revision 4) — transcribed from Class_Skills_V8.docx"
+  }
+}

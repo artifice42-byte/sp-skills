@@ -1,0 +1,2836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S&amp;P Skill Editor — Shared</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #1a1a1a;
+  font-family: Georgia, serif;
+  color: #ddd;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+}
+
+:root {
+  --c-anchor:     #c8a84b;  /* gold — Anchor 1 / Anchor 2 */
+  --c-chassis:    #8a97b0;  /* steel blue-grey — ordinary chassis */
+  --c-wingbuyin:  #c8933c;  /* amber — wing buy-in */
+  --c-wingskill:  #5aa0a0;  /* teal — skill inset under a wing */
+  --c-orthogonal: #a37adf;  /* violet — orthogonal picks */
+  --c-feat:       #b08a60;  /* sepia */
+  --c-cursed:     #b0508a;  /* magenta-ish — cursed-object (non-native) invocation */
+  --c-incomplete: #a04040;
+}
+.sk-anchor     { color: var(--c-anchor); font-weight: bold; }
+.sk-chassis    { color: var(--c-chassis); }
+.sk-wingbuyin  { color: var(--c-wingbuyin); font-weight: bold; }
+.sk-wingskill  { color: var(--c-wingskill); }
+.sk-orthogonal { color: var(--c-orthogonal); }
+.sk-cursed     { color: var(--c-cursed); font-style: italic; }
+.sk-feat       { font-style: italic; }
+.sk-incomplete { color: var(--c-incomplete); }
+
+/* ══════════════════════════════
+   TOP BAR
+══════════════════════════════ */
+#topbar {
+  height: 52px; background: #111; border-bottom: 1px solid #2a2a2a;
+  display: flex; align-items: center; gap: 14px; padding: 0 18px;
+  flex-shrink: 0; z-index: 20;
+}
+#topbar label { font-size: .7rem; color: #555; text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+
+#char-name {
+  background: #1e1e1e; border: 1px solid #333; color: #ddd;
+  font-family: Georgia,serif; font-size: .95rem; padding: 5px 9px;
+  border-radius: 3px; width: 150px;
+}
+#char-name:focus { outline: none; border-color: #666; }
+
+#class-display {
+  background: #1e1e1e; border: 1px solid #333; color: #555;
+  font-family: Georgia,serif; font-size: .95rem; padding: 5px 11px;
+  border-radius: 3px; min-width: 100px; font-style: italic; white-space: nowrap;
+}
+#class-display.has-class { color: #bbb; font-style: normal; }
+#class-display.locked    { color: #ddd; border-color: #555; font-style: normal; }
+
+.tb-sep { width: 1px; height: 28px; background: #252525; flex-shrink: 0; }
+
+.level-wrap { display: flex; align-items: center; gap: 6px; }
+.lvl-btn {
+  width: 24px; height: 24px; background: #1e1e1e; border: 1px solid #333;
+  color: #888; font-size: .95rem; border-radius: 3px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background .1s;
+}
+.lvl-btn:hover { background: #2a2a2a; color: #fff; }
+#level-display { font-size: 1rem; color: #ddd; min-width: 20px; text-align: center; }
+#points-display { font-size: 1rem; color: #c8a84b; min-width: 44px; font-family: monospace; }
+
+#topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+#begin-btn {
+  background: #1e3010; border: 1px solid #3a6a1a; color: #7dc95e;
+  font-family: Georgia,serif; font-size: .85rem; padding: 5px 14px;
+  border-radius: 3px; cursor: pointer; white-space: nowrap; display: none;
+}
+#begin-btn:hover { background: #2a4a18; }
+#begin-btn.visible { display: block; }
+#locked-tag { font-size: .78rem; color: #555; font-style: italic; display: none; white-space: nowrap; }
+#locked-tag.visible { display: block; }
+#restart-btn {
+  background: transparent; border: 1px solid #4a2020; color: #884040;
+  font-family: Georgia,serif; font-size: .78rem; padding: 4px 11px;
+  border-radius: 3px; cursor: pointer; white-space: nowrap; display: none;
+}
+#restart-btn:hover { border-color: #8a2020; color: #d45e5e; }
+#restart-btn.visible { display: block; }
+#editor-toggle-btn {
+  background: #241a30; border: 1px solid #4a3a6a; color: #b090e0;
+  font-family: Georgia,serif; font-size: .8rem; padding: 5px 12px;
+  border-radius: 3px; cursor: pointer; white-space: nowrap; display: none;
+}
+#editor-toggle-btn:hover { background: #342a48; }
+#editor-toggle-btn.visible { display: inline-block; }
+#editor-toggle-btn.active { background: #3a1030; border-color: #8a3a6a; color: #e090c8; }
+#file-btn {
+  background: #10202a; border: 1px solid #2a4a5a; color: #6ab0d0;
+  font-family: Georgia,serif; font-size: .8rem; padding: 5px 12px;
+  border-radius: 3px; cursor: pointer; white-space: nowrap;
+}
+#file-btn:hover { background: #16303c; }
+#mode-toggle-btn {
+  background: #241c10; border: 1px solid #4a3a1a; color: #d0a060;
+  font-family: Georgia,serif; font-size: .8rem; padding: 5px 12px;
+  border-radius: 3px; cursor: pointer; white-space: nowrap;
+}
+#mode-toggle-btn:hover { background: #342c16; }
+#points-label, #points-display { cursor: pointer; }
+#points-label:hover, #points-display:hover { color: #c8a84b; }
+
+/* ══════════════════════════════
+   CLASS BAR
+══════════════════════════════ */
+#class-bar-wrap {
+  height: 46px; background: #0d0d0d; border-bottom: 1px solid #222;
+  display: flex; align-items: stretch; flex-shrink: 0; overflow: hidden;
+}
+.cbar-arrow {
+  width: 32px; flex-shrink: 0; background: #0d0d0d; border: none;
+  color: #333; font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: color .15s;
+}
+.cbar-arrow:hover { color: #aaa; }
+.cbar-arrow.left  { border-right: 1px solid #1e1e1e; }
+.cbar-arrow.right { border-left:  1px solid #1e1e1e; }
+
+#class-bar-scroll { flex: 1; overflow: hidden; position: relative; }
+#class-bar-inner {
+  display: flex; align-items: center; height: 100%;
+  transition: transform .28s cubic-bezier(.4,0,.2,1);
+  padding: 0 8px; gap: 0; white-space: nowrap;
+}
+.cls-btn {
+  flex-shrink: 0; padding: 0 16px; height: 100%;
+  border: none; background: transparent; font-family: Georgia,serif;
+  font-size: 1rem; color: #444; cursor: pointer; white-space: nowrap;
+  transition: color .15s, font-size .2s; letter-spacing: .02em;
+  display: flex; align-items: center; justify-content: center; position: relative;
+}
+.cls-btn:hover { color: #bbb; }
+.cls-btn.active { color: #ddd; font-size: 1.25rem; font-weight: bold; }
+.cls-btn.active::after {
+  content: ''; position: absolute; bottom: 5px; left: 20%; right: 20%;
+  height: 2px; background: currentColor; border-radius: 1px; opacity: .45;
+}
+.cls-btn.col-green          { color: #4a8a4a; }
+.cls-btn.col-green:hover    { color: #7dc95e; }
+.cls-btn.col-green.active   { color: #7dc95e; }
+.cls-btn.col-yellow         { color: #8a7a30; }
+.cls-btn.col-yellow:hover   { color: #c8b84b; }
+.cls-btn.col-yellow.active  { color: #c8b84b; }
+.cls-btn.col-orange         { color: #8a5a28; }
+.cls-btn.col-orange:hover   { color: #d48040; }
+.cls-btn.col-orange.active  { color: #d48040; }
+.cls-btn.col-red            { color: #8a3040; }
+.cls-btn.col-red:hover      { color: #d45e6e; }
+.cls-btn.col-red.active     { color: #d45e6e; }
+.cls-btn.col-locked         { color: #2a2a2a; }
+.cls-btn.col-locked:hover   { color: #3a3a3a; }
+
+/* ── MULTICLASS STRIP ── */
+#multiclass-bar {
+  display: none; align-items: center; gap: 8px; padding: 6px 20px;
+  background: #0d0d0d; border-bottom: 1px solid #1e1e1e; flex-shrink: 0; font-size: .78rem;
+}
+#multiclass-bar.visible { display: flex; }
+#multiclass-bar .mc-label { color: #444; text-transform: uppercase; letter-spacing: .08em; font-size: .64rem; }
+.mc-chip {
+  padding: 2px 9px; border-radius: 10px; font-family: monospace; font-size: .74rem;
+  border: 1px solid #333; color: #999;
+}
+.mc-chip.slot0 { border-color: #2a5a1a; color: #7dc95e; }
+.mc-chip.slot1 { border-color: #6a5a10; color: #c8b84b; }
+.mc-chip.slot2 { border-color: #6a3a10; color: #d48040; }
+.mc-chip.slot3 { border-color: #6a1a2a; color: #d45e6e; }
+.mc-chip.empty { border-style: dashed; color: #333; }
+
+/* ══════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════ */
+#main {
+  flex: 1; display: grid; grid-template-columns: 240px 1fr 250px; overflow: hidden;
+}
+body.editor-mode #main { grid-template-columns: 1fr; }
+body.editor-mode #desc-panel, body.editor-mode #acquired-panel { display: none; }
+body.editor-mode #skill-panel { border-right: none; }
+
+/* ── LEFT: DESC PANEL ── */
+#desc-panel {
+  border-right: 1px solid #222; display: flex; flex-direction: column; overflow: hidden;
+}
+#desc-inner { flex: 1; overflow-y: auto; padding: 16px 16px 12px; }
+#desc-inner::-webkit-scrollbar { width: 4px; }
+#desc-inner::-webkit-scrollbar-thumb { background: #252525; }
+
+.desc-placeholder { color: #333; font-style: italic; font-size: .88rem; line-height: 1.65; padding-top: 4px; }
+#desc-content { display: none; }
+
+.desc-skill-name { font-size: 1.05rem; color: #ddd; margin-bottom: 6px; line-height: 1.3; }
+.desc-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.desc-head .desc-skill-name { margin-bottom: 0; }
+.desc-head .desc-cost { white-space: nowrap; }
+.desc-tier-row { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; flex-wrap: wrap; }
+.desc-tier-badge {
+  font-size: .62rem; padding: 2px 8px; border-radius: 8px;
+  font-family: monospace; text-transform: uppercase; letter-spacing: .06em;
+}
+.desc-tier-badge.a { background: #1a2e1a; color: #5a9a5a; border: 1px solid #2a4a2a; }
+.desc-tier-badge.b { background: #2e2210; color: #a07830; border: 1px solid #4a3818; }
+.desc-tier-badge.c { background: #2e1010; color: #a04040; border: 1px solid #4a2020; }
+.desc-type-badge {
+  font-size: .62rem; padding: 2px 8px; border-radius: 8px;
+  font-family: monospace; text-transform: uppercase; letter-spacing: .06em;
+  border: 1px solid #333; color: #888;
+}
+.desc-cost { font-family: monospace; font-size: .82rem; color: #c8a84b; }
+.desc-cost.x15 { color: #c8b84b; }
+.desc-cost.x2  { color: #d48040; }
+.desc-cost.x3  { color: #d45e6e; }
+.desc-cost.locked { color: #444; }
+.desc-cost.anchor::before { content: '⚓ '; }
+.desc-join-note { font-family: monospace; font-size: .72rem; color: #7a9ac0; margin-bottom: 8px; }
+
+.desc-text { font-size: .88rem; color: #999; line-height: 1.6; margin-bottom: 11px; }
+.desc-prereq-row { font-family: monospace; font-size: .75rem; margin-bottom: 3px; }
+.desc-prereq-row.met   { color: #5a9a5a; }
+.desc-prereq-row.unmet { color: #a04040; }
+.desc-lvl-req { font-family: monospace; font-size: .75rem; margin-bottom: 8px; display: none; }
+.desc-lvl-req.bad { color: #a04040; }
+.desc-lvl-req.ok  { color: #5a9a5a; }
+.desc-chain-note { font-family: monospace; font-size: .72rem; color: #7a5a20; margin-bottom: 8px; }
+.desc-cursed-note { font-family: monospace; font-size: .72rem; color: var(--c-cursed); margin-bottom: 8px; }
+
+.desc-actions { display: flex; gap: 7px; margin-top: 10px; }
+.desc-btn {
+  flex: 1; padding: 7px 0; border: none; border-radius: 3px;
+  font-family: Georgia,serif; font-size: .82rem; cursor: pointer; transition: background .15s;
+}
+.desc-btn.buy  { background: #1e3010; color: #7dc95e; border: 1px solid #3a6a1a; }
+.desc-btn.buy:hover { background: #2a4a18; }
+.desc-btn.drop { background: #301010; color: #d45e5e; border: 1px solid #6a1a1a; }
+.desc-btn.drop:hover { background: #4a1818; }
+.desc-btn.off  { background: #1a1a1a; color: #404040; border: 1px solid #222; cursor: default; }
+.desc-lock-hint { font-size: .62rem; color: #2e2e2e; font-style: italic; text-align: right; margin-top: 6px; }
+
+#type-legend { padding: 10px 16px 12px; border-top: 1px solid #1e1e1e; flex-shrink: 0; }
+#type-legend h4 { font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: #333; margin-bottom: 7px; }
+.legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 8px; }
+.legend-item { font-size: .72rem; display: flex; align-items: center; gap: 5px; }
+.legend-pip { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── CENTER: SKILL LIST ── */
+#skill-panel { display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid #222; }
+#cross-badge-wrap { padding: 5px 20px 2px; min-height: 26px; display: flex; align-items: center; gap:8px; flex-shrink: 0; }
+.cross-badge {
+  font-size: .72rem; padding: 2px 9px; border-radius: 9px;
+  border: 1px solid #333; color: #555; font-family: monospace; display: none;
+}
+.cross-badge.x1  { display:inline; border-color: #2a5a1a; color: #5a9a5a; }
+.cross-badge.x15 { display:inline; border-color: #6a5a10; color: #c8b84b; }
+.cross-badge.x2  { display:inline; border-color: #6a3a10; color: #d48040; }
+
+#skill-list { flex: 1; overflow-y: auto; padding: 4px 20px 16px; }
+#skill-list::-webkit-scrollbar { width: 5px; }
+#skill-list::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+
+.section-label {
+  font-size: .66rem; text-transform: uppercase; letter-spacing: .1em; color: #555;
+  margin: 16px 0 5px; padding-bottom: 4px; border-bottom: 1px solid #222;
+}
+.section-label:first-child { margin-top: 4px; }
+.cross-note { font-size: .72rem; color: #665; font-style: italic; padding: 2px 0 8px; line-height: 1.5; }
+
+.wing-block { margin-bottom: 4px; }
+.wing-header {
+  font-size: .74rem; color: #8a6a30; margin: 12px 0 2px; font-style: italic;
+  display: flex; align-items: center; gap: 6px;
+}
+.wing-header .wing-lock { color: #444; font-size: .68rem; }
+
+.level-divider {
+  display: flex; align-items: center; gap: 8px; margin: 8px 0 4px; color: #3a3a3a;
+}
+.level-divider::before, .level-divider::after { content: ''; flex: 1; height: 1px; background: #222; }
+.level-divider span { font-family: monospace; font-size: .64rem; letter-spacing: .1em; }
+
+.skill-row {
+  display: flex; align-items: center; padding: 6px 8px;
+  border-radius: 3px; cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background .08s; gap: 6px; user-select: none;
+}
+.skill-row:hover { background: #1e1e1e; }
+.skill-row.selected { background: #1e1e28; border-left-color: #444; }
+.skill-row.owned { border-left-color: #3a6a1a; background: #141e14; }
+.skill-row.owned:hover { background: #182218; }
+.skill-row.owned.selected { background: #182218; border-left-color: #5a9a5a; }
+.skill-row.dim { opacity: .28; cursor: default; }
+.skill-row.dim:hover { background: transparent; }
+.skill-row.anchor-row { background: #1e1a0a; border-left-color: #c8a84b; }
+.skill-row.wingbuyin-row { border-left-color: #a07830; }
+.skill-row.wing-skill-row { margin-left: 16px; width: calc(100% - 16px); border-left: 2px dashed #2a2a2a; padding-left: 10px; }
+.skill-row.chain-locked { opacity: .3; cursor: default; }
+.skill-row.chain-locked:hover { background: transparent; }
+.skill-row.cursed-row { border-left-color: var(--c-cursed); }
+.skill-row.disabled-row .skill-name { text-decoration: line-through; opacity: .6; }
+.skill-row.disabled-row { border-left-color: #4a2020; }
+
+.editor-banner {
+  font-size: .74rem; color: #b090e0; background: #1a1424; border: 1px solid #3a2a4a;
+  padding: 6px 10px; border-radius: 4px; margin-bottom: 10px; line-height: 1.5;
+}
+#add-skill-btn {
+  background: #241a30; border: 1px solid #4a3a6a; color: #b090e0;
+  font-family: Georgia,serif; font-size: .74rem; padding: 3px 10px;
+  border-radius: 12px; cursor: pointer; display: none;
+}
+#add-skill-btn:hover { background: #342a48; }
+#add-skill-btn.visible { display: inline-block; }
+#export-data-btn {
+  background: #0f2a2a; border: 1px solid #1f4a4a; color: #6ac0c0;
+  font-family: Georgia,serif; font-size: .74rem; padding: 3px 10px;
+  border-radius: 12px; cursor: pointer; display: none;
+}
+#export-data-btn:hover { background: #163a3a; }
+#export-data-btn.visible { display: inline-block; }
+#copy-data-btn {
+  background: #0f2a2a; border: 1px solid #1f4a4a; color: #6ac0c0;
+  font-family: Georgia,serif; font-size: .74rem; padding: 3px 10px;
+  border-radius: 12px; cursor: pointer; display: none;
+}
+#copy-data-btn:hover { background: #163a3a; }
+#copy-data-btn.visible { display: inline-block; }
+#multiplier-btn {
+  background: #241c10; border: 1px solid #4a3a1a; color: #d0a060;
+  font-family: Georgia,serif; font-size: .74rem; padding: 3px 10px;
+  border-radius: 12px; cursor: pointer; display: none;
+}
+#multiplier-btn:hover { background: #342c16; }
+#multiplier-btn.visible { display: inline-block; }
+
+.edit-field-label { font-size: .68rem; color: #666; text-transform: uppercase; letter-spacing: .06em; display: block; margin-bottom: 3px; }
+.edit-row3 { display: flex; gap: 10px; }
+.edit-row3 > div { flex: 1; }
+.edit-checkbox-row { font-size: .8rem; display: flex; align-items: center; gap: 7px; margin-bottom: 12px; color: #ccc; }
+.edit-divider { border-top: 1px solid #222; padding-top: 10px; margin-bottom: 4px; }
+.edit-hint { font-size: .66rem; color: #444; margin-top: 4px; }
+.mult-grid-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.mult-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.mult-cell { width: 62px; }
+.mult-cell input { margin-bottom: 0 !important; padding: 6px 4px !important; text-align: center; }
+
+.skill-name { font-size: .9rem; flex: 1; line-height: 1.3; }
+.skill-pts-tag { font-family: monospace; font-size: .78rem; color: #555; white-space: nowrap; }
+.skill-pts-tag.x15 { color: #c8b84b; }
+.skill-pts-tag.x2  { color: #d48040; }
+.skill-pts-tag.anchor::before { content: '⚓'; margin-right: 2px; font-size:.7em; }
+.skill-lvl-tag { font-family: monospace; font-size: .62rem; color: #5a2020; white-space: nowrap; }
+.owned-pip { width: 6px; height: 6px; border-radius: 50%; background: #5a9a5a; flex-shrink: 0; }
+.rank-tag { font-size: .7rem; color: #666; white-space: nowrap; }
+
+/* ── RIGHT: ACQUIRED ── */
+#acquired-panel { display: flex; flex-direction: column; background: #0f0f0f; overflow: hidden; }
+#acquired-panel h2 {
+  font-size: .65rem; text-transform: uppercase; letter-spacing: .12em;
+  color: #333; padding: 12px 14px 9px; border-bottom: 1px solid #1a1a1a; flex-shrink: 0;
+}
+#acquired-list { flex: 1; overflow-y: auto; padding: 6px 10px; }
+#acquired-list::-webkit-scrollbar { width: 4px; }
+#acquired-list::-webkit-scrollbar-thumb { background: #1a1a1a; }
+
+.acq-placeholder { color: #282828; font-style: italic; font-size: .82rem; padding: 8px 2px; }
+.acq-group { margin-bottom: 11px; }
+.acq-group-label {
+  font-size: .6rem; text-transform: uppercase; letter-spacing: .09em;
+  color: #333; padding-bottom: 3px; border-bottom: 1px solid #1a1a1a; margin-bottom: 4px;
+}
+.acq-row {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 3px; border-radius: 2px; font-size: .8rem; color: #888;
+  cursor: pointer; user-select: none; transition: background .08s;
+  border-left: 2px solid transparent;
+}
+.acq-row:hover { background: #181818; color: #bbb; }
+.acq-row.selected { background: #1a1a28; color: #bbb; border-left-color: #444; }
+.acq-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.acq-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acq-pts  { font-family: monospace; font-size: .7rem; color: #404040; }
+
+#acquired-footer { border-top: 1px solid #1a1a1a; padding: 11px 14px; flex-shrink: 0; }
+.pts-row { display: flex; justify-content: space-between; font-size: .8rem; margin-bottom: 3px; }
+.pts-row .lbl { color: #444; }
+.pts-row .val { font-family: monospace; color: #c8a84b; }
+.pts-row .val.g { color: #5a9a5a; }
+.pts-bar { height: 2px; background: #1a1a1a; border-radius: 1px; margin: 7px 0 11px; }
+.pts-bar-fill { height: 2px; background: #c8a84b; border-radius: 1px; transition: width .3s; }
+.io-btn {
+  width: 100%; background: transparent; border: 1px solid #1e1e1e;
+  color: #3a3a3a; font-family: Georgia,serif; font-size: .78rem;
+  padding: 6px; border-radius: 3px; cursor: pointer; margin-bottom: 5px;
+  transition: border-color .15s, color .15s;
+}
+.io-btn:hover { border-color: #505050; color: #999; }
+
+/* ══════════════════════════════
+   MODALS
+══════════════════════════════ */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.82); z-index: 300;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: #1a1a1a; border-radius: 5px;
+  padding: 22px; max-width: 380px; width: 90%;
+  box-shadow: 0 8px 40px rgba(0,0,0,.9);
+}
+.modal-box.danger { border: 1px solid #7a1a1a; }
+.modal-box.warn   { border: 1px solid #7a5a10; }
+.modal-box.neutral{ border: 1px solid #444; }
+.modal-box h3 { font-size: .98rem; margin-bottom: 9px; }
+.modal-box.danger h3 { color: #d45e5e; }
+.modal-box.warn   h3 { color: #c8a84b; }
+.modal-box.neutral h3 { color: #ccc; }
+.modal-box p  { font-size: .85rem; color: #999; line-height: 1.55; margin-bottom: 9px; }
+.modal-box ul { padding-left: 16px; margin-bottom: 11px; }
+.modal-box ul li { font-family: monospace; font-size: .78rem; color: #d45e5e; margin-bottom: 2px; }
+.modal-refund { color: #c8a84b !important; font-size: .85rem !important; }
+.modal-actions { display: flex; gap: 9px; justify-content: flex-end; margin-top: 4px; }
+.btn-cancel {
+  background: transparent; border: 1px solid #333; color: #666;
+  font-family: Georgia,serif; font-size: .82rem; padding: 6px 15px;
+  border-radius: 3px; cursor: pointer;
+}
+.btn-cancel:hover { border-color: #555; color: #bbb; }
+.btn-danger { background: #3a1010; border: none; color: #d45e5e; font-family: Georgia,serif; font-size: .82rem; padding: 6px 15px; border-radius: 3px; cursor: pointer; }
+.btn-danger:hover { background: #5a1818; }
+.btn-warn   { background: #3a2e10; border: none; color: #c8a84b; font-family: Georgia,serif; font-size: .82rem; padding: 6px 15px; border-radius: 3px; cursor: pointer; }
+.btn-warn:hover { background: #5a4a18; }
+.btn-ok     { background: #1e3010; border: none; color: #7dc95e; font-family: Georgia,serif; font-size: .82rem; padding: 6px 15px; border-radius: 3px; cursor: pointer; }
+.btn-ok:hover { background: #2a4a18; }
+
+.modal-input {
+  width: 100%; background: #111; border: 1px solid #444; color: #ddd;
+  font-family: Georgia,serif; font-size: .9rem; padding: 7px 10px;
+  border-radius: 3px; margin-bottom: 12px;
+}
+.modal-input:focus { outline: none; border-color: #888; }
+.modal-select {
+  width: 100%; background: #111; border: 1px solid #444; color: #ddd;
+  font-family: Georgia,serif; font-size: .9rem; padding: 7px 10px;
+  border-radius: 3px; margin-bottom: 12px; cursor: pointer;
+}
+
+/* ══════════════════════════════
+   EDITOR SPREADSHEET
+══════════════════════════════ */
+.ss-toolbar { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+.ss-pickbar {
+  font-size:.78rem; color:#e0c060; background:#2a2410; border:1px solid #5a4a1a;
+  padding:6px 10px; border-radius:4px; margin-bottom:10px; display:flex; align-items:center; gap:10px;
+}
+.ss-pickbar button { background:#3a2e10; border:1px solid #6a5420; color:#e0c060; font-family:Georgia,serif; font-size:.74rem; padding:3px 9px; border-radius:10px; cursor:pointer; }
+table.ss-table { border-collapse: collapse; width: 100%; font-size: .78rem; }
+table.ss-table th {
+  position: sticky; top: 0; background: #141414; color: #888; z-index: 2;
+  text-align: left; padding: 5px 6px; font-size: .64rem; text-transform: uppercase;
+  letter-spacing: .06em; border-bottom: 1px solid #2a2a2a; white-space: nowrap;
+}
+table.ss-table td { padding: 0 3px; border-bottom: none; vertical-align: top; }
+table.ss-table tr.ss-section td {
+  background: #141414; color: #555; font-size: .64rem; text-transform: uppercase;
+  letter-spacing: .09em; padding: 3px 6px 1px; border-bottom: 1px solid #222;
+}
+table.ss-table tr.ss-row:hover td { background: #171717; }
+table.ss-table tr.ss-row.ss-disabled td { opacity: .45; }
+table.ss-table tr.ss-row.ss-pickable { cursor: crosshair; }
+table.ss-table tr.ss-row.ss-pickable:hover td { background: #2a2410; }
+table.ss-table tr.ss-row.ss-picktarget td { background: #201a30; }
+.ss-input, .ss-select {
+  width: 100%; background: #101010; border: 1px solid #2a2a2a; color: #ddd;
+  font-family: Georgia,serif; font-size: .78rem; padding: 1px 5px; border-radius: 2px;
+}
+.ss-input:focus, .ss-select:focus, .ss-notes-area:focus { outline: none; border-color: #6a6a6a; background: #161616; }
+.ss-input.ss-name { min-width: 170px; font-weight: bold; }
+.ss-input.ss-narrow { width: 46px; text-align: center; }
+.ss-notes-wrap { position: relative; }
+.ss-notes-mirror {
+  box-sizing: border-box; border: 1px solid transparent; padding: 1px 6px; min-height: 20px;
+  font-family: Georgia,serif; font-size: .78rem; line-height: 1.3; white-space: pre-wrap; word-wrap: break-word;
+  color: transparent; pointer-events: none;
+}
+.ss-notes-area {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-sizing: border-box; z-index: 1;
+  background: #101010; border: 1px solid #2a2a2a; color: #bbb;
+  font-family: Georgia,serif; font-size: .78rem; line-height: 1.3; padding: 1px 6px;
+  border-radius: 2px; resize: none; overflow: hidden; display: block;
+}
+.ss-prereq-inline { position: relative; z-index: 2; pointer-events: auto; padding: 0 6px; font-size: .64rem; color: #c8a84b; vertical-align: baseline; }
+.ss-btn {
+  background: #1a1a1a; border: 1px solid #333; color: #888; font-family: Georgia,serif;
+  font-size: .68rem; padding: 3px 7px; border-radius: 8px; cursor: pointer; white-space: nowrap;
+}
+.ss-btn:hover { border-color: #666; color: #ccc; }
+.ss-btn.ss-danger { color: #c06060; border-color: #4a2020; }
+.ss-btn.ss-danger:hover { border-color: #8a3030; color: #e08080; }
+.ss-btn:disabled { opacity: .25; cursor: default; }
+.ss-btn:disabled:hover { border-color: #333; color: #888; }
+.ss-btn:focus { outline: 1px solid #6a6a6a; }
+.ss-check { width: 16px; height: 16px; cursor: pointer; accent-color: #5a9a5a; }
+td.ss-center { text-align: center; }
+td.ss-top { vertical-align: top; }
+.ss-ops-inner { display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
+.ss-inline-select { width: auto; min-width: 120px; }
+#file-btn-label { font-weight: normal; }
+
+#gh-save-btn { background:#1e3010; border:1px solid #3a6a1a; color:#7dc95e; font-family:Georgia,serif; font-size:.8rem; padding:5px 12px; border-radius:3px; cursor:pointer; white-space:nowrap; }
+#gh-save-btn:hover { background:#2a4a18; }
+#gh-save-btn:disabled { opacity:.6; cursor:default; }
+#gh-btn { background:#10202a; border:1px solid #2a4a5a; color:#6ab0d0; font-family:Georgia,serif; font-size:.8rem; padding:5px 12px; border-radius:3px; cursor:pointer; white-space:nowrap; }
+#gh-btn:hover { background:#16303c; }
+#gh-toast { display:none; position:fixed; right:18px; bottom:18px; z-index:500; max-width:420px; background:#111; border:1px solid #3a6a1a; padding:10px 14px; border-radius:4px; font-size:.85rem; line-height:1.45; box-shadow:0 4px 20px rgba(0,0,0,.7); }
+.gh-steps { font-size:.78rem; color:#999; line-height:1.6; padding-left:18px; margin-bottom:10px; }
+.gh-steps a { color:#6ab0d0; }
+#gh-modal details { margin-bottom:10px; font-size:.78rem; color:#888; }
+#gh-modal summary { cursor:pointer; margin-bottom:8px; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <label>Name</label>
+  <input id="char-name" type="text" placeholder="Character name" maxlength="30">
+  <div class="tb-sep"></div>
+  <label>Class</label>
+  <div id="class-display">— select —</div>
+  <div class="tb-sep"></div>
+  <label>Level</label>
+  <div class="level-wrap">
+    <button class="lvl-btn" id="lvl-dn">−</button>
+    <span id="level-display">1</span>
+    <button class="lvl-btn" id="lvl-up">+</button>
+  </div>
+  <div class="tb-sep"></div>
+  <label id="points-label">Points</label>
+  <span id="points-display">40</span>
+  <div id="topbar-right">
+    <button id="mode-toggle-btn">⚖ Mode: Multiclass</button>
+    <button id="file-btn">📁 <span id="file-btn-label">GitHub Version</span></button>
+    <button id="gh-save-btn">💾 Save to GitHub</button>
+    <button id="gh-btn">☁ GitHub</button>
+    <button id="editor-toggle-btn">🛠 Editor: off</button>
+    <button id="begin-btn">Begin Build with <span id="begin-cls"></span></button>
+    <span id="locked-tag">Class locked</span>
+    <button id="restart-btn">↺ Restart</button>
+  </div>
+</div>
+
+<!-- CLASS BAR -->
+<div id="class-bar-wrap">
+  <button class="cbar-arrow left"  id="cbar-left">‹</button>
+  <div id="class-bar-scroll"><div id="class-bar-inner"></div></div>
+  <button class="cbar-arrow right" id="cbar-right">›</button>
+</div>
+
+<!-- MULTICLASS STRIP -->
+<div id="multiclass-bar">
+  <span class="mc-label">Classes</span>
+  <div id="mc-slots-inner" style="display:flex; gap:8px;"></div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- LEFT -->
+  <div id="desc-panel">
+    <div id="desc-inner">
+      <div class="desc-placeholder" id="desc-placeholder">Hover a skill to preview it here.</div>
+      <div id="desc-content">
+        <div class="desc-head">
+          <span class="desc-skill-name" id="desc-name"></span>
+          <span class="desc-cost" id="desc-cost"></span>
+        </div>
+        <div class="desc-text" id="desc-text"></div>
+        <div id="desc-prereqs"></div>
+        <div class="desc-lvl-req"   id="desc-lvl"></div>
+        <div class="desc-chain-note" id="desc-chain" style="display:none"></div>
+        <div class="desc-cursed-note" id="desc-cursed" style="display:none"></div>
+        <div class="desc-join-note" id="desc-join" style="display:none"></div>
+        <div class="desc-actions"   id="desc-actions"></div>
+        <div class="desc-lock-hint" id="desc-lock-hint"></div>
+      </div>
+    </div>
+    <div id="type-legend">
+      <h4>Multiclass Cost</h4>
+      <div class="legend-grid">
+        <div class="legend-item">1st class <span style="margin-left:auto;color:#7dc95e">×1</span></div>
+        <div class="legend-item">2nd class <span style="margin-left:auto;color:#c8b84b">×1.5</span></div>
+        <div class="legend-item">3rd class <span style="margin-left:auto;color:#d48040">×2</span></div>
+        <div class="legend-item">4th class <span style="margin-left:auto;color:#d45e6e">×3</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div id="skill-panel">
+    <div id="cross-badge-wrap"><span class="cross-badge" id="cross-badge"></span><button id="add-skill-btn">+ Add Skill</button><button id="multiplier-btn">⚙ Edit Multipliers</button></div>
+    <div id="skill-list">
+      <div style="color:#2a2a2a;font-style:italic;font-size:.9rem;padding:16px 0;">Click a class above to browse skills.</div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div id="acquired-panel">
+    <h2>Acquired Skills</h2>
+    <div id="acquired-list"><div class="acq-placeholder">No skills purchased yet.</div></div>
+    <div id="acquired-footer">
+      <div class="pts-row"><span class="lbl">Available</span><span class="val g" id="pts-avail">40pt</span></div>
+      <div class="pts-row"><span class="lbl">Spent</span><span class="val" id="pts-spent">0pt</span></div>
+      <div class="pts-bar"><div class="pts-bar-fill" id="pts-bar" style="width:0%"></div></div>
+      <button class="io-btn" id="export-btn">💾 Export (.json)</button>
+      <button class="io-btn" id="import-btn">📂 Import</button>
+      <input type="file" id="import-file" accept=".json" style="display:none">
+    </div>
+  </div>
+</div>
+
+<!-- DROP MODAL -->
+<div class="modal-overlay" id="drop-modal">
+  <div class="modal-box danger">
+    <h3 id="drop-title"></h3>
+    <p id="drop-body"></p>
+    <ul id="drop-list"></ul>
+    <p class="modal-refund" id="drop-refund"></p>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="drop-cancel">Cancel</button>
+      <button class="btn-danger" id="drop-confirm">Drop &amp; Refund</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESTART MODAL -->
+<div class="modal-overlay" id="restart-modal">
+  <div class="modal-box warn">
+    <h3>Restart Build?</h3>
+    <p>This will clear your entire character — all purchased skills, points, name, class, and level. This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="restart-cancel">Cancel</button>
+      <button class="btn-warn"   id="restart-confirm">Clear &amp; Restart</button>
+    </div>
+  </div>
+</div>
+
+<!-- POINTS & LEVELING MODAL -->
+<div class="modal-overlay" id="points-modal">
+  <div class="modal-box neutral">
+    <h3>Points &amp; Leveling</h3>
+    <p id="points-modal-note"></p>
+    <span class="edit-field-label">Starting Points (Level 1)</span>
+    <input class="modal-input" id="points-starting" type="number" min="0">
+    <span class="edit-field-label">Points Per Level-Up</span>
+    <input class="modal-input" id="points-per-level" type="number" min="0">
+    <div class="modal-actions">
+      <button class="btn-cancel" id="points-cancel">Close</button>
+      <button class="btn-ok" id="points-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MULTIPLIER EDITOR MODAL -->
+<div class="modal-overlay" id="multiplier-modal">
+  <div class="modal-box neutral" style="max-width:520px;">
+    <h3>Edit Multipliers — <span id="mult-modal-mode-label"></span></h3>
+
+    <div id="mult-v10-fields" style="display:none;">
+      <p>Cost multiplier for each class slot, in the order you join classes. The 1st (primary) slot is always ×1.</p>
+      <div id="mult-v10-rows"></div>
+      <div style="display:flex; gap:8px; margin-top:6px;">
+        <button class="io-btn" id="mult-v10-add" style="width:auto; margin:0; padding:5px 12px;">+ Add Slot Tier</button>
+        <button class="io-btn" id="mult-v10-remove" style="width:auto; margin:0; padding:5px 12px;">− Remove Last Tier</button>
+      </div>
+    </div>
+
+    <div id="mult-v7-fields" style="display:none;">
+      <p>Cost multiplier by ring distance between your primary class and the class you're buying from (0 = your own class).</p>
+      <span class="edit-field-label">Ordinary Skills</span>
+      <div id="mult-v7-ordinary-rows" class="mult-grid"></div>
+      <span class="edit-field-label">Anchor Skills</span>
+      <div id="mult-v7-anchor-rows" class="mult-grid"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" id="mult-cancel">Cancel</button>
+      <button class="btn-ok" id="mult-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- FILE MODAL -->
+<div class="modal-overlay" id="file-modal">
+  <div class="modal-box neutral" style="max-width:540px;">
+    <h3>File — Skill Data Versions</h3>
+    <p>Editor Mode edits the skill spreadsheet in memory. Use this window to save a named version, revert unsaved changes, load a different version, or export/import it as JSON.</p>
+    <div id="file-current-note" style="font-size:.78rem;color:#7dc95e;margin-bottom:12px;"></div>
+
+    <div style="display:flex; gap:8px; margin-bottom:8px;">
+      <input class="modal-input" id="file-new-name" type="text" placeholder="Name this version..." style="margin-bottom:0; flex:1;" maxlength="60">
+      <button class="btn-ok" id="file-save-new-btn">💾 Save As New</button>
+    </div>
+    <div style="display:flex; gap:8px; margin-bottom:12px;">
+      <button class="io-btn" id="file-save-current-btn" style="display:none; margin:0; width:auto; flex:1; padding:6px 12px;">💾 Save to Current Version</button>
+      <button class="io-btn" id="file-revert-btn" style="margin:0; width:auto; flex:1; padding:6px 12px;">↺ Revert Unsaved Changes</button>
+    </div>
+
+    <div id="file-list" style="max-height:240px; overflow-y:auto; border-top:1px solid #222; border-bottom:1px solid #222; padding:8px 0; margin-bottom:12px;"></div>
+
+    <div style="display:flex; gap:8px; margin-bottom:4px;">
+      <button class="io-btn" id="file-export-btn" style="margin:0; width:auto; flex:1; padding:6px 12px;">📤 Export as JSON</button>
+      <button class="io-btn" id="file-import-btn" style="margin:0; width:auto; flex:1; padding:6px 12px;">📥 Import JSON</button>
+      <input type="file" id="file-import-input" accept=".json,application/json" style="display:none">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" id="file-close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- GITHUB MODAL -->
+<div class="modal-overlay" id="gh-modal">
+  <div class="modal-box neutral" style="max-width:520px;">
+    <h3>☁ GitHub Sync</h3>
+    <p>Skill data lives in <b>skills.json</b> in your shared GitHub repo. <b>💾 Save to GitHub</b> commits your edits (with your name on it) and automatically merges with anything your collaborator saved meanwhile.</p>
+    <p style="margin-bottom:4px;"><b>One-time setup — get your token:</b></p>
+    <ol class="gh-steps">
+      <li>Open <a href="https://github.com/settings/tokens/new?scopes=public_repo&amp;description=SP%20Skill%20Editor" target="_blank" rel="noopener">this link</a> (signed in to GitHub).</li>
+      <li>Set <b>Expiration</b> to "No expiration" (or 1 year). Leave <b>public_repo</b> ticked, nothing else needed.</li>
+      <li>Click <b>Generate token</b>, copy it, and paste it below. It stays only in this browser.</li>
+    </ol>
+    <span class="edit-field-label">Your token</span>
+    <input class="modal-input" id="gh-token" type="password" placeholder="ghp_..." autocomplete="off">
+    <details>
+      <summary>Advanced (auto-detected — normally leave alone)</summary>
+      <span class="edit-field-label">Repo owner</span><input class="modal-input" id="gh-owner" type="text">
+      <span class="edit-field-label">Repo name</span><input class="modal-input" id="gh-repo" type="text">
+      <span class="edit-field-label">Branch (blank = default)</span><input class="modal-input" id="gh-branch" type="text">
+      <span class="edit-field-label">Data file path</span><input class="modal-input" id="gh-path" type="text">
+    </details>
+    <div id="gh-user-note" style="font-size:.8rem;margin-bottom:10px;min-height:1em;"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="gh-close">Close</button>
+      <button class="btn-warn" id="gh-reload">↻ Reload from GitHub</button>
+      <button class="btn-ok" id="gh-test">Save settings &amp; test</button>
+    </div>
+  </div>
+</div>
+<div id="gh-toast"></div>
+
+<!-- GENERIC CHOICE MODAL (dropdown / prompt / multi-instance label) -->
+<div class="modal-overlay" id="choice-modal">
+  <div class="modal-box neutral">
+    <h3 id="choice-title">Choose</h3>
+    <div id="choice-body"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="choice-cancel">Cancel</button>
+      <button class="btn-ok"     id="choice-confirm">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let DEFAULT_SKILL_DATA = null; // loaded from skills.json (GitHub) at start-up
+// ── Stable serializer: sorted keys, one skill per line → clean Git diffs ──
+function spSortDeep(v) {
+  if (v === null || typeof v !== 'object') return v;
+  if (Array.isArray(v)) return v.map(spSortDeep);
+  const o = {};
+  Object.keys(v).sort().forEach(k => { if (v[k] !== undefined) o[k] = spSortDeep(v[k]); });
+  return o;
+}
+function stableStringify(v, ind) {
+  ind = ind || '';
+  if (v === undefined) return 'undefined';
+  if (v === null || typeof v !== 'object') return JSON.stringify(v);
+  const pad = ind + '  ';
+  if (Array.isArray(v)) {
+    if (!v.length) return '[]';
+    return '[\n' + v.map(x => pad + stableStringify(x, pad)).join(',\n') + '\n' + ind + ']';
+  }
+  const keys = Object.keys(v).filter(k => v[k] !== undefined).sort();
+  if (!keys.length) return '{}';
+  if ('name' in v && 'cost' in v) {
+    return '{' + keys.map(k => JSON.stringify(k) + ': ' + JSON.stringify(spSortDeep(v[k]))).join(', ') + '}';
+  }
+  return '{\n' + keys.map(k => pad + JSON.stringify(k) + ': ' + stableStringify(v[k], pad)).join(',\n') + '\n' + ind + '}';
+}
+
+</script>
+<script>
+// ═══════════════════════════════════════════════════════
+// DATA ADAPTER — turns the v8 two-anchor skill data into a
+// flat, render-friendly model per class. DATA/META/CLASSES are
+// `let`, not `const`, because the Skill Data Archive feature lets
+// the whole data set be swapped out at runtime (see ARCHIVE SYSTEM below).
+// ═══════════════════════════════════════════════════════
+
+let DATA, META, CLASSES;
+
+// Warlock's "Eldritch Invocations" chassis block isn't structurally separated
+// in the source data, so we split it out by name here so it can render as an
+// inset list under Anchor 2, per the request.
+const WARLOCK_NON_INVOCATION_NAMES = new Set([
+  'Magical Cunning','Contact Patron','Mystic Arcanum',
+  'Warlock Casting 1','Warlock Casting 2','Warlock Casting 3','Warlock Casting 4',
+  'Warlock Casting 5','Warlock Casting 6','Warlock Casting 7','Warlock Casting 8',
+  'Warlock Casting 9','Warlock Casting 10'
+]);
+
+function buildClassModel(clsName) {
+  const raw = DATA.classes[clsName];
+  const byName = {};
+  const all = [];
+  let counter = 0;
+
+  function reg(rawSkill, category, wingKey) {
+    const id = clsName + '__' + category + '__' + (counter++);
+    const notes = rawSkill.notes || '';
+    const multi = /purchased multiple times/i.test(notes) || /choose an individual weapon proficiency on purchase/i.test(notes);
+    const entry = {
+      id, cls: clsName,
+      name: rawSkill.name,
+      level: rawSkill.level || 1,
+      cost: (rawSkill.cost === undefined) ? null : rawSkill.cost,
+      tier: rawSkill.tier || '?',
+      notes,
+      rawPrereq: rawSkill.prereq || null,
+      prereqIds: [],
+      chain: !!rawSkill.chain,
+      ranked: rawSkill.ranked || null,
+      style: !!rawSkill.style,
+      feat: !!rawSkill.feat,
+      selector: rawSkill.selector || null,
+      incomplete: !!rawSkill.incomplete || rawSkill.cost === null || rawSkill.cost === undefined,
+      wingBuyIn: !!rawSkill.wingBuyIn,
+      category, wingKey: wingKey || null,
+      multi,
+      active: rawSkill.active !== false,
+      raw: rawSkill,
+    };
+    byName[entry.name] = id;
+    all.push(entry);
+    return entry;
+  }
+
+  // Anchor 2 is sometimes a generic "pick a wing" placeholder (specialization
+  // gate pattern) — in that case each wing's own Buy-In *is* Anchor 2 and we
+  // don't render the generic placeholder separately.
+  const anchor2IsWingGate = !!(raw.anchor2 && raw.anchor2.wingBuyIn);
+
+  const anchor1 = reg(raw.anchor1, 'anchor1');
+  const anchor2 = anchor2IsWingGate ? null : reg(raw.anchor2, 'anchor2');
+
+  let chassisRaw = raw.chassis || [];
+  let invocations = null;
+  if (clsName === 'Warlock') {
+    invocations = chassisRaw.filter(s => !WARLOCK_NON_INVOCATION_NAMES.has(s.name));
+    chassisRaw = chassisRaw.filter(s => WARLOCK_NON_INVOCATION_NAMES.has(s.name));
+  }
+  const chassis = chassisRaw.map(s => reg(s, 'chassis'));
+  const invocationSkills = invocations ? invocations.map(s => reg(s, 'invocation')) : null;
+
+  const wings = (raw.wings || []).map(w => {
+    const buyIn = reg(w.buyIn, 'wingBuyIn', w.key);
+    buyIn.isAnchor2Option = anchor2IsWingGate;
+    const skills = (w.skills || []).map(s => reg(s, 'wingSkill', w.key));
+    return { key: w.key, buyIn, skills };
+  });
+
+  const orthogonal = (raw.orthogonal || []).map(s => reg(s, 'orthogonal'));
+
+  // resolve prereqs now that every skill in the class is registered
+  all.forEach(e => {
+    if (e.category === 'wingSkill') {
+      const wing = wings.find(w => w.key === e.wingKey);
+      if (wing) e.prereqIds.push(wing.buyIn.id);
+    }
+    if (e.category === 'invocation' && anchor2) {
+      // Invocations are conceptually gated under Anchor 2, but per the class's
+      // cross-class note they remain individually purchasable without it —
+      // so we do NOT add anchor2 as a hard prereq here. See isNative().
+    }
+    if (e.rawPrereq) {
+      // exact match first
+      let pid = byName[e.rawPrereq];
+      if (!pid) {
+        // fuzzy: "Pact of the Blade" -> "Pact Boon: Blade", "Champion Buy-In" -> wing buy-in, etc.
+        const needle = e.rawPrereq.toLowerCase();
+        const hit = all.find(o => o.id !== e.id && (
+          needle.includes(o.name.toLowerCase()) ||
+          o.name.toLowerCase().includes(needle) ||
+          (wingKeyword(needle) && o.name.toLowerCase().includes(wingKeyword(needle)))
+        ));
+        if (hit) pid = hit.id;
+      }
+      if (pid && !e.prereqIds.includes(pid)) e.prereqIds.push(pid);
+    }
+  });
+
+  function wingKeyword(s) {
+    const m = s.match(/pact of the (\w+)/i) || s.match(/(\w+) buy-in/i);
+    return m ? m[1].toLowerCase() : null;
+  }
+
+  return {
+    name: clsName, raw, anchor1, anchor2, anchor2IsWingGate,
+    chassis, wings, orthogonal, invocationSkills,
+    byName, all,
+    crossClassNote: raw.crossClassNote || null,
+  };
+}
+
+const MODELS = {};
+
+function loadDataSet(newData) {
+  DATA = newData;
+  META = DATA.meta;
+  CLASSES = META.ring;
+  Object.keys(MODELS).forEach(k => delete MODELS[k]);
+  CLASSES.forEach(c => { MODELS[c] = buildClassModel(c); });
+}
+
+function rebuildModel(cls) { MODELS[cls] = buildClassModel(cls); }
+
+// ── Editor-mode data mutation helpers ──
+// These mutate DATA.classes[cls] (the raw v8 data) in place, then rebuild the
+// affected class model(s) so ids/prereqs/byName all re-resolve cleanly.
+function locateRawArray(skill) {
+  const clsRaw = DATA.classes[skill.cls];
+  if (skill.category === 'chassis' || skill.category === 'invocation') return clsRaw.chassis;
+  if (skill.category === 'orthogonal') { if (!clsRaw.orthogonal) clsRaw.orthogonal = []; return clsRaw.orthogonal; }
+  if (skill.category === 'wingSkill') {
+    const wing = (clsRaw.wings || []).find(w => w.key === skill.wingKey);
+    return wing ? wing.skills : null;
+  }
+  return null; // anchor1 / anchor2 / wingBuyIn are structural — not migratable
+}
+function migrateSkill(skill, destCls) {
+  const arr = locateRawArray(skill);
+  if (!arr) return false;
+  const idx = arr.indexOf(skill.raw);
+  if (idx === -1) return false;
+  arr.splice(idx, 1);
+  DATA.classes[destCls].chassis.push(skill.raw);
+  rebuildModel(skill.cls);
+  rebuildModel(destCls);
+  return true;
+}
+function copySkill(skill, destCls) {
+  const clone = Object.assign({}, skill.raw);
+  DATA.classes[destCls].chassis.push(clone);
+  rebuildModel(destCls);
+}
+function createSkill(destCls, category, wingKey, fields) {
+  const raw = Object.assign({}, fields);
+  const clsRaw = DATA.classes[destCls];
+  if (category === 'orthogonal') { if (!clsRaw.orthogonal) clsRaw.orthogonal = []; clsRaw.orthogonal.push(raw); }
+  else if (category === 'wingSkill') {
+    const wing = (clsRaw.wings || []).find(w => w.key === wingKey);
+    if (wing) wing.skills.push(raw); else clsRaw.chassis.push(raw);
+  } else {
+    clsRaw.chassis.push(raw);
+  }
+  rebuildModel(destCls);
+}
+
+function findSkillById(id) {
+  for (const c of CLASSES) {
+    const f = MODELS[c].all.find(s => s.id === id);
+    if (f) return f;
+  }
+  return null;
+}
+
+function isAnchorPriced(skill) {
+  // Cosmetic only now (⚓ badge) — pricing no longer distinguishes anchors.
+  if (skill.category === 'anchor1' || skill.category === 'anchor2') return true;
+  if (skill.category === 'wingBuyIn' && skill.isAnchor2Option) return true;
+  return false;
+}
+
+// ── Pricing modes ──
+// 'v10' = multiclass slot system: primary ×1, then each further class you
+//   ever buy from locks in at the next slot's multiplier, permanently.
+// 'v7'  = ring-adjacency system: every class is always purchasable, priced
+//   by ring distance from your primary class (no lock-in, no class cap),
+//   with separate multiplier tables for ordinary skills vs Anchors.
+let pricingMode = 'v10';
+
+function getSlotMults() {
+  if (!META.slotMultipliers || !META.slotMultipliers.length) META.slotMultipliers = [1, 1.5, 2, 3];
+  return META.slotMultipliers;
+}
+function maxClasses() { return getSlotMults().length; }
+
+function classSlotIndex(cls) {
+  return (S.classOrder || []).indexOf(cls);
+}
+function classSlotMultiplier(cls) {
+  if (!S.buildStarted) return 1;
+  const mults = getSlotMults();
+  const idx = classSlotIndex(cls);
+  if (idx >= 0) return mults[idx];
+  if ((S.classOrder || []).length >= maxClasses()) return null; // locked out
+  return mults[S.classOrder.length]; // prospective slot if bought next
+}
+function classLockedOut(cls) {
+  if (pricingMode === 'v7') return false; // ring mode has no class cap
+  return S.buildStarted && classSlotIndex(cls) === -1 && (S.classOrder || []).length >= maxClasses();
+}
+
+function ringDist(a, b) {
+  if (!a) return 0;
+  const A = CLASSES.indexOf(a), B = CLASSES.indexOf(b);
+  const d = Math.abs(A - B);
+  return Math.min(d, CLASSES.length - d);
+}
+function ringMultFor(primary, target, isAnchor) {
+  if (!S.buildStarted || !primary) return 1;
+  const table = (META.crossClassArrays && META.crossClassArrays[isAnchor ? 'anchor' : 'ordinary']) || {};
+  const d = ringDist(primary, target);
+  if (table[d] !== undefined) return table[d];
+  const keys = Object.keys(table).map(Number);
+  if (!keys.length) return 1;
+  return table[Math.max(...keys)];
+}
+
+// Single entry point every cost/UI calculation should go through.
+function currentMultiplier(cls, isAnchor) {
+  return pricingMode === 'v7' ? ringMultFor(S.primaryClass, cls, isAnchor) : classSlotMultiplier(cls);
+}
+
+function classColor(cls) {
+  if (!S.buildStarted) return '';
+  if (pricingMode === 'v7') {
+    const d = ringDist(S.primaryClass, cls);
+    return d === 0 ? 'col-green' : d <= 2 ? 'col-yellow' : d <= 4 ? 'col-orange' : 'col-red';
+  }
+  const idx = classSlotIndex(cls);
+  if (idx === 0) return 'col-green';
+  if (idx === 1) return 'col-yellow';
+  if (idx === 2) return 'col-orange';
+  if (idx === 3) return 'col-red';
+  if (classLockedOut(cls)) return 'col-locked';
+  return '';
+}
+function slotBadgeText(cls) {
+  if (pricingMode === 'v7') {
+    if (!S.buildStarted) return '';
+    if (cls === S.primaryClass) return ' ★';
+    const m = ringMultFor(S.primaryClass, cls, false);
+    return m > 1 ? ` ×${m}` : ' ×1';
+  }
+  const mults = getSlotMults();
+  const idx = classSlotIndex(cls);
+  if (idx === 0) return ' ★';
+  if (idx >= 1) return ` ${ordinalIcon(idx)}×${mults[idx]}`;
+  if (classLockedOut(cls)) return ' 🚫';
+  return '';
+}
+function ordinalIcon(idx) {
+  const icons = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨'];
+  return icons[idx] || ('#' + (idx + 1));
+}
+function ordinalWord(n) {
+  const s = ['th', 'st', 'nd', 'rd'], v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+
+let editorMode = false;
+
+let S = {
+  name: '', primaryClass: null, buildStarted: false,
+  level: 1, pointsSpent: 0,
+  // purchased[id] = { name, cls, cost (total spent on this id), lastLevel,
+  //                   ranks? , instances? [{label,cost,lvl}], choice? }
+  purchased: {},
+  // classOrder[0] is always the primary class (×1). Each subsequent entry is
+  // the next class you ever bought a skill from, in the order you joined it.
+  classOrder: [],
+  activeClass: null,
+  descSkillId: null, descLocked: false,
+};
+
+const totalPts = () => (META.startingPoints != null ? META.startingPoints : 40) + (S.level - 1) * (META.pointsPerLevel != null ? META.pointsPerLevel : 10);
+const availPts = () => totalPts() - S.pointsSpent;
+
+function isOwnedAny(id) {
+  const p = S.purchased[id];
+  if (!p) return false;
+  if (p.ranks !== undefined) return p.ranks > 0;
+  if (p.instances) return p.instances.length > 0;
+  return true;
+}
+function prereqsMet(skill) { return skill.prereqIds.every(pid => isOwnedAny(pid)); }
+
+function skillCost(skill) {
+  if (skill.cost === null || skill.cost === undefined) return null;
+  const base = skill.ranked ? skill.ranked.costPerRank : skill.cost;
+  const mult = currentMultiplier(skill.cls, isAnchorPriced(skill));
+  if (mult === null) return null; // 5th class — cannot be bought (v10 only)
+  return Math.ceil(base * mult * 100) / 100;
+}
+
+function chainBlockedThisLevel(skill) {
+  const p = S.purchased[skill.id];
+  if (skill.ranked || skill.multi) return p && p.lastLevel === S.level;
+  if (skill.chain) {
+    for (const pid of skill.prereqIds) {
+      const ps = findSkillById(pid);
+      if (ps && ps.chain) {
+        const pp = S.purchased[pid];
+        if (pp && pp.lastLevel === S.level) return true;
+      }
+    }
+  }
+  return false;
+}
+
+function orthogonalBlocked(skill) {
+  if (skill.category !== 'orthogonal') return false;
+  const model = MODELS[skill.cls];
+  return model.orthogonal.some(o => o.id !== skill.id && isOwnedAny(o.id));
+}
+
+function canAttemptPurchase(skill) {
+  if (skill.incomplete) return false;
+  if (classLockedOut(skill.cls)) return false;
+  if (skill.level && S.level < skill.level) return false;
+  if (!prereqsMet(skill)) return false;
+  if (chainBlockedThisLevel(skill)) return false;
+  if (orthogonalBlocked(skill)) return false;
+  if (skill.ranked) {
+    const p = S.purchased[skill.id];
+    if (p && p.ranks >= (skill.ranked.maxRanks || 99)) return false;
+  } else if (!skill.multi) {
+    if (isOwnedAny(skill.id)) return false;
+  }
+  return true;
+}
+
+// ── Warlock invocation "native vs cursed object" framing ──
+function warlockHasPatronsPact() {
+  return isOwnedAny(MODELS.Warlock.anchor1.id);
+}
+
+// ═══════════════════════════════════════════════════════
+// CLASS BAR
+// ═══════════════════════════════════════════════════════
+
+function buildClassBar() {
+  const inner = document.getElementById('class-bar-inner');
+  inner.innerHTML = '';
+  for (let rep = 0; rep < 3; rep++) {
+    CLASSES.forEach((cls, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'cls-btn';
+      btn.textContent = cls;
+      btn.dataset.cls = cls;
+      btn.dataset.rep = String(rep);
+      btn.dataset.idx = String(i);
+      btn.addEventListener('click', () => selectActiveClass(cls));
+      inner.appendChild(btn);
+    });
+  }
+  if (S.activeClass) refreshClassBar();
+}
+
+function selectActiveClass(cls) {
+  S.activeClass = cls;
+  if (!S.buildStarted) {
+    document.getElementById('begin-cls').textContent = cls;
+    document.getElementById('begin-btn').classList.add('visible');
+    const cd = document.getElementById('class-display');
+    cd.textContent = cls; cd.className = 'has-class';
+  }
+  refreshClassBar();
+  renderCenterPanel();
+  updateTopBar();
+}
+
+function refreshClassBar() {
+  const inner = document.getElementById('class-bar-inner');
+  const scroll = document.getElementById('class-bar-scroll');
+  const btns = Array.from(inner.querySelectorAll('.cls-btn'));
+
+  btns.forEach(btn => {
+    const cls = btn.dataset.cls;
+    const isActive = cls === S.activeClass;
+    const col = classColor(cls);
+    btn.className = 'cls-btn' + (isActive ? ' active' : '') + (col ? ' ' + col : '');
+    btn.textContent = cls + (S.buildStarted ? slotBadgeText(cls) : '');
+  });
+
+  refreshMulticlassStrip();
+
+  if (!S.activeClass) return;
+  const activeIdx = CLASSES.indexOf(S.activeClass);
+  const target = btns.find(b => parseInt(b.dataset.rep) === 1 && parseInt(b.dataset.idx) === activeIdx);
+  if (!target) return;
+  requestAnimationFrame(() => {
+    const scrollW = scroll.offsetWidth;
+    const btnLeft = target.offsetLeft;
+    const btnW = target.offsetWidth;
+    let offset = btnLeft - scrollW / 2 + btnW / 2;
+    offset = Math.max(0, offset);
+    inner.style.transform = `translateX(${-offset}px)`;
+  });
+}
+
+function refreshMulticlassStrip() {
+  const bar = document.getElementById('multiclass-bar');
+  if (!S.buildStarted || pricingMode !== 'v10') { bar.classList.remove('visible'); return; }
+  bar.classList.add('visible');
+  const mults = getSlotMults();
+  const palette = ['#7dc95e', '#c8b84b', '#d48040', '#d45e6e', '#b090e0', '#6ac0c0'];
+  const inner = document.getElementById('mc-slots-inner');
+  inner.innerHTML = mults.map((m, i) => {
+    const cls = S.classOrder[i];
+    const color = palette[i % palette.length];
+    const label = ordinalWord(i + 1) + ' — ×' + m;
+    if (cls) {
+      return `<span class="mc-chip" style="border-color:${color}55; color:${color};">${ordinalWord(i + 1)}: ${cls} ×${m}</span>`;
+    }
+    return `<span class="mc-chip empty">${label}</span>`;
+  }).join('');
+}
+
+function shiftBar(dir) {
+  const idx = S.activeClass ? CLASSES.indexOf(S.activeClass) : 0;
+  selectActiveClass(CLASSES[((idx + dir) + CLASSES.length) % CLASSES.length]);
+}
+document.getElementById('cbar-left').addEventListener('click', () => shiftBar(-1));
+document.getElementById('cbar-right').addEventListener('click', () => shiftBar(1));
+
+// ═══════════════════════════════════════════════════════
+// DESCRIPTION PANEL
+// ═══════════════════════════════════════════════════════
+
+function categoryLabel(skill) {
+  switch (skill.category) {
+    case 'anchor1': return 'Anchor 1';
+    case 'anchor2': return 'Anchor 2';
+    case 'wingBuyIn': return skill.isAnchor2Option ? 'Wing Buy-In (Anchor 2)' : 'Wing Buy-In';
+    case 'wingSkill': return 'Wing Skill — ' + skill.wingKey;
+    case 'orthogonal': return 'Orthogonal Pick';
+    case 'invocation': return warlockHasPatronsPact() ? 'Invocation (Native)' : 'Invocation (Cursed Object)';
+    default: return 'Chassis';
+  }
+}
+function categoryCss(skill) {
+  switch (skill.category) {
+    case 'anchor1': case 'anchor2': return 'anchor';
+    case 'wingBuyIn': return 'wingbuyin';
+    case 'wingSkill': return 'wingskill';
+    case 'orthogonal': return 'orthogonal';
+    case 'invocation': return warlockHasPatronsPact() ? 'wingskill' : 'cursed';
+    default: return 'chassis';
+  }
+}
+
+function showDesc(skillId, locked) {
+  S.descSkillId = skillId; S.descLocked = locked;
+  const skill = findSkillById(skillId);
+  if (!skill) return;
+
+  document.getElementById('desc-placeholder').style.display = 'none';
+  document.getElementById('desc-content').style.display = 'block';
+  document.getElementById('desc-name').textContent = skill.name + (skill.style ? ' ⚔' : '');
+
+  const anchored = isAnchorPriced(skill);
+  const mult = currentMultiplier(skill.cls, anchored);
+  const cost = skillCost(skill);
+  const costEl = document.getElementById('desc-cost');
+  if (skill.incomplete) {
+    costEl.textContent = '? (incomplete)';
+    costEl.className = 'desc-cost';
+  } else if (mult === null) {
+    costEl.textContent = 'locked — 5th class';
+    costEl.className = 'desc-cost locked';
+  } else {
+    costEl.textContent = cost + 'pt' + (mult > 1 ? ` (${mult}×)` : '');
+    costEl.className = 'desc-cost' + (mult === 1.5 ? ' x15' : mult === 2 ? ' x2' : mult >= 3 ? ' x3' : '') + (anchored ? ' anchor' : '');
+  }
+
+  document.getElementById('desc-text').textContent = skill.notes;
+
+  let pre = '';
+  if (skill.prereqIds.length) {
+    skill.prereqIds.forEach(pid => {
+      const met = isOwnedAny(pid);
+      const f = findSkillById(pid);
+      pre += `<div class="desc-prereq-row ${met ? 'met' : 'unmet'}">${met ? '✓' : '✗'} ${f ? f.name : pid}</div>`;
+    });
+  } else {
+    pre = '<div class="desc-prereq-row met">✓ No prerequisites</div>';
+  }
+  document.getElementById('desc-prereqs').innerHTML = pre;
+
+  const lvlEl = document.getElementById('desc-lvl');
+  if (skill.level && skill.level > 1) {
+    const ok = S.level >= skill.level;
+    lvlEl.textContent = `Min Level ${skill.level}` + (ok ? ' ✓' : ` (currently ${S.level})`);
+    lvlEl.className = 'desc-lvl-req ' + (ok ? 'ok' : 'bad');
+    lvlEl.style.display = 'block';
+  } else { lvlEl.style.display = 'none'; }
+
+  const chainEl = document.getElementById('desc-chain');
+  if ((skill.chain || skill.ranked || skill.multi) && chainBlockedThisLevel(skill)) {
+    chainEl.textContent = '⚠ Already advanced this level — available next level.';
+    chainEl.style.display = 'block';
+  } else { chainEl.style.display = 'none'; }
+
+  const cursedEl = document.getElementById('desc-cursed');
+  if (skill.category === 'invocation' && !warlockHasPatronsPact()) {
+    cursedEl.textContent = "⚠ Without Patron's Pact this invocation is fixed to a cursed object or tainted experience, not freely reconfigurable.";
+    cursedEl.style.display = 'block';
+  } else { cursedEl.style.display = 'none'; }
+
+  const joinEl = document.getElementById('desc-join');
+  if (pricingMode === 'v10' && S.buildStarted && classSlotIndex(skill.cls) === -1 && !classLockedOut(skill.cls)) {
+    const nextSlot = S.classOrder.length; // 0-based index it would take
+    joinEl.textContent = `Buying this locks in ${skill.cls} as your class #${nextSlot + 1} (×${getSlotMults()[nextSlot]} on everything from ${skill.cls}, permanently).`;
+    joinEl.style.display = 'block';
+  } else { joinEl.style.display = 'none'; }
+
+  buildDescActions(skill);
+  document.getElementById('desc-lock-hint').textContent = locked ? 'Click elsewhere to unlock' : '';
+}
+
+function buildDescActions(skill) {
+  const el = document.getElementById('desc-actions');
+
+  const cost = skillCost(skill);
+
+  if (!S.buildStarted) {
+    el.innerHTML = `<button class="desc-btn off" style="flex:1">Start build to purchase</button>`;
+    return;
+  }
+  if (skill.incomplete) {
+    el.innerHTML = `<button class="desc-btn off" style="flex:1">Incomplete in source — cannot buy</button>`;
+    return;
+  }
+  const canAfford = availPts() >= cost;
+  const avail = canAttemptPurchase(skill);
+
+  if (skill.ranked) {
+    const p = S.purchased[skill.id];
+    const ranks = p ? p.ranks : 0;
+    const max = skill.ranked.maxRanks || 99;
+    if (ranks >= max) {
+      el.innerHTML = `<button class="desc-btn off">Max ranks (${ranks}/${max})</button>` +
+        (ranks > 0 ? `<button class="desc-btn drop" onclick="tryDrop('${skill.id}')">Drop all</button>` : '');
+    } else if (!avail) {
+      el.innerHTML = `<button class="desc-btn off" style="flex:1">${unavailReason(skill)}</button>`;
+    } else if (!canAfford) {
+      el.innerHTML = `<button class="desc-btn off" style="flex:1">Need ${cost - availPts()} more pts</button>`;
+    } else {
+      el.innerHTML = `<button class="desc-btn buy" onclick="buySkill('${skill.id}')">Buy rank ${ranks + 1} · ${cost}pt</button>` +
+        (ranks > 0 ? `<button class="desc-btn drop" onclick="tryDrop('${skill.id}')">Drop all</button>` : '');
+    }
+    return;
+  }
+
+  if (skill.multi) {
+    const p = S.purchased[skill.id];
+    const n = p ? p.instances.length : 0;
+    let html = '';
+    if (!avail) html = `<button class="desc-btn off" style="flex:1">${unavailReason(skill)}</button>`;
+    else if (!canAfford) html = `<button class="desc-btn off" style="flex:1">Need ${cost - availPts()} more pts</button>`;
+    else html = `<button class="desc-btn buy" onclick="buySkill('${skill.id}')">Buy ${n ? 'another' : ''} · ${cost}pt</button>`;
+    if (n) html += `<button class="desc-btn drop" onclick="tryDropInstance('${skill.id}')">Remove one</button>`;
+    el.innerHTML = html;
+    return;
+  }
+
+  const owned = isOwnedAny(skill.id);
+  if (owned) {
+    el.innerHTML = `<button class="desc-btn off">Owned</button>
+      <button class="desc-btn drop" onclick="tryDrop('${skill.id}')">Drop</button>`;
+  } else if (!avail) {
+    el.innerHTML = `<button class="desc-btn off" style="flex:1">${unavailReason(skill)}</button>`;
+  } else if (!canAfford) {
+    el.innerHTML = `<button class="desc-btn off" style="flex:1">Need ${cost - availPts()} more pts</button>`;
+  } else {
+    el.innerHTML = `<button class="desc-btn buy" onclick="buySkill('${skill.id}')">Buy · ${cost}pt</button>`;
+  }
+}
+
+function unavailReason(skill) {
+  if (classLockedOut(skill.cls)) return `All ${maxClasses()} class slots are filled — cannot add another class`;
+  if (skill.level && S.level < skill.level) return `Need level ${skill.level}`;
+  if (orthogonalBlocked(skill)) return 'Already chose an orthogonal pick';
+  if (chainBlockedThisLevel(skill)) return 'Already advanced this level';
+  if (!prereqsMet(skill)) {
+    if (skill.category === 'wingSkill') {
+      const wing = MODELS[skill.cls].wings.find(w => w.key === skill.wingKey);
+      return `Requires ${wing.buyIn.name}`;
+    }
+    return 'Prereqs not met';
+  }
+  return 'Unavailable';
+}
+
+function clearDesc() {
+  if (S.descLocked) return;
+  S.descSkillId = null;
+  document.getElementById('desc-placeholder').style.display = 'block';
+  document.getElementById('desc-content').style.display = 'none';
+}
+function unlockDesc() {
+  S.descLocked = false; clearDesc();
+  document.querySelectorAll('.skill-row,.acq-row').forEach(r => r.classList.remove('selected'));
+}
+document.addEventListener('click', e => {
+  if (!S.descLocked) return;
+  if (document.getElementById('desc-panel').contains(e.target)) return;
+  if (e.target.closest('.skill-row')) return;
+  if (e.target.closest('.acq-row')) return;
+  unlockDesc();
+});
+
+// ═══════════════════════════════════════════════════════
+// SKILL LIST RENDERING
+// ═══════════════════════════════════════════════════════
+
+function renderSkillRow(skill, extraClasses) {
+  const owned = isOwnedAny(skill.id);
+  const avail = canAttemptPurchase(skill);
+  const cost = skillCost(skill);
+  const canAfford = cost !== null && availPts() >= cost;
+  const sel = S.descSkillId === skill.id;
+  const mult = currentMultiplier(skill.cls, isAnchorPriced(skill));
+
+  let rc = 'skill-row ' + (extraClasses || '');
+  if (skill.category === 'anchor1' || skill.category === 'anchor2') rc += ' anchor-row';
+  if (skill.category === 'wingBuyIn') rc += ' wingbuyin-row';
+  if (skill.category === 'wingSkill') rc += ' wing-skill-row';
+  if (skill.category === 'invocation' && !warlockHasPatronsPact()) rc += ' cursed-row';
+  if (owned) rc += ' owned';
+  if (S.buildStarted && !owned && (!avail || !canAfford)) rc += ' dim';
+  if (sel) rc += ' selected';
+  if (skill.active === false) rc += ' disabled-row';
+
+  const catCss = categoryCss(skill);
+  const lvlTag = (skill.level && skill.level > 1) ? `<span class="skill-lvl-tag">Lv${skill.level}</span>` : '';
+  const rankTag = skill.ranked ? `<span class="rank-tag">${(S.purchased[skill.id] && S.purchased[skill.id].ranks) || 0}/${skill.ranked.maxRanks || '∞'}</span>` : '';
+  const multiTag = skill.multi && S.purchased[skill.id] ? `<span class="rank-tag">×${S.purchased[skill.id].instances.length}</span>` : '';
+  const pip = owned ? '<div class="owned-pip"></div>' : '';
+  const incompleteTag = skill.incomplete ? ' ⚠' : '';
+  const disabledTag = (skill.active === false) ? ' [DISABLED]' : '';
+  const ptsClass = 'skill-pts-tag' + (mult === 1.5 ? ' x15' : mult === 2 || mult === 3 ? ' x2' : '') + (isAnchorPriced(skill) ? ' anchor' : '');
+  const ptsText = cost === null ? '🚫' : cost + 'pt';
+
+  return `<div class="${rc}" data-id="${skill.id}"
+    onmouseenter="onHover('${skill.id}')" onmouseleave="onLeave()"
+    onclick="onSkillClick('${skill.id}', event)">
+    <span class="skill-name sk-${catCss}${skill.feat ? ' sk-feat' : ''}">${skill.name}${incompleteTag}${disabledTag}</span>
+    ${lvlTag}${rankTag}${multiTag}
+    <span class="${ptsClass}">${ptsText}</span>${pip}
+  </div>`;
+}
+
+function renderByLevel(skills, rowClass) {
+  const visible = skills.filter(s => editorMode || s.active !== false);
+  const sorted = [...visible].sort((a, b) => (a.level || 1) - (b.level || 1));
+  let html = '';
+  let curLevel = null;
+  sorted.forEach(sk => {
+    const lvl = sk.level || 1;
+    if (lvl !== curLevel) {
+      html += `<div class="level-divider"><span>LEVEL ${lvl}</span></div>`;
+      curLevel = lvl;
+    }
+    html += renderSkillRow(sk, rowClass);
+  });
+  return html;
+}
+function maybeRow(skill, rowClass) {
+  if (!skill) return '';
+  if (!editorMode && skill.active === false) return '';
+  return renderSkillRow(skill, rowClass);
+}
+
+function renderSkillList() {
+  const cls = S.activeClass;
+  const badge = document.getElementById('cross-badge');
+  const list = document.getElementById('skill-list');
+
+  if (!cls) {
+    badge.className = 'cross-badge';
+    list.innerHTML = '<div style="color:#2a2a2a;font-style:italic;font-size:.9rem;padding:16px 0;">Click a class above.</div>';
+    return;
+  }
+
+  if (S.buildStarted) {
+    if (pricingMode === 'v7') {
+      const d = ringDist(S.primaryClass, cls);
+      const mOrd = ringMultFor(S.primaryClass, cls, false);
+      const mAnc = ringMultFor(S.primaryClass, cls, true);
+      badge.textContent = cls === S.primaryClass
+        ? 'Primary class · ×1'
+        : `Ring distance ${d} · ×${mOrd} ordinary / ×${mAnc} anchor`;
+      badge.className = 'cross-badge ' + (mOrd === 1 ? 'x1' : mOrd === 1.5 ? 'x15' : 'x2');
+    } else {
+      const idx = classSlotIndex(cls);
+      const mults = getSlotMults();
+      if (idx === 0) {
+        badge.textContent = 'Primary class · ×1'; badge.className = 'cross-badge x1';
+      } else if (idx > 0) {
+        const m = mults[idx];
+        badge.textContent = `Class #${idx + 1} (joined) · ×${m}`;
+        badge.className = 'cross-badge ' + (m === 1.5 ? 'x15' : 'x2');
+      } else if (classLockedOut(cls)) {
+        badge.textContent = `All ${maxClasses()} class slots filled — locked out`;
+        badge.className = 'cross-badge x2';
+      } else {
+        const m = mults[S.classOrder.length];
+        badge.textContent = `Would become class #${S.classOrder.length + 1} · ×${m}`;
+        badge.className = 'cross-badge ' + (m === 1.5 ? 'x15' : 'x2');
+      }
+    }
+  } else {
+    badge.className = 'cross-badge';
+  }
+
+  const model = MODELS[cls];
+  let html = '';
+
+  if (editorMode && !S.buildStarted) {
+    html += `<div class="editor-banner">🛠 Editor Mode — click any skill for edit options (rename, cost, prereq, disable/enable, migrate or copy to another class). Disabled skills show struck-through here but are hidden once Editor Mode is off.<br><br>💾 To keep your changes: open <b>📚 Skill Data</b> in the top bar and <b>Save As New</b> — that's a named, permanent version stored right in this program (in your browser), and you can switch back to it or to GitHub Version any time before starting a build. Export/Copy Skill Data (below) are for taking a copy outside the browser.</div>`;
+  }
+
+  if (model.crossClassNote) {
+    html += `<div class="cross-note">${model.crossClassNote}</div>`;
+  }
+
+  // ── Anchors ──
+  html += `<div class="section-label">Anchors</div>`;
+  html += maybeRow(model.anchor1);
+  if (model.anchor2) {
+    html += maybeRow(model.anchor2);
+  } else {
+    html += `<div class="wing-note">Anchor 2 is the Buy-In for whichever Subclass Wing you choose below.</div>`;
+  }
+
+  // ── Chassis ──
+  html += `<div class="section-label">Chassis</div>`;
+  html += renderByLevel(model.chassis, '');
+
+  // ── Warlock invocations (inset under Anchor 2) ──
+  if (model.invocationSkills) {
+    const native = warlockHasPatronsPact();
+    html += `<div class="section-label">Eldritch Invocations ${native ? '— Native Access' : '— Individually as Cursed Objects'}</div>`;
+    html += renderByLevel(model.invocationSkills, 'wing-skill-row');
+  }
+
+  // ── Orthogonal picks ──
+  if (model.orthogonal.length) {
+    html += `<div class="section-label">Orthogonal Pick</div>`;
+    model.orthogonal.forEach(sk => { html += maybeRow(sk); });
+  }
+
+  // ── Subclass Wings ──
+  if (model.wings.length) {
+    html += `<div class="section-label">Subclass Wings</div>`;
+    model.wings.forEach(wing => {
+      const unlocked = isOwnedAny(wing.buyIn.id);
+      html += `<div class="wing-block">`;
+      html += `<div class="wing-header">${wing.key}${!unlocked ? '<span class="wing-lock">🔒 locked until Buy-In is purchased</span>' : ''}</div>`;
+      html += maybeRow(wing.buyIn);
+      html += renderByLevel(wing.skills, 'wing-skill-row' + (!unlocked ? ' chain-locked' : ''));
+      html += `</div>`;
+    });
+  }
+
+  list.innerHTML = html;
+
+  // This render path only runs outside Editor Mode (see renderCenterPanel),
+  // so the editor-only toolbar buttons are always hidden here.
+  document.getElementById('add-skill-btn').classList.remove('visible');
+  document.getElementById('multiplier-btn').classList.remove('visible');
+}
+
+function onHover(id) {
+  if (S.descLocked) return;
+  showDesc(id, false);
+  document.querySelectorAll('.skill-row').forEach(r => r.classList.toggle('selected', r.dataset.id === id));
+}
+function onLeave() {
+  if (S.descLocked) return;
+  clearDesc();
+  document.querySelectorAll('.skill-row').forEach(r => r.classList.remove('selected'));
+}
+function onSkillClick(id, e) {
+  e.stopPropagation();
+  if (S.descLocked && S.descSkillId === id) {
+    unlockDesc();
+  } else {
+    S.descLocked = false;
+    showDesc(id, true);
+    document.querySelectorAll('.skill-row').forEach(r => r.classList.toggle('selected', r.dataset.id === id));
+    document.querySelectorAll('.acq-row').forEach(r => r.classList.remove('selected'));
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// ACQUIRED PANEL
+// ═══════════════════════════════════════════════════════
+
+function renderAcquired() {
+  const list = document.getElementById('acquired-list');
+  const ids = Object.keys(S.purchased);
+  if (!ids.length) { list.innerHTML = '<div class="acq-placeholder">No skills purchased yet.</div>'; return; }
+
+  const groups = {};
+  ids.forEach(id => {
+    const p = S.purchased[id];
+    const skill = findSkillById(id);
+    if (!groups[p.cls]) groups[p.cls] = [];
+    if (p.ranks !== undefined) {
+      groups[p.cls].push({ id, name: `${p.name} (rank ${p.ranks}${skill && skill.ranked && skill.ranked.maxRanks ? '/' + skill.ranked.maxRanks : ''})`, pts: p.cost, cat: skill ? categoryCss(skill) : 'chassis' });
+    } else if (p.instances) {
+      p.instances.forEach((inst, i) => {
+        groups[p.cls].push({ id, name: `${p.name}: ${inst.label || ('#' + (i + 1))}`, pts: inst.cost, cat: skill ? categoryCss(skill) : 'chassis' });
+      });
+    } else {
+      groups[p.cls].push({ id, name: p.name + (p.choice ? `: ${p.choice}` : ''), pts: p.cost, cat: skill ? categoryCss(skill) : 'chassis' });
+    }
+  });
+
+  let html = '';
+  Object.entries(groups).forEach(([cls, rows]) => {
+    let tag = '';
+    if (S.buildStarted) {
+      if (pricingMode === 'v7') {
+        const d = ringDist(S.primaryClass, cls);
+        tag = cls === S.primaryClass ? ' · primary ×1' : ` · ring dist ${d}`;
+      } else {
+        const idx = classSlotIndex(cls);
+        const m = idx >= 0 ? getSlotMults()[idx] : currentMultiplier(cls, false);
+        tag = idx === 0 ? ' · primary ×1' : ` · class #${idx + 1} ×${m}`;
+      }
+    }
+    html += `<div class="acq-group"><div class="acq-group-label">${cls}${tag}</div>`;
+    rows.forEach(r => {
+      const dotColor = `var(--c-${r.cat})`;
+      const sel = S.descSkillId === r.id;
+      html += `<div class="acq-row${sel ? ' selected' : ''}" data-id="${r.id}"
+        onmouseenter="onHover('${r.id}')" onmouseleave="onLeave()"
+        onclick="onSkillClick('${r.id}', event)">
+        <div class="acq-dot" style="background:${dotColor}"></div>
+        <span class="acq-name">${r.name}</span>
+        <span class="acq-pts">${r.pts}pt</span>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  list.innerHTML = html;
+}
+
+function updatePtsDisplay() {
+  const total = totalPts(), spent = S.pointsSpent, avail = total - spent;
+  document.getElementById('pts-avail').textContent = avail + 'pt';
+  document.getElementById('pts-spent').textContent = spent + 'pt';
+  document.getElementById('points-display').textContent = avail + 'pt';
+  document.getElementById('pts-bar').style.width = (total > 0 ? Math.min(100, spent / total * 100) : 0) + '%';
+}
+
+// ═══════════════════════════════════════════════════════
+// BUY / DROP
+// ═══════════════════════════════════════════════════════
+
+let pendingChoiceSkill = null;
+
+function buySkill(id) {
+  const skill = findSkillById(id);
+  if (!skill || !S.buildStarted) return;
+  if (!canAttemptPurchase(skill)) return;
+  const cost = skillCost(skill);
+  if (cost === null || availPts() < cost) return;
+
+  if (skill.selector || skill.multi) { openChoiceModal(skill); return; }
+  completeBuy(skill, null);
+}
+
+function openChoiceModal(skill) {
+  pendingChoiceSkill = skill;
+  document.getElementById('choice-title').textContent = skill.name;
+  const body = document.getElementById('choice-body');
+  const sel = skill.selector;
+  let html = '';
+  if (sel && sel.type === 'dropdown') {
+    html = `<p>Choose an option:</p><select class="modal-select" id="choice-input">` +
+      sel.options.map(o => `<option value="${o}">${o}</option>`).join('') + `</select>`;
+  } else if (sel && sel.type === 'prompt') {
+    html = `<p>${sel.label || 'Enter a value'}:</p><input class="modal-input" id="choice-input" type="text" maxlength="40">`;
+  } else if (skill.multi) {
+    html = `<p>Label this purchase (e.g. weapon name):</p><input class="modal-input" id="choice-input" type="text" maxlength="40" placeholder="e.g. Longsword">`;
+  }
+  body.innerHTML = html;
+  document.getElementById('choice-modal').classList.add('open');
+  const inputEl = document.getElementById('choice-input');
+  if (inputEl) inputEl.focus();
+}
+document.getElementById('choice-cancel').onclick = () => {
+  document.getElementById('choice-modal').classList.remove('open'); pendingChoiceSkill = null;
+};
+document.getElementById('choice-confirm').onclick = () => {
+  const inputEl = document.getElementById('choice-input');
+  const val = inputEl ? (inputEl.value || '').trim() : null;
+  document.getElementById('choice-modal').classList.remove('open');
+  if (pendingChoiceSkill) { completeBuy(pendingChoiceSkill, val || null); pendingChoiceSkill = null; }
+};
+
+// ═══════════════════════════════════════════════════════
+// EDITOR MODE — spreadsheet
+//   Every skill in the active class is shown as one editable table row.
+//   Simple fields (name/level/cost/tier/notes/active) commit straight to
+//   skill.raw on change/blur — the cell's own input already shows the value
+//   the user typed, so no re-render is needed for those. Structural edits
+//   (prerequisite, migrate/copy, add/delete row) rebuild the class model
+//   and redraw the table, restoring keyboard focus afterward.
+// ═══════════════════════════════════════════════════════
+
+let prereqPickTarget = null; // skill object currently choosing a prerequisite
+const SS_COLS = ['name', 'level', 'cost', 'notes', 'active'];
+
+function ssFocusPreserving(fn) {
+  const active = document.activeElement;
+  let restore = null;
+  if (active && active.dataset && active.dataset.skillId) {
+    restore = { id: active.dataset.skillId, field: active.dataset.field, s: active.selectionStart, e: active.selectionEnd };
+  }
+  fn();
+  if (restore) {
+    const el = document.querySelector(`[data-skill-id="${CSS.escape(restore.id)}"][data-field="${restore.field}"]`);
+    if (el) {
+      el.focus();
+      if (el.setSelectionRange && restore.s != null && el.type !== 'number') {
+        try { el.setSelectionRange(restore.s, restore.e); } catch (e) {}
+      }
+    }
+  }
+}
+
+function ssCommit(skill, field, rawValue) {
+  let value = rawValue;
+  if (field === 'cost') {
+    value = String(rawValue).trim() === '' ? null : parseFloat(rawValue);
+    if (isNaN(value)) value = null;
+  } else if (field === 'level') {
+    value = parseInt(rawValue, 10);
+    if (isNaN(value) || value < 1) value = 1;
+  } else if (field === 'active') {
+    value = (typeof rawValue === 'boolean') ? rawValue : rawValue === 'true';
+  }
+  skill.raw[field] = value;
+  const needsRebuild = (field === 'name'); // other skills may reference this name as a prereq
+  if (needsRebuild) {
+    ssFocusPreserving(() => { rebuildModel(skill.cls); renderEditorSpreadsheet(); });
+  }
+}
+
+function ssAddRow() {
+  if (!editorMode || S.buildStarted || !S.activeClass) return;
+  const cls = S.activeClass;
+  const raw = { name: 'New Skill', level: 1, cost: 0, tier: 'A', notes: '', active: true };
+  DATA.classes[cls].chassis.push(raw);
+  rebuildModel(cls);
+  renderEditorSpreadsheet();
+  // focus the new row's name field
+  requestAnimationFrame(() => {
+    const model = MODELS[cls];
+    const entry = model.chassis[model.chassis.length - 1];
+    const el = document.querySelector(`[data-skill-id="${CSS.escape(entry.id)}"][data-field="name"]`);
+    if (el) { el.focus(); el.select && el.select(); }
+  });
+}
+document.getElementById('add-skill-btn').addEventListener('click', ssAddRow);
+
+function ssDeleteRow(skill) {
+  const arr = locateRawArray(skill);
+  if (!arr) return;
+  if (!confirm(`Delete "${skill.name}"? This cannot be undone.`)) return;
+  const idx = arr.indexOf(skill.raw);
+  if (idx > -1) arr.splice(idx, 1);
+  rebuildModel(skill.cls);
+  renderEditorSpreadsheet();
+}
+
+function ssMigrate(skill, destCls) {
+  if (!destCls || destCls === skill.cls) return;
+  migrateSkill(skill, destCls);
+  renderEditorSpreadsheet();
+}
+function ssCopy(skill, destCls) {
+  if (!destCls || destCls === skill.cls) return;
+  copySkill(skill, destCls);
+  renderEditorSpreadsheet();
+}
+
+// ── Prerequisite picker ──
+function ssStartPickPrereq(skill) {
+  prereqPickTarget = skill;
+  renderEditorSpreadsheet();
+}
+function ssCancelPickPrereq() {
+  prereqPickTarget = null;
+  renderEditorSpreadsheet();
+}
+function ssChoosePrereq(skill) {
+  if (!prereqPickTarget) return;
+  if (skill.id === prereqPickTarget.id) { alert("A skill can't be its own prerequisite."); return; }
+  prereqPickTarget.raw.prereq = skill.name;
+  const target = prereqPickTarget;
+  prereqPickTarget = null;
+  rebuildModel(target.cls);
+  renderEditorSpreadsheet();
+}
+function ssPickNone() {
+  if (!prereqPickTarget) return;
+  ssClearPrereq(prereqPickTarget);
+  prereqPickTarget = null;
+  renderEditorSpreadsheet();
+}
+function ssClearPrereq(skill) {
+  delete skill.raw.prereq;
+  rebuildModel(skill.cls);
+  renderEditorSpreadsheet();
+}
+
+// ── Keyboard navigation (grid-style; Tab still works via natural DOM order) ──
+function ssFocusCell(rowIdx, col) {
+  const el = document.querySelector(`.ss-table [data-row="${rowIdx}"][data-col="${col}"]`);
+  if (el) { el.focus(); if (el.select && el.type !== 'checkbox') el.select(); }
+}
+function ssHandleKeydown(e, skill, rowIdx, col) {
+  if (prereqPickTarget) { if (e.key === 'Escape') { e.preventDefault(); ssCancelPickPrereq(); } return; }
+  const t = e.target;
+  const isTextish = t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && t.type === 'text');
+  const isNotes = col === 'notes'; // multi-line: Up/Down move rows only once the caret is at the end/start
+  const atEnd = isNotes && t.selectionStart === t.value.length && t.selectionEnd === t.value.length;
+  const atStart = isNotes && t.selectionStart === 0 && t.selectionEnd === 0;
+  if (e.key === 'ArrowDown' && (!isNotes || atEnd)) { e.preventDefault(); ssFocusCell(rowIdx + 1, col); if (isNotes) { const n = document.querySelector(`.ss-table [data-row="${rowIdx + 1}"][data-col="notes"]`); if (n && n.setSelectionRange) n.setSelectionRange(n.value.length, n.value.length); } }
+  else if (e.key === 'ArrowUp' && (!isNotes || atStart)) { e.preventDefault(); ssFocusCell(rowIdx - 1, col); if (isNotes) { const n = document.querySelector(`.ss-table [data-row="${rowIdx - 1}"][data-col="notes"]`); if (n && n.setSelectionRange) n.setSelectionRange(0, 0); } }
+  else if (e.key === 'Enter' && !isNotes) { e.preventDefault(); t.blur(); ssFocusCell(rowIdx + 1, col); }
+  else if (e.key === 'ArrowLeft') {
+    if (!isTextish || (t.selectionStart === 0 && t.selectionEnd === 0)) {
+      const ci = SS_COLS.indexOf(col);
+      if (ci > 0) { e.preventDefault(); ssFocusCell(rowIdx, SS_COLS[ci - 1]); }
+    }
+  } else if (e.key === 'ArrowRight') {
+    if (!isTextish || (t.selectionStart === t.value.length && t.selectionEnd === t.value.length)) {
+      const ci = SS_COLS.indexOf(col);
+      if (ci >= 0 && ci < SS_COLS.length - 1) { e.preventDefault(); ssFocusCell(rowIdx, SS_COLS[ci + 1]); }
+    }
+  }
+}
+
+// Migrate / Copy: clicking the button swaps it for a class dropdown.
+function ssOpsHtml(skill) {
+  const migratable = !!locateRawArray(skill);
+  const dis = migratable ? '' : 'disabled';
+  const id = skill.id;
+  return `<button type="button" class="ss-btn" ${dis} onclick="ssOpenClassPicker(this, '${id}', 'migrate')">Migrate</button>
+      <button type="button" class="ss-btn" ${dis} onclick="ssOpenClassPicker(this, '${id}', 'copy')">Copy</button>
+      <button type="button" class="ss-btn ss-danger" ${dis} onclick="ssDeleteRow(findSkillById('${id}'))">Delete</button>`;
+}
+function ssOpenClassPicker(btn, skillId, action) {
+  const skill = findSkillById(skillId);
+  const container = btn.parentElement;
+  if (!skill || !container) return;
+  const sel = document.createElement('select');
+  sel.className = 'ss-select ss-inline-select';
+  sel.innerHTML = `<option value="">${action === 'migrate' ? 'Migrate to…' : 'Copy to…'}</option>` +
+    CLASSES.filter(c => c !== skill.cls).map(c => `<option value="${c}">${c}</option>`).join('');
+  container.innerHTML = '';
+  container.appendChild(sel);
+  sel.focus();
+  try { if (sel.showPicker) sel.showPicker(); } catch (e) {}
+  const restore = () => { if (container.isConnected) container.innerHTML = ssOpsHtml(skill); };
+  sel.addEventListener('change', () => {
+    const dest = sel.value;
+    if (!dest) { restore(); return; }
+    if (action === 'migrate') ssMigrate(skill, dest); else ssCopy(skill, dest);
+  });
+  sel.addEventListener('blur', () => setTimeout(restore, 150));
+  sel.addEventListener('keydown', ev => { if (ev.key === 'Escape') restore(); });
+}
+
+function ssAutosizeNotes(root) {
+  (root || document).querySelectorAll('textarea.ss-notes-area').forEach(t => {
+    // height now follows the hidden mirror; nothing to do
+  });
+}
+
+function ssRenderRow(skill, rowIdx) {
+  const disabled = skill.active === false;
+  const picking = !!prereqPickTarget;
+  const isPickTarget = prereqPickTarget && prereqPickTarget.id === skill.id;
+  const cls = 'ss-row' + (disabled ? ' ss-disabled' : '') + (picking && !isPickTarget ? ' ss-pickable' : '') + (isPickTarget ? ' ss-picktarget' : '');
+  const catCss = categoryCss(skill);
+  const rowClickAttr = (picking && !isPickTarget) ? ` onclick="ssChoosePrereq(findSkillById('${skill.id}'))"` : '';
+  const id = skill.id;
+  const kd = (col) => `onkeydown="ssHandleKeydown(event, findSkillById('${id}'), ${rowIdx}, '${col}')"`;
+  const prereqName = skill.rawPrereq || '';
+
+  const prereqBtn = `<button type="button" class="ss-btn ss-prereq-inline" data-row="${rowIdx}" data-col="prereq" data-skill-id="${id}" data-field="prereq" ${kd('prereq')}
+         onclick="event.stopPropagation(); ssStartPickPrereq(findSkillById('${id}'))" title="Click to choose a prerequisite">Pre-req: ${prereqName ? escapeHtml(prereqName) : 'None'}</button>`;
+
+  return `<tr class="${cls}"${rowClickAttr}>
+    <td class="ss-top">
+      <input class="ss-input ss-name sk-${catCss}" style="border-left:3px solid var(--c-${catCss});" data-row="${rowIdx}" data-col="name" data-skill-id="${id}" data-field="name" value="${escapeAttr(skill.name)}"
+        ${kd('name')} onchange="ssCommit(findSkillById('${id}'), 'name', this.value)">
+    </td>
+    <td class="ss-top">
+      <input class="ss-input ss-narrow" data-row="${rowIdx}" data-col="level" data-skill-id="${id}" data-field="level" value="${skill.level || 1}"
+        ${kd('level')} onchange="ssCommit(findSkillById('${id}'), 'level', this.value)">
+    </td>
+    <td class="ss-top">
+      <input class="ss-input ss-narrow" data-row="${rowIdx}" data-col="cost" data-skill-id="${id}" data-field="cost" value="${skill.cost === null || skill.cost === undefined ? '' : skill.cost}"
+        ${kd('cost')} onchange="ssCommit(findSkillById('${id}'), 'cost', this.value)">
+    </td>
+    <td style="width:100%;">
+      <div class="ss-notes-wrap">
+        <div class="ss-notes-mirror"><span class="ss-mt">${escapeHtml(skill.notes || '')}</span> ${prereqBtn}</div>
+        <textarea class="ss-notes-area" rows="1" data-row="${rowIdx}" data-col="notes" data-skill-id="${id}" data-field="notes"
+          ${kd('notes')} oninput="this.parentElement.querySelector('.ss-mt').textContent=this.value"
+          onchange="ssCommit(findSkillById('${id}'), 'notes', this.value)">${escapeHtml(skill.notes || '')}</textarea>
+      </div>
+    </td>
+    <td class="ss-center ss-top">
+      <input type="checkbox" class="ss-check" data-row="${rowIdx}" data-col="active" data-skill-id="${id}" data-field="active" ${skill.active !== false ? 'checked' : ''}
+        ${kd('active')} title="Active" onchange="ssCommit(findSkillById('${id}'), 'active', this.checked)">
+    </td>
+    <td class="ss-top" onclick="event.stopPropagation()">
+      <div class="ss-ops-inner">${ssOpsHtml(skill)}</div>
+    </td>
+  </tr>`;
+}
+
+function escapeAttr(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+function escapeHtml(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function renderEditorSpreadsheet() {
+  const cls = S.activeClass;
+  const list = document.getElementById('skill-list');
+  if (!cls) { list.innerHTML = '<div style="color:#2a2a2a;font-style:italic;font-size:.9rem;padding:16px 0;">Click a class above.</div>'; return; }
+  const model = MODELS[cls];
+
+  let rows = [];
+  let rowIdx = 0;
+  function section(label) { rows.push(`<tr class="ss-section"><td colspan="6">${label}</td></tr>`); }
+  function row(skill) { rows.push(ssRenderRow(skill, rowIdx++)); }
+
+  section('Anchors');
+  row(model.anchor1);
+  if (model.anchor2) row(model.anchor2);
+
+  section('Chassis');
+  model.chassis.slice().sort((a, b) => (a.level || 1) - (b.level || 1)).forEach(row);
+
+  if (model.invocationSkills) {
+    section('Eldritch Invocations');
+    model.invocationSkills.slice().sort((a, b) => (a.level || 1) - (b.level || 1)).forEach(row);
+  }
+
+  if (model.orthogonal.length) {
+    section('Orthogonal Picks');
+    model.orthogonal.forEach(row);
+  }
+
+  model.wings.forEach(wing => {
+    section('Wing — ' + wing.key);
+    row(wing.buyIn);
+    wing.skills.slice().sort((a, b) => (a.level || 1) - (b.level || 1)).forEach(row);
+  });
+
+  let html = '';
+  if (prereqPickTarget) {
+    html += `<div class="ss-pickbar">Choose a prerequisite for <b>${escapeHtml(prereqPickTarget.name)}</b> — click any row below.
+      <button onclick="ssCancelPickPrereq()">Cancel</button><button onclick="ssPickNone()">None</button></div>`;
+  }
+  html += `<div style="overflow:auto; max-height:100%;"><table class="ss-table"><thead><tr>
+    <th>Name</th><th>Lvl</th><th>Cost</th><th>Description</th><th>Active</th><th>Class Ops</th>
+  </tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+
+  list.innerHTML = html;
+  ssAutosizeNotes(list);
+  document.getElementById('add-skill-btn').classList.add('visible');
+  document.getElementById('multiplier-btn').classList.add('visible');
+}
+
+function completeBuy(skill, choice) {
+  const cost = skillCost(skill);
+  if (cost === null || availPts() < cost) return;
+
+  // First purchase from a class locks it into the next open multiclass slot
+  // (v10 mode only — ring mode has no lock-in or class cap).
+  if (pricingMode === 'v10' && classSlotIndex(skill.cls) === -1) {
+    if (S.classOrder.length >= maxClasses()) return; // guard; UI should already block this
+    S.classOrder.push(skill.cls);
+  }
+
+  if (skill.ranked) {
+    const p = S.purchased[skill.id] || { name: skill.name, cls: skill.cls, cost: 0, ranks: 0, lastLevel: null };
+    if (p.ranks >= (skill.ranked.maxRanks || 99)) return;
+    if (p.lastLevel === S.level) return;
+    p.ranks++; p.cost += cost; p.lastLevel = S.level;
+    S.purchased[skill.id] = p;
+  } else if (skill.multi) {
+    const p = S.purchased[skill.id] || { name: skill.name, cls: skill.cls, cost: 0, instances: [], lastLevel: null };
+    if (p.lastLevel === S.level) return;
+    p.instances.push({ label: choice || ('Instance ' + (p.instances.length + 1)), cost, lvl: S.level });
+    p.lastLevel = S.level; p.cost += cost;
+    S.purchased[skill.id] = p;
+  } else {
+    if (isOwnedAny(skill.id)) return;
+    S.purchased[skill.id] = { name: skill.name, cls: skill.cls, cost, lastLevel: S.level, choice };
+  }
+  S.pointsSpent += cost;
+  S.descLocked = false; S.descSkillId = null;
+  renderAll();
+}
+
+function getDeps(id) {
+  const deps = [];
+  function r(sid) {
+    CLASSES.forEach(c => {
+      MODELS[c].all.forEach(sk => {
+        if (sk.id === sid) return;
+        if (sk.prereqIds.includes(sid) && isOwnedAny(sk.id) && !deps.includes(sk.id)) {
+          deps.push(sk.id); r(sk.id);
+        }
+      });
+    });
+  }
+  r(id);
+  return deps;
+}
+
+let pendingDrop = null;
+
+function tryDrop(id) {
+  const p = S.purchased[id]; if (!p) return;
+  const deps = getDeps(id);
+  if (!deps.length) { executeDrop([id]); S.descLocked = false; S.descSkillId = null; renderAll(); return; }
+  pendingDrop = [id, ...deps];
+  const refund = pendingDrop.reduce((s, x) => s + (S.purchased[x] ? S.purchased[x].cost : 0), 0);
+  document.getElementById('drop-title').textContent = `Drop ${p.name}?`;
+  document.getElementById('drop-body').textContent = 'Dropping this also removes:';
+  document.getElementById('drop-list').innerHTML = deps.map(d => `<li>${S.purchased[d] ? S.purchased[d].name : d}</li>`).join('');
+  document.getElementById('drop-refund').textContent = `Total refund: ${refund} pts`;
+  document.getElementById('drop-modal').classList.add('open');
+}
+
+function tryDropInstance(id) {
+  const p = S.purchased[id]; if (!p || !p.instances || !p.instances.length) return;
+  const inst = p.instances.pop();
+  p.cost -= inst.cost; S.pointsSpent -= inst.cost;
+  if (!p.instances.length) delete S.purchased[id];
+  renderAll();
+}
+
+function executeDrop(ids) {
+  ids.forEach(id => {
+    const p = S.purchased[id];
+    if (p) { S.pointsSpent -= p.cost; delete S.purchased[id]; }
+  });
+}
+document.getElementById('drop-cancel').onclick = () => { document.getElementById('drop-modal').classList.remove('open'); pendingDrop = null; };
+document.getElementById('drop-confirm').onclick = () => {
+  if (pendingDrop) { executeDrop(pendingDrop); pendingDrop = null; }
+  document.getElementById('drop-modal').classList.remove('open');
+  S.descLocked = false; S.descSkillId = null;
+  renderAll();
+};
+
+// ═══════════════════════════════════════════════════════
+// TOP BAR
+// ═══════════════════════════════════════════════════════
+
+function updateTopBar() {
+  const cls = S.activeClass;
+  const beginBtn = document.getElementById('begin-btn');
+  const lockedTag = document.getElementById('locked-tag');
+  const restartBtn = document.getElementById('restart-btn');
+  const clsEl = document.getElementById('class-display');
+  const editorBtn = document.getElementById('editor-toggle-btn');
+
+  if (S.buildStarted) {
+    clsEl.textContent = S.primaryClass; clsEl.className = 'locked';
+    beginBtn.classList.remove('visible'); lockedTag.classList.add('visible'); restartBtn.classList.add('visible');
+    editorMode = false;
+    editorBtn.classList.remove('visible'); editorBtn.classList.remove('active');
+  } else if (cls) {
+    clsEl.textContent = cls; clsEl.className = 'has-class';
+    document.getElementById('begin-cls').textContent = cls;
+    beginBtn.classList.add('visible'); lockedTag.classList.remove('visible'); restartBtn.classList.remove('visible');
+    editorBtn.classList.add('visible');
+    editorBtn.textContent = editorMode ? '🛠 Editor: on' : '🛠 Editor: off';
+    editorBtn.classList.toggle('active', editorMode);
+  } else {
+    clsEl.textContent = '— select —'; clsEl.className = '';
+    beginBtn.classList.remove('visible'); lockedTag.classList.remove('visible'); restartBtn.classList.remove('visible');
+    editorBtn.classList.add('visible');
+    editorBtn.textContent = editorMode ? '🛠 Editor: on' : '🛠 Editor: off';
+    editorBtn.classList.toggle('active', editorMode);
+  }
+  document.getElementById('level-display').textContent = S.level;
+}
+
+document.getElementById('editor-toggle-btn').addEventListener('click', () => {
+  if (S.buildStarted) return;
+  editorMode = !editorMode;
+  renderAll();
+});
+
+document.getElementById('begin-btn').addEventListener('click', () => {
+  if (!S.activeClass) return;
+  S.primaryClass = S.activeClass;
+  S.buildStarted = true;
+  S.classOrder = [S.activeClass];
+  renderAll();
+});
+document.getElementById('lvl-up').addEventListener('click', () => { if (S.level < 10) { S.level++; renderAll(); } });
+document.getElementById('lvl-dn').addEventListener('click', () => { if (S.level > 1) { S.level--; renderAll(); } });
+document.getElementById('char-name').addEventListener('input', e => { S.name = e.target.value; });
+
+document.getElementById('restart-btn').addEventListener('click', () => document.getElementById('restart-modal').classList.add('open'));
+document.getElementById('restart-cancel').addEventListener('click', () => document.getElementById('restart-modal').classList.remove('open'));
+document.getElementById('restart-confirm').addEventListener('click', () => {
+  document.getElementById('restart-modal').classList.remove('open');
+  S = { name: '', primaryClass: null, buildStarted: false, level: 1, pointsSpent: 0, purchased: {}, classOrder: [], activeClass: null, descSkillId: null, descLocked: false };
+  document.getElementById('char-name').value = '';
+  buildClassBar(); renderAll();
+});
+
+// ═══════════════════════════════════════════════════════
+// POINTS & LEVELING — edits META.startingPoints / META.pointsPerLevel.
+// Viewable any time; only editable in Editor Mode before a build starts,
+// same rule as every other fundamental-rules edit in this program.
+// ═══════════════════════════════════════════════════════
+
+function openPointsModal() {
+  const editable = editorMode && !S.buildStarted;
+  document.getElementById('points-starting').value = META.startingPoints != null ? META.startingPoints : 40;
+  document.getElementById('points-per-level').value = META.pointsPerLevel != null ? META.pointsPerLevel : 10;
+  document.getElementById('points-starting').disabled = !editable;
+  document.getElementById('points-per-level').disabled = !editable;
+  document.getElementById('points-save').style.display = editable ? 'inline-block' : 'none';
+  document.getElementById('points-modal-note').textContent = editable
+    ? 'Change the starting point pool and how many points each level-up grants. Applies immediately to the current build.'
+    : "Turn on Editor Mode (and don't start a build yet) to change these.";
+  document.getElementById('points-modal').classList.add('open');
+}
+document.getElementById('points-label').addEventListener('click', openPointsModal);
+document.getElementById('points-display').addEventListener('click', openPointsModal);
+document.getElementById('points-cancel').addEventListener('click', () => {
+  document.getElementById('points-modal').classList.remove('open');
+});
+document.getElementById('points-save').addEventListener('click', () => {
+  if (!editorMode || S.buildStarted) return;
+  const sp = parseFloat(document.getElementById('points-starting').value);
+  const pl = parseFloat(document.getElementById('points-per-level').value);
+  if (!isNaN(sp) && sp >= 0) META.startingPoints = sp;
+  if (!isNaN(pl) && pl >= 0) META.pointsPerLevel = pl;
+  document.getElementById('points-modal').classList.remove('open');
+  renderAll();
+});
+
+// ═══════════════════════════════════════════════════════
+// PRICING MODE — toggle between the v10 multiclass-slot system and the
+// v7 ring-adjacency system. Always available (not Editor-Mode gated),
+// since it's a rules choice for the current build, not a data edit.
+// ═══════════════════════════════════════════════════════
+
+function updateModeButtonLabel() {
+  document.getElementById('mode-toggle-btn').textContent =
+    pricingMode === 'v7' ? '⚖ Mode: Ring Adjacency' : '⚖ Mode: Multiclass';
+}
+document.getElementById('mode-toggle-btn').addEventListener('click', () => {
+  pricingMode = pricingMode === 'v7' ? 'v10' : 'v7';
+  updateModeButtonLabel();
+  renderAll();
+});
+
+// ═══════════════════════════════════════════════════════
+// MULTIPLIER EDITOR — Editor-Mode-only. Edits whichever pricing mode's
+// tables are currently active: META.slotMultipliers for v10, or
+// META.crossClassArrays.{ordinary,anchor} for v7.
+// ═══════════════════════════════════════════════════════
+
+function openMultiplierModal() {
+  if (!editorMode || S.buildStarted) return;
+  document.getElementById('mult-modal-mode-label').textContent =
+    pricingMode === 'v7' ? 'Ring Adjacency (v7)' : 'Multiclass Slots (v10)';
+  document.getElementById('mult-v10-fields').style.display = pricingMode === 'v10' ? 'block' : 'none';
+  document.getElementById('mult-v7-fields').style.display = pricingMode === 'v7' ? 'block' : 'none';
+  if (pricingMode === 'v10') renderV10MultRows(); else renderV7MultRows();
+  document.getElementById('multiplier-modal').classList.add('open');
+}
+function renderV10MultRows() {
+  const mults = getSlotMults();
+  document.getElementById('mult-v10-rows').innerHTML = mults.map((m, i) =>
+    `<div class="mult-grid-row"><span class="edit-field-label" style="width:120px;">${ordinalWord(i + 1)} class</span>
+      <input class="modal-input" style="margin-bottom:0; flex:1;" data-idx="${i}" value="${m}" ${i === 0 ? 'disabled' : ''} type="number" step="0.1" min="0"></div>`
+  ).join('');
+}
+function renderV7MultRows() {
+  if (!META.crossClassArrays) META.crossClassArrays = { ordinary: { 0: 1, 1: 1, 2: 1, 3: 1.5, 4: 1.5, 5: 2, 6: 2 }, anchor: { 0: 1, 1: 1.5, 2: 2, 3: 2, 4: 2, 5: 2, 6: 2 } };
+  const buildGrid = (table) => Object.keys(table).map(Number).sort((a, b) => a - b).map(d =>
+    `<div class="mult-cell"><div class="edit-field-label" style="text-align:center;">dist ${d}</div><input class="modal-input" data-dist="${d}" value="${table[d]}" type="number" step="0.1" min="0"></div>`
+  ).join('');
+  document.getElementById('mult-v7-ordinary-rows').innerHTML = buildGrid(META.crossClassArrays.ordinary);
+  document.getElementById('mult-v7-anchor-rows').innerHTML = buildGrid(META.crossClassArrays.anchor);
+}
+document.getElementById('multiplier-btn').addEventListener('click', openMultiplierModal);
+document.getElementById('mult-cancel').addEventListener('click', () => {
+  document.getElementById('multiplier-modal').classList.remove('open');
+});
+document.getElementById('mult-v10-add').addEventListener('click', () => {
+  const mults = getSlotMults();
+  const last = mults[mults.length - 1] || 1;
+  mults.push(Math.round((last + 0.5) * 10) / 10);
+  META.slotMultipliers = mults;
+  renderV10MultRows();
+});
+document.getElementById('mult-v10-remove').addEventListener('click', () => {
+  const mults = getSlotMults();
+  if (mults.length > 1) { mults.pop(); META.slotMultipliers = mults; renderV10MultRows(); }
+});
+document.getElementById('mult-save').addEventListener('click', () => {
+  if (pricingMode === 'v10') {
+    const mults = getSlotMults().slice();
+    document.querySelectorAll('#mult-v10-rows input').forEach(inp => {
+      const idx = parseInt(inp.dataset.idx, 10);
+      if (idx === 0) { mults[0] = 1; return; }
+      const v = parseFloat(inp.value);
+      if (!isNaN(v) && v >= 0) mults[idx] = v;
+    });
+    META.slotMultipliers = mults;
+  } else {
+    document.querySelectorAll('#mult-v7-ordinary-rows input').forEach(inp => {
+      const v = parseFloat(inp.value);
+      if (!isNaN(v) && v >= 0) META.crossClassArrays.ordinary[inp.dataset.dist] = v;
+    });
+    document.querySelectorAll('#mult-v7-anchor-rows input').forEach(inp => {
+      const v = parseFloat(inp.value);
+      if (!isNaN(v) && v >= 0) META.crossClassArrays.anchor[inp.dataset.dist] = v;
+    });
+  }
+  document.getElementById('multiplier-modal').classList.remove('open');
+  renderAll();
+});
+
+// ═══════════════════════════════════════════════════════
+// FILE — named, saved versions of the skill data set, persisted in
+// localStorage so saving/reverting/loading/exporting/importing can all
+// happen right inside this one self-contained file.
+// ═══════════════════════════════════════════════════════
+
+const ARCHIVE_KEY = 'sp_builder_skill_archives_v1';
+const BASE_ARCHIVE_ID = '__base__';
+let currentArchiveId = BASE_ARCHIVE_ID;
+let currentArchiveName = 'GitHub Version';
+
+function cloneData(d) { return JSON.parse(JSON.stringify(d)); }
+
+function loadArchiveRegistry() {
+  try {
+    const raw = localStorage.getItem(ARCHIVE_KEY);
+    if (!raw) return { archives: {}, activeId: BASE_ARCHIVE_ID };
+    const parsed = JSON.parse(raw);
+    if (!parsed.archives) parsed.archives = {};
+    if (!parsed.activeId) parsed.activeId = BASE_ARCHIVE_ID;
+    return parsed;
+  } catch (e) {
+    console.error('Archive registry read failed:', e);
+    return { archives: {}, activeId: BASE_ARCHIVE_ID };
+  }
+}
+function saveArchiveRegistry(reg) {
+  try { localStorage.setItem(ARCHIVE_KEY, JSON.stringify(reg)); return true; }
+  catch (e) { console.error('Archive registry write failed (localStorage full or blocked?):', e); alert('Could not save to browser storage: ' + e.message); return false; }
+}
+function resolveActiveDataOnBoot() {
+  return { data: cloneData(DEFAULT_SKILL_DATA), archiveId: BASE_ARCHIVE_ID, archiveName: 'GitHub Version' };
+}
+function __unusedResolve() {
+  const reg = loadArchiveRegistry();
+  if (reg.activeId && reg.activeId !== BASE_ARCHIVE_ID && reg.archives[reg.activeId]) {
+    return { data: cloneData(reg.archives[reg.activeId].data), archiveId: reg.activeId, archiveName: reg.archives[reg.activeId].name };
+  }
+  return { data: cloneData(DEFAULT_SKILL_DATA), archiveId: BASE_ARCHIVE_ID, archiveName: 'GitHub Version' };
+}
+function saveCurrentAsArchive(name, dataOverride) {
+  const reg = loadArchiveRegistry();
+  const id = 'arch_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+  reg.archives[id] = { name: name, savedAt: new Date().toISOString(), data: cloneData(dataOverride || DATA) };
+  reg.activeId = id;
+  if (!saveArchiveRegistry(reg)) return null;
+  currentArchiveId = id; currentArchiveName = name;
+  return id;
+}
+function updateArchive(id) {
+  const reg = loadArchiveRegistry();
+  if (!reg.archives[id]) return false;
+  reg.archives[id].data = cloneData(DATA);
+  reg.archives[id].savedAt = new Date().toISOString();
+  return saveArchiveRegistry(reg);
+}
+function renameArchive(id, newName) {
+  const reg = loadArchiveRegistry();
+  if (!reg.archives[id]) return false;
+  reg.archives[id].name = newName;
+  if (!saveArchiveRegistry(reg)) return false;
+  if (currentArchiveId === id) currentArchiveName = newName;
+  return true;
+}
+function deleteArchive(id) {
+  const reg = loadArchiveRegistry();
+  if (!reg.archives[id]) return false;
+  delete reg.archives[id];
+  if (reg.activeId === id) reg.activeId = BASE_ARCHIVE_ID;
+  if (!saveArchiveRegistry(reg)) return false;
+  if (currentArchiveId === id) { currentArchiveId = BASE_ARCHIVE_ID; currentArchiveName = 'GitHub Version'; }
+  return true;
+}
+// Load — switches the whole builder over to a different saved (or base) version.
+function switchToArchive(id) {
+  if (S.buildStarted) { alert('Restart or finish your current build before switching skill-data versions — purchased skills are tied to the version they were bought under.'); return; }
+  const reg = loadArchiveRegistry();
+  let data, name;
+  if (id === BASE_ARCHIVE_ID) { data = cloneData(DEFAULT_SKILL_DATA); name = 'GitHub Version'; }
+  else if (reg.archives[id]) { data = cloneData(reg.archives[id].data); name = reg.archives[id].name; }
+  else return;
+  reg.activeId = id;
+  saveArchiveRegistry(reg);
+  currentArchiveId = id; currentArchiveName = name;
+  loadDataSet(data);
+  S = { name: '', primaryClass: null, buildStarted: false, level: 1, pointsSpent: 0, purchased: {}, classOrder: [], activeClass: null, descSkillId: null, descLocked: false };
+  document.getElementById('char-name').value = '';
+  editorMode = false;
+  prereqPickTarget = null;
+  buildClassBar();
+  renderAll();
+  renderFileModalList();
+  updateFileButtonLabel();
+}
+// Revert — discards unsaved in-memory edits, reloading the active version
+// fresh from where it was last saved (or from GitHub Version if that's active).
+function revertCurrentVersion() {
+  if (S.buildStarted) { alert('Restart or finish your current build before reverting.'); return; }
+  if (!confirm(`Discard unsaved edits and reload "${currentArchiveName}" from its last saved version?`)) return;
+  const keepClass = S.activeClass;
+  let data;
+  if (currentArchiveId === BASE_ARCHIVE_ID) {
+    data = cloneData(DEFAULT_SKILL_DATA);
+  } else {
+    const reg = loadArchiveRegistry();
+    if (!reg.archives[currentArchiveId]) { alert('This version no longer exists — switching to GitHub Version.'); switchToArchive(BASE_ARCHIVE_ID); return; }
+    data = cloneData(reg.archives[currentArchiveId].data);
+  }
+  loadDataSet(data);
+  S = { name: '', primaryClass: null, buildStarted: false, level: 1, pointsSpent: 0, purchased: {}, classOrder: [], activeClass: null, descSkillId: null, descLocked: false };
+  prereqPickTarget = null;
+  buildClassBar();
+  if (keepClass && CLASSES.includes(keepClass)) selectActiveClass(keepClass); else if (CLASSES.length) selectActiveClass(CLASSES[0]);
+  renderAll();
+  renderFileModalList();
+}
+function updateFileButtonLabel() {
+  document.getElementById('file-btn-label').textContent = currentArchiveName;
+}
+function archiveDateLabel(iso) {
+  if (!iso) return 'built-in';
+  try { return new Date(iso).toLocaleString(); } catch (e) { return iso; }
+}
+function archiveRowHtml(id, name, savedAt, isActive, deletable) {
+  const disabled = S.buildStarted ? 'disabled' : '';
+  return `<div style="display:flex; align-items:center; gap:8px; padding:7px 2px; border-bottom:1px solid #1a1a1a;">
+    <div style="flex:1; overflow:hidden;">
+      <div style="font-size:.85rem; color:${isActive ? '#7dc95e' : '#ccc'};">${name}${isActive ? ' ✓ active' : ''}</div>
+      <div style="font-size:.65rem; color:#444;">${archiveDateLabel(savedAt)}</div>
+    </div>
+    <button class="io-btn" style="width:auto; margin:0; padding:4px 10px;" ${disabled} onclick="switchToArchive('${id}')">Load</button>
+    ${deletable ? `<button class="io-btn" style="width:auto; margin:0; padding:4px 10px;" onclick="handleRenameArchive('${id}')">Rename</button>
+    <button class="io-btn" style="width:auto; margin:0; padding:4px 10px; color:#a04040; border-color:#3a1a1a;" onclick="handleDeleteArchive('${id}')">Delete</button>` : ''}
+  </div>`;
+}
+function renderFileModalList() {
+  const reg = loadArchiveRegistry();
+  const rows = [archiveRowHtml(BASE_ARCHIVE_ID, 'GitHub Version (latest saved)', null, currentArchiveId === BASE_ARCHIVE_ID, false)];
+  Object.entries(reg.archives)
+    .sort((a, b) => new Date(b[1].savedAt) - new Date(a[1].savedAt))
+    .forEach(([id, a]) => rows.push(archiveRowHtml(id, a.name, a.savedAt, currentArchiveId === id, true)));
+  document.getElementById('file-list').innerHTML = rows.join('');
+
+  document.getElementById('file-current-note').textContent =
+    `Currently working from: ${currentArchiveName}` + (S.buildStarted ? ' — File actions are disabled mid-build (restart first).' : '');
+
+  const saveCurrentBtn = document.getElementById('file-save-current-btn');
+  saveCurrentBtn.style.display = currentArchiveId !== BASE_ARCHIVE_ID ? 'block' : 'none';
+}
+function handleRenameArchive(id) {
+  const reg = loadArchiveRegistry();
+  const cur = reg.archives[id]; if (!cur) return;
+  const name = prompt('Rename this version:', cur.name);
+  if (name && name.trim()) { renameArchive(id, name.trim()); renderFileModalList(); updateFileButtonLabel(); }
+}
+function handleDeleteArchive(id) {
+  const reg = loadArchiveRegistry();
+  const cur = reg.archives[id]; if (!cur) return;
+  if (!confirm(`Delete version "${cur.name}"? This cannot be undone.`)) return;
+  deleteArchive(id);
+  renderFileModalList(); updateFileButtonLabel();
+}
+
+document.getElementById('file-btn').addEventListener('click', () => {
+  renderFileModalList();
+  document.getElementById('file-modal').classList.add('open');
+});
+document.getElementById('file-close-btn').addEventListener('click', () => {
+  document.getElementById('file-modal').classList.remove('open');
+});
+document.getElementById('file-save-new-btn').addEventListener('click', () => {
+  if (S.buildStarted) return;
+  const input = document.getElementById('file-new-name');
+  const name = input.value.trim();
+  if (!name) { alert('Enter a name for this version first.'); return; }
+  if (saveCurrentAsArchive(name)) {
+    input.value = '';
+    renderFileModalList();
+    updateFileButtonLabel();
+  }
+});
+document.getElementById('file-save-current-btn').addEventListener('click', () => {
+  if (S.buildStarted || currentArchiveId === BASE_ARCHIVE_ID) return;
+  if (updateArchive(currentArchiveId)) renderFileModalList();
+});
+document.getElementById('file-revert-btn').addEventListener('click', revertCurrentVersion);
+
+// Export — downloads the live, edited data (meta + classes) as plain JSON.
+function exportSkillDataJson() {
+  const payload = JSON.stringify({ meta: DATA.meta, classes: DATA.classes }, null, 2);
+  const blob = new Blob([payload], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (currentArchiveName || 'skills').replace(/[^a-z0-9_\-]+/gi, '_') + '.json';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+document.getElementById('file-export-btn').addEventListener('click', exportSkillDataJson);
+
+// Import — reads a .json {meta, classes} file, saves it as a new named
+// version, and loads it.
+document.getElementById('file-import-btn').addEventListener('click', () => {
+  if (S.buildStarted) { alert('Restart or finish your current build before importing.'); return; }
+  document.getElementById('file-import-input').click();
+});
+document.getElementById('file-import-input').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = (ev) => {
+    let parsed;
+    try { parsed = JSON.parse(ev.target.result); } catch (err) { alert('Invalid JSON file.'); return; }
+    if (!parsed || !parsed.classes) { alert('This file does not look like skill data (missing "classes").'); return; }
+    if (!parsed.meta) parsed.meta = cloneData(DEFAULT_SKILL_DATA.meta);
+    const defaultName = (file.name || 'Imported').replace(/\.json$/i, '');
+    const name = prompt('Name this imported version:', defaultName);
+    if (!name) return;
+    const reg = loadArchiveRegistry();
+    const id = 'arch_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+    reg.archives[id] = { name: name, savedAt: new Date().toISOString(), data: parsed };
+    reg.activeId = id;
+    if (!saveArchiveRegistry(reg)) return;
+    switchToArchive(id);
+    document.getElementById('file-modal').classList.add('open');
+  };
+  r.readAsText(file);
+});
+
+// ═══════════════════════════════════════════════════════
+// EXPORT / IMPORT
+// ═══════════════════════════════════════════════════════
+
+document.getElementById('export-btn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({ version: 'v8-two-anchor', state: S }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = (S.name || 'character') + '_sp.json'; a.click();
+});
+document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-file').click());
+document.getElementById('import-file').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if (d.state) {
+        S = d.state;
+        if (!S.classOrder) S.classOrder = S.primaryClass ? [S.primaryClass] : [];
+        document.getElementById('char-name').value = S.name || '';
+        buildClassBar(); renderAll();
+      }
+    } catch { alert('Invalid save file.'); }
+  };
+  r.readAsText(f); e.target.value = '';
+});
+
+// ═══════════════════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════════════════
+
+function renderAll() {
+  updateTopBar();
+  refreshClassBar();
+  renderCenterPanel();
+  renderAcquired();
+  updatePtsDisplay();
+  if (S.descLocked && S.descSkillId) showDesc(S.descSkillId, true);
+}
+
+// Decides whether the center panel shows the normal hierarchical skill
+// browser (renderSkillList — unchanged, used whenever not in Editor Mode)
+// or the Editor Mode spreadsheet.
+function renderCenterPanel() {
+  document.body.classList.toggle('editor-mode', editorMode && !S.buildStarted);
+  if (editorMode && !S.buildStarted) {
+    renderEditorSpreadsheet();
+  } else {
+    renderSkillList();
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// GITHUB SYNC — load skills.json from the repo, save it back with a commit,
+// and merge automatically if your collaborator saved in the meantime.
+// ═══════════════════════════════════════════════════════
+const GH_KEY = 'sp_gh_settings_v1';
+let baselineData = null, baselineStr = '';
+let ghLoginCache = null;
+
+function setBaseline(d) { baselineData = cloneData(d); baselineStr = stableStringify(d); }
+function isDirty() { try { return !!DATA && stableStringify(DATA) !== baselineStr; } catch (e) { return false; } }
+window.addEventListener('beforeunload', e => { if (isDirty()) { e.preventDefault(); e.returnValue = ''; } });
+
+function ghDetect() {
+  const h = location.hostname;
+  if (h.endsWith('.github.io')) {
+    const seg = location.pathname.split('/').filter(Boolean);
+    return { owner: h.split('.')[0], repo: (seg[0] && !/\.html?$/i.test(seg[0])) ? seg[0] : h };
+  }
+  return { owner: '', repo: '' };
+}
+function ghSettings() {
+  let s = {};
+  try { s = JSON.parse(localStorage.getItem(GH_KEY) || '{}'); } catch (e) {}
+  const d = ghDetect();
+  return { owner: s.owner || d.owner, repo: s.repo || d.repo, branch: s.branch || '', path: s.path || 'skills.json', token: s.token || '' };
+}
+function ghStoreSettings(s) { try { localStorage.setItem(GH_KEY, JSON.stringify(s)); } catch (e) {} }
+
+function b64ToUtf8(b64) {
+  const bin = atob(b64.replace(/\s/g, ''));
+  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+function utf8ToB64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => { bin += String.fromCharCode(b); });
+  return btoa(bin);
+}
+
+function ghApi(path, opts) {
+  const s = ghSettings();
+  const headers = { 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+  if (s.token) headers['Authorization'] = 'Bearer ' + s.token;
+  return fetch('https://api.github.com' + path, Object.assign({ headers, cache: 'no-store' }, opts || {}));
+}
+function ghFilePath(s) {
+  return `/repos/${s.owner}/${s.repo}/contents/${s.path.split('/').map(encodeURIComponent).join('/')}`;
+}
+// Returns { sha, text } or null if GitHub isn't configured / file not found.
+async function ghFetchRemote() {
+  const s = ghSettings();
+  if (!s.owner || !s.repo) return null;
+  const q = s.branch ? ('?ref=' + encodeURIComponent(s.branch)) : '';
+  const r = await ghApi(ghFilePath(s) + q);
+  if (r.ok) { const j = await r.json(); return { sha: j.sha, text: b64ToUtf8(j.content) }; }
+  if (r.status === 401) throw new Error('GitHub rejected your token (expired or mistyped). Open ☁ GitHub and paste a fresh one.');
+  if (r.status === 404) throw new Error('Could not find ' + s.path + ' in ' + s.owner + '/' + s.repo + ' (or the token cannot see the repo).');
+  throw new Error('GitHub error ' + r.status);
+}
+async function ghLogin() {
+  if (ghLoginCache) return ghLoginCache;
+  const r = await ghApi('/user');
+  if (!r.ok) throw new Error('GitHub rejected your token (' + r.status + '). Open ☁ GitHub and paste a fresh one.');
+  ghLoginCache = (await r.json()).login;
+  return ghLoginCache;
+}
+
+// ── toast ──
+let toastTimer = null;
+function toast(msg, isErr) {
+  const el = document.getElementById('gh-toast');
+  el.textContent = msg;
+  el.style.borderColor = isErr ? '#8a2020' : '#3a6a1a';
+  el.style.color = isErr ? '#e08080' : '#9be07d';
+  el.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.style.display = 'none'; }, isErr ? 9000 : 4500);
+}
+
+// ── merge (class-level + meta-key-level three-way) ──
+function mergeData(base, mine, theirs) {
+  const out = cloneData(theirs);
+  if (!out.classes) out.classes = {};
+  if (!out.meta) out.meta = {};
+  const conflicts = [];
+  const pick = (b, m, t) => {
+    const sb = stableStringify(b), sm = stableStringify(m), st = stableStringify(t);
+    if (sm === sb) return { v: t };
+    if (st === sb || sm === st) return { v: m };
+    return { v: m, conflict: true };
+  };
+  const names = new Set([...Object.keys(base.classes || {}), ...Object.keys(mine.classes || {}), ...Object.keys(theirs.classes || {})]);
+  names.forEach(c => {
+    const r = pick((base.classes || {})[c], (mine.classes || {})[c], (theirs.classes || {})[c]);
+    if (r.v === undefined) delete out.classes[c]; else out.classes[c] = cloneData(r.v);
+    if (r.conflict) conflicts.push(c);
+  });
+  const mkeys = new Set([...Object.keys(base.meta || {}), ...Object.keys(mine.meta || {}), ...Object.keys(theirs.meta || {})]);
+  mkeys.forEach(k => {
+    const r = pick((base.meta || {})[k], (mine.meta || {})[k], (theirs.meta || {})[k]);
+    if (r.v === undefined) delete out.meta[k]; else out.meta[k] = cloneData(r.v);
+    if (r.conflict) conflicts.push('settings: ' + k);
+  });
+  return { data: out, conflicts };
+}
+function changedParts(base, mine) {
+  const parts = [];
+  const names = new Set([...Object.keys(base.classes || {}), ...Object.keys(mine.classes || {})]);
+  names.forEach(c => { if (stableStringify((base.classes || {})[c]) !== stableStringify((mine.classes || {})[c])) parts.push(c); });
+  const mkeys = new Set([...Object.keys(base.meta || {}), ...Object.keys(mine.meta || {})]);
+  let metaChanged = false;
+  mkeys.forEach(k => { if (stableStringify((base.meta || {})[k]) !== stableStringify((mine.meta || {})[k])) metaChanged = true; });
+  if (metaChanged) parts.push('settings');
+  return parts;
+}
+
+function applyLoadedData(d) {
+  DEFAULT_SKILL_DATA = cloneData(d);
+  setBaseline(d);
+  const keep = S.activeClass;
+  loadDataSet(cloneData(d));
+  S.descSkillId = null; S.descLocked = false;
+  prereqPickTarget = null;
+  currentArchiveId = BASE_ARCHIVE_ID; currentArchiveName = 'GitHub Version';
+  updateFileButtonLabel();
+  if (keep && CLASSES.includes(keep)) S.activeClass = keep; else S.activeClass = CLASSES[0];
+  buildClassBar();
+  renderAll();
+}
+
+let ghBusy = false;
+async function ghSave() {
+  if (ghBusy) return;
+  const s = ghSettings();
+  if (S.buildStarted) { alert('Restart your build first — saving is only for skill edits.'); return; }
+  if (!s.token || !s.owner || !s.repo) { openGhModal(); toast('Add your GitHub token first (one-time setup).', true); return; }
+  ghBusy = true;
+  const btn = document.getElementById('gh-save-btn');
+  const oldLabel = btn.textContent; btn.textContent = '⏳ Saving…'; btn.disabled = true;
+  try {
+    const login = await ghLogin();
+    const remote = await ghFetchRemote();
+    const theirs = JSON.parse(remote.text);
+    const mine = cloneData(DATA);
+    const mineChanges = changedParts(baselineData, mine);
+    let result = mine, merged = false;
+    if (stableStringify(theirs) !== baselineStr) {
+      const m = mergeData(baselineData, mine, theirs);
+      if (m.conflicts.length) {
+        const ok = confirm('Your collaborator saved changes since you opened the editor, and you BOTH changed:\n\n  ' + m.conflicts.join('\n  ') + '\n\nOK = keep YOUR version of those parts (their changes there are replaced; everything else is merged).\nCancel = don\'t save (use ☁ GitHub → Reload to take theirs).');
+        if (!ok) { toast('Save cancelled.', true); return; }
+      }
+      result = m.data; merged = true;
+    }
+    if (stableStringify(result) === stableStringify(theirs)) {
+      applyLoadedData(result);
+      toast('Nothing new to save — you are up to date.');
+      return;
+    }
+    const what = mineChanges.length ? mineChanges.join(', ') : 'merge';
+    const message = `${login}: edited ${what}`;
+    const body = { message, content: utf8ToB64(stableStringify(result) + '\n'), sha: remote.sha };
+    if (s.branch) body.branch = s.branch;
+    const r = await ghApi(ghFilePath(s), { method: 'PUT', body: JSON.stringify(body) });
+    if (r.status === 409 || r.status === 422) throw new Error('Someone saved at the exact same moment. Click Save again.');
+    if (r.status === 401) throw new Error('Token rejected — open ☁ GitHub and paste a fresh one.');
+    if (r.status === 403 || r.status === 404) throw new Error('GitHub says this token cannot write to ' + s.owner + '/' + s.repo + '. Check that you were added as a collaborator and the token has the "public_repo" scope.');
+    if (!r.ok) throw new Error('GitHub error ' + r.status);
+    applyLoadedData(result);
+    toast(merged ? 'Saved ✓ (merged with your collaborator\'s changes)' : 'Saved to GitHub ✓');
+  } catch (e) {
+    console.error(e);
+    toast(e.message || String(e), true);
+  } finally {
+    ghBusy = false; btn.textContent = oldLabel; btn.disabled = false;
+  }
+}
+
+async function ghReload() {
+  if (S.buildStarted) { alert('Restart your build first.'); return; }
+  if (isDirty() && !confirm('You have unsaved edits. Reloading from GitHub will discard them. Continue?')) return;
+  try {
+    const remote = await ghFetchRemote();
+    if (!remote) throw new Error('GitHub is not configured yet (owner/repo missing).');
+    applyLoadedData(JSON.parse(remote.text));
+    toast('Reloaded the latest version from GitHub ✓');
+  } catch (e) { toast(e.message || String(e), true); }
+}
+
+// ── modal ──
+function openGhModal() {
+  const s = ghSettings();
+  document.getElementById('gh-token').value = s.token;
+  document.getElementById('gh-owner').value = s.owner;
+  document.getElementById('gh-repo').value = s.repo;
+  document.getElementById('gh-branch').value = s.branch;
+  document.getElementById('gh-path').value = s.path;
+  document.getElementById('gh-user-note').textContent = '';
+  document.getElementById('gh-modal').classList.add('open');
+}
+function readGhModal() {
+  return {
+    token: document.getElementById('gh-token').value.trim(),
+    owner: document.getElementById('gh-owner').value.trim(),
+    repo: document.getElementById('gh-repo').value.trim(),
+    branch: document.getElementById('gh-branch').value.trim(),
+    path: document.getElementById('gh-path').value.trim() || 'skills.json'
+  };
+}
+document.getElementById('gh-btn').addEventListener('click', openGhModal);
+document.getElementById('gh-save-btn').addEventListener('click', ghSave);
+document.getElementById('gh-close').addEventListener('click', () => document.getElementById('gh-modal').classList.remove('open'));
+document.getElementById('gh-reload').addEventListener('click', async () => {
+  ghStoreSettings(readGhModal()); ghLoginCache = null;
+  document.getElementById('gh-modal').classList.remove('open');
+  await ghReload();
+});
+document.getElementById('gh-test').addEventListener('click', async () => {
+  ghStoreSettings(readGhModal()); ghLoginCache = null;
+  const note = document.getElementById('gh-user-note');
+  note.style.color = '#888'; note.textContent = 'Checking…';
+  try {
+    const login = await ghLogin();
+    const remote = await ghFetchRemote();
+    if (!remote) throw new Error('Owner/repo missing (open Advanced).');
+    note.style.color = '#7dc95e';
+    note.textContent = '✓ Connected as ' + login + ' — found ' + ghSettings().path + ' in ' + ghSettings().owner + '/' + ghSettings().repo + '. You can close this and edit.';
+  } catch (e) { note.style.color = '#e08080'; note.textContent = '✗ ' + (e.message || e); }
+});
+
+// ── start-up ──
+async function loadInitialData() {
+  try { const r = await ghFetchRemote(); if (r) return JSON.parse(r.text); } catch (e) { console.warn('GitHub API load failed, trying local file:', e); }
+  try {
+    const r = await fetch('skills.json?v=' + Date.now(), { cache: 'no-store' });
+    if (r.ok) return JSON.parse(await r.text());
+  } catch (e) { console.warn('skills.json fetch failed:', e); }
+  return null;
+}
+function showLoadFailure() {
+  return new Promise(resolve => {
+    const ov = document.createElement('div');
+    ov.className = 'modal-overlay open';
+    ov.innerHTML = `<div class="modal-box warn"><h3>Couldn't load skills.json</h3>
+      <p>This usually means the file was opened straight from disk, or GitHub is unreachable. Open the editor through your GitHub Pages link, or pick a downloaded <b>skills.json</b> to continue.</p>
+      <input type="file" accept=".json,application/json" id="lf-input" class="modal-input"></div>`;
+    document.body.appendChild(ov);
+    ov.querySelector('#lf-input').addEventListener('change', e => {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => { try { const d = JSON.parse(ev.target.result); if (!d.classes) throw 0; ov.remove(); resolve(d); } catch (x) { alert('That file does not look like skills.json.'); } };
+      r.readAsText(f);
+    });
+  });
+}
+async function initApp() {
+  const d = (await loadInitialData()) || (await showLoadFailure());
+  DEFAULT_SKILL_DATA = cloneData(d);
+  setBaseline(d);
+  const boot = resolveActiveDataOnBoot();
+  loadDataSet(boot.data);
+  currentArchiveId = boot.archiveId;
+  currentArchiveName = boot.archiveName;
+  updateFileButtonLabel();
+  updateModeButtonLabel();
+  buildClassBar();
+  if (CLASSES.length) selectActiveClass(CLASSES[0]);
+}
+initApp();
+
+</script>
+</body>
+</html>
